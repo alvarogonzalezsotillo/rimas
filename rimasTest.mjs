@@ -3,13 +3,18 @@
 import{
     palabraConHiatos,
     silabaTonica,
-    Palabra,
-    rimaConsonanteCon,
-    todasLasPalabrasConRimaConsonante,
     normalizaPronunciacion,
     testExport
+} from "./corpus-utils.mjs";
 
+import{
+    rimaConsonanteCon,
+    todasLasPalabrasConRimaConsonante,
 } from "./rimas.mjs";
+
+import{
+    Palabra
+} from "./palabra.mjs";
 
 function log(s){
     // console.log(s);

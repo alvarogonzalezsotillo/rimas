@@ -536,6 +536,7 @@ export {
     silabaTonica,
     letraTonica,
     normalizaPronunciacion,
+    normalizaPronunciacionDeSilaba,
     testExport
 };
 

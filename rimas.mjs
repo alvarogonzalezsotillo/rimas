@@ -13,15 +13,16 @@ import {
     palabraConHiatos,
     silabaTonica,
     letraTonica,
-    normalizaPronunciacion
+    normalizaPronunciacionDeSilaba
 } from "./corpus-utils.mjs";
 
 
 
 
 function rimaConsonanteCon(p1,p2){
-    const silabas1 = palabraConHiatos(p1).map( normalizaPronunciacionDeSilaba );
-    const silabas2 = palabraConHiatos(p2).map( normalizaPronunciacionDeSilaba );
+    const silabas1 = palabraConHiatos(p1);//.map( normalizaPronunciacionDeSilaba );
+    const silabas2 = palabraConHiatos(p2);//.map( normalizaPronunciacionDeSilaba );
+    //console.log( `${silabas1} ${silabas2}`);
     if( silabas1 == null || silabas2 == null ){
         return false;
     }
