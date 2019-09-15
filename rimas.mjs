@@ -20,16 +20,16 @@ import {
 
 
 function rimaConsonanteCon(p1,p2){
-    const silabas1 = palabraConHiatos(p1);//.map( normalizaPronunciacionDeSilaba );
-    const silabas2 = palabraConHiatos(p2);//.map( normalizaPronunciacionDeSilaba );
+    const silabas1 = palabraConHiatos(p1).map( normalizaPronunciacionDeSilaba );
+    const silabas2 = palabraConHiatos(p2).map( normalizaPronunciacionDeSilaba );
     //console.log( `${silabas1} ${silabas2}`);
     if( silabas1 == null || silabas2 == null ){
         return false;
     }
     const i1 = letraTonica(silabas1);
     const i2 = letraTonica(silabas2);
-    const fin1 = p1.substring(i1);
-    const fin2 = p2.substring(i2);
+    const fin1 = silabas1.join("").substring(i1);
+    const fin2 = silabas2.join("").substring(i2);
     return fin1 == fin2;
 }
 
