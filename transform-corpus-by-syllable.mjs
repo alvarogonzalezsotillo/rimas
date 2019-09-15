@@ -1,6 +1,10 @@
 // -*- mode: js2; -*-
 
-import {Palabra} from "./rimas.mjs";
+function log(s){
+    
+}
+
+import {Palabra} from "./palabra.mjs";
 import {corpusByFrequency} from "./corpus-by-frequency.mjs";
 import {default as fs} from "fs";
 
@@ -45,6 +49,8 @@ for(let p of corpusByFrequency){
 const header = "// -*- mode: fundamental;coding:utf-8 -*-\nexport const corpus = ";
 
 console.log( "WARN: to MJS file...");
+
+/*
 fs.writeFile(
     "corpus-by-syllable-full.mjs",
     header + JSON.stringify(corpusBySyllableFull,null,2),
@@ -54,7 +60,9 @@ fs.writeFile(
     }
     console.log("OK");
 } );
+*/
 
+/*
 fs.writeFile(
     "corpus-by-syllable.mjs",
     header + JSON.stringify(corpusBySyllable,null,2),
@@ -64,6 +72,7 @@ fs.writeFile(
     }
     console.log("OK");
 } );
+*/
 
 fs.writeFile(
     "corpus-by-syllable-no-pp.mjs",
