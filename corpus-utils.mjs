@@ -432,6 +432,18 @@ function palabraConHiatos(str){
     
 }
 
+function quitaConsonantes(silaba){
+    return silaba.split("").filter( l=> !consonantes.includes(l) ).join();
+}
+
+
+function quitaAcentos(silaba){
+    const map = { "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u" };
+    return silaba.toLowerCase().split("").map( l =>{
+        return map[l] ? map[l] : l;
+    }).join("");
+}
+
 
 function normalizaPronunciacion(palabra){
     return palabraConHiatos(palabra).map(s => normalizaPronunciacionDeSilaba(s) );
@@ -537,6 +549,8 @@ export {
     letraTonica,
     normalizaPronunciacion,
     normalizaPronunciacionDeSilaba,
+    quitaConsonantes,
+    quitaAcentos,
     testExport
 };
 

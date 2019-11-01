@@ -1,6 +1,7 @@
 // -*- mode: js2; -*-
 
 function log(s){
+    //console.log(s);
 }
 
 
@@ -13,7 +14,9 @@ import {
     palabraConHiatos,
     silabaTonica,
     letraTonica,
-    normalizaPronunciacionDeSilaba
+    normalizaPronunciacionDeSilaba,
+    quitaConsonantes,
+    quitaAcentos,
 } from "./corpus-utils.mjs";
 
 
@@ -22,7 +25,7 @@ import {
 function rimaConsonanteCon(p1,p2){
     const silabas1 = palabraConHiatos(p1).map( normalizaPronunciacionDeSilaba );
     const silabas2 = palabraConHiatos(p2).map( normalizaPronunciacionDeSilaba );
-    //console.log( `${silabas1} ${silabas2}`);
+    //log( `${silabas1} ${silabas2}`);
     if( silabas1 == null || silabas2 == null ){
         return false;
     }
@@ -33,15 +36,59 @@ function rimaConsonanteCon(p1,p2){
     return fin1 == fin2;
 }
 
+function rimaAsonanteCon(p1,p2){
+
+    log( `rimaAsonanteCon: ${p1} ${p2}`);
+    const s1 = palabraConHiatos(p1).map( normalizaPronunciacionDeSilaba );
+    const t1 = silabaTonica(s1);
+    const s2 = palabraConHiatos(p2).map( normalizaPronunciacionDeSilaba );
+    const t2 = silabaTonica(s2);
+
+    log("  p1:" + p1 );
+    log("  s1:" + s1 );
+    log("  t1:" + t1 );
+    log("  p2:" + p2 );
+    log("  s2:" + s2 );
+    log("  t2:" + t2 );
+
+    
+    function silabaRimaCon(s1,s2){
+        log("    s1:" + s1 );
+        log("    s2:" + s2 );
+
+        const n1 = quitaConsonantes(quitaAcentos(s1));
+        const n2 = quitaConsonantes(quitaAcentos(s2));
+
+        log("    n1:" + n1 );
+        log("    n2:" + n2 );
+        
+        return  n1 == n2;
+    }
+    
+    if( s1.length - t1 != s2.length - t2){
+        return false;
+    }
+
+    for(let i = 0 ; i < s1.length-t1 ; i++){
+        const i1 = s1.length - i - 1;
+        const i2 = s2.length - i - 1;
+        if(!silabaRimaCon(s1[i1], s2[i2] )){
+            return false;
+        }
+    }
+    return true;
+}
+
+
 function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
-    console.log("todasLasPalabrasConRimaConsonante");
+    log("todasLasPalabrasConRimaConsonante");
     const silabas = palabraConHiatos(palabra);
     const tonica = silabaTonica(silabas);
 
-    console.log(`tonica:${tonica} numeroSilabas:${numeroSilabas}`);
-    console.log(`tonica+1:${tonica+1} numeroSilabas:${numeroSilabas}`);
+    log(`tonica:${tonica} numeroSilabas:${numeroSilabas}`);
+    log(`tonica+1:${tonica+1} numeroSilabas:${numeroSilabas}`);
     if( tonica+1 > numeroSilabas){
-        console.log("tonica+1 >= numeroSilabas");
+        log("tonica+1 >= numeroSilabas");
         return;
     }
 
@@ -58,63 +105,37 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
 }
 
 function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
-    if( !corpus[numeroSilabas+1] ){
-        return;
-    }
 
+    
+
+
+    
+    log("todasLasPalabrasConRimaAsonante");
     const silabas = palabraConHiatos(palabra);
     const tonica = silabaTonica(silabas);
-    if( tonica+1 >= numeroSilabas){
+
+    log(`tonica:${tonica} numeroSilabas:${numeroSilabas}`);
+    log(`tonica+1:${tonica+1} numeroSilabas:${numeroSilabas}`);
+    if( tonica+1 > numeroSilabas){
+        log("tonica+1 >= numeroSilabas");
         return;
     }
 
-    function silabaRimaCon(s1,s2,esTonica){
-        if( !esTonica){
-            return s1 == s2;
-        }
-        const ls1 = s1.split("").filter(l=>l!="h");
-        const ls2 = s2.split("").filter(l=>l!="h");
-
-        const i1 = ls1.findIndex(l=>vocales.includes(l));
-        const i2 = ls2.findIndex(l=>vocales.includes(l));
-
-        if(i1==-1 || i2==-1){
-            return false;
-        }
-
-        return s1.substr(i1)==s2.substr(i2);
-    }
-    
-    function palabraRimaCon(p){
-        const ss = palabraConHiatos(p);
-        if(ss.length != numeroSilabas ){
-            return false;
-        }
-        const t = silabaTonica(ss);
-        if( silabas.length - tonica != ss.length - t){
-            return false;
-        }
-
-        for(let i = 0 ; i < ss.length-tonica ; i++){
-            const iPalabra = silabas.length - i - 1;
-            const iP = ss.length - i - 1;
-            const esTonica = iPalabra == tonica;
-            if(!silabaRimaCon(silabas[iPalabra], ss[iP], esTonica)){
-                return false;
-            }
-        }
-        return true;
+    let candidatas = corpusByFrequency;
+    if( numeroSilabas > 0 && corpusBySyllable[numeroSilabas-1] ){
+        candidatas = corpusBySyllable[numeroSilabas-1];
     }
 
-    
-    const candidatas = corpusBySyllable[numeroSilabas+1];
-    for(c of candidatas){
-        yield c;
+    for( let c of candidatas ){
+        if( rimaAsonanteCon(palabra,c) ){
+            yield c;
+        }
     }
 }
 
 export{
     rimaConsonanteCon,
+    rimaAsonanteCon,
     todasLasPalabrasConRimaConsonante,
     todasLasPalabrasConRimaAsonante
 };

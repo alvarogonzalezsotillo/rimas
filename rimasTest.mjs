@@ -4,12 +4,15 @@ import{
     palabraConHiatos,
     silabaTonica,
     normalizaPronunciacion,
+    letraTonica,
     testExport
 } from "./corpus-utils.mjs";
 
 import{
     rimaConsonanteCon,
+    rimaAsonanteCon,
     todasLasPalabrasConRimaConsonante,
+    todasLasPalabrasConRimaAsonante
 } from "./rimas.mjs";
 
 import{
@@ -139,6 +142,13 @@ function testRimasConsonantes(){
     }
 }
 
+function testRimasAsonantes(){
+    for( let p of todasLasPalabrasConRimaAsonante("galleta",3) ){
+        const silabas = palabraConHiatos(p);
+        console.log(`${p}\t${silabas}`);
+    }
+}
+
 
 function testNormalizaPronunciacion(){
 
@@ -159,12 +169,11 @@ function testNormalizaPronunciacion(){
 
 }
 
-testSilabeado();
-testPalabra();
-testVocalTonica();
-
-testNormalizaPronunciacion();
-
-testRimasConsonantes();
+// testSilabeado();
+// testPalabra();
+// testVocalTonica();
+// testNormalizaPronunciacion();
+// testRimasConsonantes();
+testRimasAsonantes();
 
 
