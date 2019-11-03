@@ -3,7 +3,7 @@
 // http://tulengua.es/es/separar-en-silabas
 
 function log(s){
-    //console.log(s);
+    console.log(s);
 }
 
 function warn(s){

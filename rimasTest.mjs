@@ -174,6 +174,8 @@ function testNormalizaPronunciacion(){
 // testVocalTonica();
 // testNormalizaPronunciacion();
 // testRimasConsonantes();
-testRimasAsonantes();
+//testRimasAsonantes();
 
+
+console.log(palabraConHiatos("y"));
 

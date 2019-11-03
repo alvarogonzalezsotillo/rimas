@@ -1,7 +1,7 @@
 // -*- mode: js2; -*-
 
 function log(s){
-    //console.log(s);
+    console.log(s);
 }
 
 
@@ -38,7 +38,7 @@ function rimaConsonanteCon(p1,p2){
 
 function rimaAsonanteCon(p1,p2){
 
-    log( `rimaAsonanteCon: ${p1} ${p2}`);
+    log( `rimaAsonanteCon: ${p1} ${palabraConHiatos(p1)} ${p2} ${palabraConHiatos(p2)}`);
     const s1 = palabraConHiatos(p1).map( normalizaPronunciacionDeSilaba );
     const t1 = silabaTonica(s1);
     const s2 = palabraConHiatos(p2).map( normalizaPronunciacionDeSilaba );
