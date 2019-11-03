@@ -5,7 +5,7 @@ function log(s){
 }
 
 
-import {corpus as corpusBySyllable} from "./corpus-by-syllable-no-pp.mjs";
+import {corpusBySyllable} from "./corpus-by-syllable-no-pp.mjs";
 import {corpusByFrequency} from "./corpus-by-frequency.mjs";
 
 

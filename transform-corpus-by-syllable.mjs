@@ -46,7 +46,7 @@ for(let p of corpusByFrequency){
     addToCorpus(p);
 }
 
-const header = "// -*- mode: fundamental;coding:utf-8 -*-\nexport const corpus = ";
+const header = "// -*- mode: fundamental;coding:utf-8 -*-\nexport const corpusBySyllable = ";
 
 console.log( "WARN: to MJS file...");
 
