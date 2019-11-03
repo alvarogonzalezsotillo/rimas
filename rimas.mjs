@@ -1,7 +1,7 @@
 // -*- mode: js2; -*-
 
 function log(s){
-    console.log(s);
+    //console.log(s);
 }
 
 
@@ -37,11 +37,16 @@ function rimaConsonanteCon(p1,p2){
 }
 
 function rimaAsonanteCon(p1,p2){
+    const ph1 = palabraConHiatos(p1); 
+    const ph2 = palabraConHiatos(p2);
+    log( `rimaAsonanteCon: ${p1} ${ph1} ${p2} ${ph2}`);
+    if( !ph1 || !ph2 ){
+        return false;
+    }
 
-    log( `rimaAsonanteCon: ${p1} ${palabraConHiatos(p1)} ${p2} ${palabraConHiatos(p2)}`);
-    const s1 = palabraConHiatos(p1).map( normalizaPronunciacionDeSilaba );
+    const s1 = ph1.map( normalizaPronunciacionDeSilaba );
     const t1 = silabaTonica(s1);
-    const s2 = palabraConHiatos(p2).map( normalizaPronunciacionDeSilaba );
+    const s2 = ph2.map( normalizaPronunciacionDeSilaba );
     const t2 = silabaTonica(s2);
 
     log("  p1:" + p1 );
