@@ -91,13 +91,16 @@ function computeTextShadowStyle(color,em){
     return ret.join(",");
 }
 
+function dumpStyle(out){
+    out(`<style> .color {border-radius: 3px; font-size: 1.5em; display:inline-block;margin:0.3em; padding:0.4em; text-shadow: ${computeTextShadowStyle("#ffffff",0.01)};} </style>`);
+}
 
 function dumpHTML(out){
     out("<!DOCTYPE html>");
     out("<html>");
     out("<head>");
     out(`<meta charset="utf-8">`);
-    out(`<style> .color {display:inline-block;margin:0.3em; padding:0.4em; text-shadow: ${computeTextShadowStyle("#ffffff",0.01)};} </style>`);
+    dumpStyle(out);
     out("</head>");
     out("<body>");
     for( let palabra of corpusByFrequency ){
@@ -107,4 +110,32 @@ function dumpHTML(out){
     out("</html>");
 }
 
-dumpHTML(console.log);
+function setUpUI(){
+    const container = document.getElementById("colores");
+    const contador = document.getElementById("contador");
+    const total = corpusByFrequency.length;
+    for( let i in corpusByFrequency ){
+        const palabra = corpusByFrequency[i];
+        contador.innerHTML = `${i}/${total}`;
+        let html = "";
+        colorHTML(s => html = s,palabra,letrasExtraPermitidas);
+        const element = htmlToElement(html);
+        if( element ){
+            container.appendChild(element);
+        }
+    }
+
+    let style = "";
+    dumpStyle( s => style = s);
+    document.head.appendChild(htmlToElement(style));   
+}
+
+if( window ){
+    window.addEventListener("load", ()=>{
+        console.log("on load");
+        setUpUI();
+    });
+}
+else{
+    dumpHTML(console.log);
+}
