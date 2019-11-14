@@ -94,7 +94,7 @@ function computeTextShadowStyle(color,em){
 }
 
 function dumpStyle(out){
-    out(`<style> .color {text-align: center; border-radius: 3px; font-size: 1.5em; display:inline-block;margin:0.3em; padding:0.4em; text-shadow: ${computeTextShadowStyle("#ffffff",0.01)};} </style>`);
+    out(`<style> .color {vertical-align: middle; text-align: center; border-radius: 3px; font-size: 1.5em; display:inline-block;margin:0.3em; padding:0.4em; text-shadow: ${computeTextShadowStyle("#ffffff",0.01)};} </style>`);
 }
 
 function dumpHTML(out){
