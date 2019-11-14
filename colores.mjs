@@ -1,8 +1,10 @@
 // -*- mode: js2; -*-
 
+
 import{
     corpusByFrequency
 } from "./corpus-by-frequency.mjs";
+
 
 
 function log(s){
@@ -44,10 +46,10 @@ function colorDesdePalabra(s,permitidas){
     }
 
     
-    s = quitaAcentos(s.toLowerCase());
     if( s.length != 6 ){
         return null;
     }
+    s = quitaAcentos(s.toLowerCase());
 
     const ls = s.split("");
     if( ls.some( l => !permitidas[l] ) ){
@@ -113,29 +115,69 @@ function dumpHTML(out){
 function setUpUI(){
     const container = document.getElementById("colores");
     const contador = document.getElementById("contador");
-    const total = corpusByFrequency.length;
-    for( let i in corpusByFrequency ){
-        const palabra = corpusByFrequency[i];
-        contador.innerHTML = `${i}/${total}`;
+
+    let style = "";
+    dumpStyle( s => style = s);
+    document.head.appendChild(htmlToElement(style));
+
+    const worker = createWorker();
+    worker.postMessage({
+        type: "search",
+        corpus: corpusByFrequency
+    });
+    worker.onmessage = (event) => {
+
+        const data = event.data;
+
+        if( data.finalizado ){
+            contador.innerHTML = "&nbsp;";
+            return;
+        }
+
+        contador.innerHTML = `Probando corpus: ${data.indice}/${data.total}`;
+        
+        // console.log("Page: recibo del worker:" + event.data );
+        const color = data.palabra;
         let html = "";
-        colorHTML(s => html = s,palabra,letrasExtraPermitidas);
+        colorHTML(s => html = s,color,letrasExtraPermitidas);
+        // console.log( "Page: html: " + html );
         const element = htmlToElement(html);
         if( element ){
             container.appendChild(element);
         }
-    }
-
-    let style = "";
-    dumpStyle( s => style = s);
-    document.head.appendChild(htmlToElement(style));   
+    };
 }
 
-if( window ){
+function createWorker(){
+    const worker = new Worker("colores-worker.js");
+    return worker;
+}
+
+
+function isBrowserPage(){
+    return typeof window != "undefined";
+}
+
+function isBrowserWorker(){
+    return typeof importScripts != "undefined";
+}
+
+function isNode(){
+    return !isBrowserPage() && !isBrowserWorker();
+}
+
+
+if( isBrowserPage() ){
     window.addEventListener("load", ()=>{
         console.log("on load");
         setUpUI();
+        createWorker();
     });
 }
-else{
+else if( isNode() ){
     dumpHTML(console.log);
 }
+else{
+    throw "No se pudo detectar el entorno de ejecución";
+}
+
