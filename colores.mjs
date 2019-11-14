@@ -94,7 +94,7 @@ function computeTextShadowStyle(color,em){
 }
 
 function dumpStyle(out){
-    out(`<style> .color {border-radius: 3px; font-size: 1.5em; display:inline-block;margin:0.3em; padding:0.4em; text-shadow: ${computeTextShadowStyle("#ffffff",0.01)};} </style>`);
+    out(`<style> .color {text-align: center; border-radius: 3px; font-size: 1.5em; display:inline-block;margin:0.3em; padding:0.4em; text-shadow: ${computeTextShadowStyle("#ffffff",0.01)};} </style>`);
 }
 
 function dumpHTML(out){
@@ -142,8 +142,32 @@ function setUpUI(){
         colorHTML(s => html = s,color,letrasExtraPermitidas);
         // console.log( "Page: html: " + html );
         const element = htmlToElement(html);
+        element.onclick = clickOnColor(element);
         if( element ){
             container.appendChild(element);
+        }
+    };
+}
+
+function clickOnColor(element){
+
+    return function (event){
+        const div = element;
+        const expandido = div.expandido;
+        console.log(event);
+        console.log( div );
+        console.log(expandido);
+        const color = div.title.trim();
+        if( !expandido ){
+            const palabra = div.innerHTML.trim();
+            div.innerHTML = `<p style="font-size: 3em;">${palabra}</p><p>Se parece al color ${color}</p>`;
+            div.expandido = true;
+            div.palabra = palabra;
+        }
+        else{
+            const palabra = div.palabra;
+            div.innerHTML = palabra;
+            div.expandido = false;
         }
     };
 }
@@ -168,11 +192,11 @@ function isNode(){
 
 
 if( isBrowserPage() ){
-    window.addEventListener("load", ()=>{
-        console.log("on load");
-        setUpUI();
-        createWorker();
-    });
+    // window.addEventListener("load", ()=>{
+    //     console.log("on load");
+    //     setUpUI();
+    // });
+    setUpUI();
 }
 else if( isNode() ){
     dumpHTML(console.log);
