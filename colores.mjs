@@ -130,11 +130,13 @@ function setUpUI(){
         const data = event.data;
 
         if( data.finalizado ){
-            contador.innerHTML = "&nbsp;";
+            contador.value = contador.max;
+            contador.style = "display:none";
             return;
         }
 
-        contador.innerHTML = `Probando corpus: ${data.indice}/${data.total}`;
+        contador.max = data.total;
+        contador.value = data.indice;
         
         // console.log("Page: recibo del worker:" + event.data );
         const color = data.palabra;
