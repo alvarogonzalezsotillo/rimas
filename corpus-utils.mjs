@@ -252,6 +252,10 @@ function silabaTonica(silabas){
         return null;
     }
 
+    if( !silabas ){
+        return -1;
+    }
+    
     if(silabas.length < 2){
         // monosílabo
         return 0;

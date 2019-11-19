@@ -92,6 +92,12 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
 
     log(`tonica:${tonica} numeroSilabas:${numeroSilabas}`);
     log(`tonica+1:${tonica+1} numeroSilabas:${numeroSilabas}`);
+
+    if( !silabas || silabas.length == 0 || tonica == null ){
+        return;
+    }
+
+    
     if( tonica+1 > numeroSilabas){
         log("tonica+1 >= numeroSilabas");
         return;
@@ -119,8 +125,15 @@ function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
     const silabas = palabraConHiatos(palabra);
     const tonica = silabaTonica(silabas);
 
+
     log(`tonica:${tonica} numeroSilabas:${numeroSilabas}`);
     log(`tonica+1:${tonica+1} numeroSilabas:${numeroSilabas}`);
+
+    if( !silabas || silabas.length == 0 || tonica == null ){
+        return;
+    }
+
+    
     if( tonica+1 > numeroSilabas){
         log("tonica+1 >= numeroSilabas");
         return;
