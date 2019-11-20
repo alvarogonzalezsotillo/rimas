@@ -5,12 +5,12 @@ function log(s){
 }
 
 
-const {corpusBySyllable} = require( "./corpus-by-syllable-no-pp.js" );
-const {corpusByFrequency} = require( "./corpus-by-frequency.js" );
+var {corpus_BySyllable} = require( "./corpus-by-syllable-no-pp.js" );
+var {corpus_Frequency} = require( "./corpus-by-frequency.js" );
 
 
 
-const {
+var {
     palabraConHiatos,
     silabaTonica,
     letraTonica,
@@ -103,9 +103,9 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
         return;
     }
 
-    let candidatas = corpusByFrequency;
-    if( numeroSilabas > 0 && corpusBySyllable[numeroSilabas-1] ){
-        candidatas = corpusBySyllable[numeroSilabas-1];
+    let candidatas = corpus_Frequency;
+    if( numeroSilabas > 0 && corpus_BySyllable[numeroSilabas-1] ){
+        candidatas = corpus_BySyllable[numeroSilabas-1];
     }
 
     for( let c of candidatas ){
@@ -139,9 +139,9 @@ function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
         return;
     }
 
-    let candidatas = corpusByFrequency;
-    if( numeroSilabas > 0 && corpusBySyllable[numeroSilabas-1] ){
-        candidatas = corpusBySyllable[numeroSilabas-1];
+    let candidatas = corpus_Frequency;
+    if( numeroSilabas > 0 && corpus_BySyllable[numeroSilabas-1] ){
+        candidatas = corpus_BySyllable[numeroSilabas-1];
     }
 
     for( let c of candidatas ){

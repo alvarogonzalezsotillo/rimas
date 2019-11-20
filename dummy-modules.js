@@ -7,6 +7,9 @@ const module = {
     __log : function(s){
         console.log(s);  
     },
+    get log(){
+        return this.__log;
+    },
     get exports(){
         return this.__exports;
     },

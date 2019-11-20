@@ -1,8 +1,8 @@
 // -*- mode: js2; -*-
 
 
-const {todasLasPalabrasConRimaAsonante} = require("./rimas.js");
-const {palabraConHiatos} = require("./corpus-utils.js");
+var {todasLasPalabrasConRimaAsonante} = require("./rimas.js");
+var {palabraConHiatos} = require("./corpus-utils.js");
 
 const d = document;
 
