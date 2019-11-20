@@ -2,13 +2,29 @@
   Nodejs modules in browser
 */
 
-let module = {
-    exports : {}
+const module = {
+    __exports = {},
+    __log = function(s){
+        console.log(s);  
+    },
+    get exports(){
+        return this.__exports;
+    },
+    set exports(exp){
+        for( let p in exp ){
+            if( this.__exports[p] ){
+                this.__log( `module: Más de un export con el mismo nombre: ${p}` );
+            }
+            else{
+                this.__log( `module: Nuevo export: ${p}` );
+            }
+            this.__exports[p] = exp[p];
+        }
+    }
 };
 
-let exports = module.exports;
-
-function require(package){
-    console.log( `Required package:${package}` );
+const require = function(package){
+    module.log( `require: Required package:${package}` );
+    return module.exports;
 }
 

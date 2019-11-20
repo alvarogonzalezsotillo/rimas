@@ -6,7 +6,7 @@ doit(){
         echo '"'$linea'",'
     done;
 
-    echo ' "chipún" ];'
+    echo ' "chimpún" ];'
 }
 
 echo DOING...
