@@ -3,8 +3,8 @@
 */
 
 const module = {
-    __exports = {},
-    __log = function(s){
+    __exports : {},
+    __log : function(s){
         console.log(s);  
     },
     get exports(){

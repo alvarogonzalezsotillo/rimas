@@ -4,29 +4,33 @@
 
 <html>
 
-    <head>
-        <script type="module" src="./index.mjs">
-        </script>
-        <style>
-          .palabra{
-              vertical-align: middle;
-              text-align: center;
-              border-radius: 3px;
-              display:inline-block;
-              margin:0.3em;
-              padding:0.4em;
-              text-shadow: -0.01em -0.01em 1px #ffffff,-0.01em 0em 1px #ffffff,-0.01em 0.01em 1px #ffffff,0em -0.01em 1px #ffffff,0em 0em 1px #ffffff,0em 0.01em 1px #ffffff,0.01em -0.01em 1px #ffffff,0.01em 0em 1px #ffffff,0.01em 0.01em 1px #ffffff;
-              background-color:#5ABAD0;
-          } 
-        </style>
-    </head>
+  <head>
+    <script src="./dummy-modules.js"></script>
+    <script src="./corpus-by-syllable-no-pp.js"></script>
+    <script src="./corpus-by-frequency.js"></script>
+    <script src="./corpus-utils.js"></script>
+    <script src="./rimas.js"></script>
+    <script src="./index.js"></script>
+    <style>
+      .palabra{
+          vertical-align: middle;
+          text-align: center;
+          border-radius: 3px;
+          display:inline-block;
+          margin:0.3em;
+          padding:0.4em;
+          text-shadow: -0.01em -0.01em 1px #ffffff,-0.01em 0em 1px #ffffff,-0.01em 0.01em 1px #ffffff,0em -0.01em 1px #ffffff,0em 0em 1px #ffffff,0em 0.01em 1px #ffffff,0.01em -0.01em 1px #ffffff,0.01em 0em 1px #ffffff,0.01em 0.01em 1px #ffffff;
+          background-color:#5ABAD0;
+      } 
+    </style>
+  </head>
+  
+  <body>
     
-    <body>
-        
-        <input type="text" id="palabra">
+    <input type="text" id="palabra">
 
-        <div id="resultado">
-        </div>
-    </body>
+    <div id="resultado">
+    </div>
+  </body>
 
 </html>
