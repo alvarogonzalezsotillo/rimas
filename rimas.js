@@ -5,8 +5,8 @@ function log(s){
 }
 
 
-var {corpus_BySyllable} = require( "./corpus-by-syllable-no-pp.js" );
-var {corpus_Frequency} = require( "./corpus-by-frequency.js" );
+var corpus_BySyllable = require( "./corpus-by-syllable-no-pp.js" ).corpusBySyllable;
+var corpus_Frequency = require( "./corpus-by-frequency.js" ).corpusByFrequency;
 
 
 
