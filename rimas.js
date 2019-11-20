@@ -17,7 +17,7 @@ const {
     normalizaPronunciacionDeSilaba,
     quitaConsonantes,
     quitaAcentos
-} = require( "./corpus-utils.mjs" );
+} = require( "./corpus-utils.js" );
 
 
 

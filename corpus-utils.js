@@ -111,6 +111,15 @@ function grupoVocalico(s){
 grupoVocalico.toString = ()=> "grupoVocalico";
 
 
+
+function arrayFlat(arr){
+    if( arr.flat )
+        return arr.flat();
+    else
+        return arr.reduce((acc,val) => acc.concat(val), [] );
+}
+
+
 function silabaTodoDiptongo(str){
     // extrae todas las siguientes posibles sílabas, dejando primero la que debe ser explorada primero
     const silabas = [
@@ -125,10 +134,10 @@ function silabaTodoDiptongo(str){
     
     const ret = silabas.
           map(s=> secuencia(s,str)).
-          filter(e=> e.length).
-          flat();
+          filter(e=> e.length);
+    
     log(`silaba: str:${str} ret:${ret.join("  ")}`);
-    return ret;
+    return arrayFlat(ret);
 }
 
 
@@ -166,6 +175,8 @@ function secuencia(buscas,str){
     }
     
     let ret = [E("",str)];
+
+    
     for(let b of buscas){
         log(`secuencia: str:${str} b:${b}`);
 
@@ -174,7 +185,8 @@ function secuencia(buscas,str){
             return nrs.map(
                 nr => E(r.extraido + nr.extraido, nr.resto)   
             );
-        }).flat();
+        });
+        ret = arrayFlat(ret);
         
 
         log(`secuencia: str:${str} b:${b} ret:${ret}`);

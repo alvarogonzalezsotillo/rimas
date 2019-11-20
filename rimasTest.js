@@ -169,13 +169,9 @@ function testNormalizaPronunciacion(){
 
 }
 
-// testSilabeado();
-// testPalabra();
-// testVocalTonica();
-// testNormalizaPronunciacion();
-// testRimasConsonantes();
-//testRimasAsonantes();
-
-
-console.log(palabraConHiatos("y"));
-
+testSilabeado();
+testPalabra();
+testVocalTonica();
+testNormalizaPronunciacion();
+testRimasConsonantes();
+testRimasAsonantes();
