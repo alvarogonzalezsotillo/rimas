@@ -1,39 +1,7 @@
 // -*- mode: js2; -*-
 
 
-var {todasLasPalabrasConRimaAsonante} = require("./rimas.js");
-var {palabraConHiatos} = require("./corpus-utils.js");
-
 const d = document;
-
-let palabraActual = "";
-
-
-function muestraPalabrasQueRimanCon(palabra,max){
-
-    if( palabra == palabraActual ){
-        return;
-    }
-    palabraActual = palabra;
-    
-    const div = d.getElementById("resultado");
-    div.innerHTML = "";
-    const iterador = todasLasPalabrasConRimaAsonante(palabra);
-    buscaSiguientePalabra(palabra, iterador);
-    console.log("salgo de muestraPalabrasQueRimanCon");
-    return;
-
-    const maximo = max || 100;
-    let i = 0;
-    for( let p of iterador ){
-        const silabas = palabraConHiatos(p);
-        agregaPalabra(p);
-        i += 1;
-        if( i > maximo ){
-            break;
-        }
-    }
-}
 
 // https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 function htmlToElement(html) {
@@ -51,50 +19,83 @@ function agregaPalabra(palabra){
     div.appendChild(p);
 }
 
-function buscaSiguientePalabra(palabra, iterador, actual, limite){
-    const current = actual || 0;
-    const limit = limite || 100;
-    if( current > limit ){
-        return;
-    }
-
-    if( palabraARimar() != palabra ){
-        return;
-    }
-    
-    const promise = new Promise( (resolve,reject) => {
-        const {value,done} = iterador.next();
-        if( value ){
-            resolve(value);
-        }
-        else{
-            reject("Iterador vacío");
-        }
-    });
-
-    promise.then(
-        (p) => {
-            agregaPalabra(p);
-            setTimeout( ()=> buscaSiguientePalabra(palabra, iterador, current+1, limit ), 1 );
-        },
-        (error) => {
-            console.log(error);
-        }
-    );
-
-}
-
 function palabraARimar(){
     const palabraInput = d.getElementById("palabra");
     return palabraInput.value;
+}
+
+let workerData = {
+    worker : null,
+    palabra : null,
+    asonante : null,
+    silabas : null
+};
+
+function onWorkerMessage(event){
+    console.log(event);
+    const {rima,done,palabra,asonante,silabas} = event.data;
+
+    if( workerData.palabra != palabra  ||
+        workerData.asonante != asonante ||
+        workerData.silabas != silabas ){
+        return;
+    }
+
+    agregaPalabra(rima);
+
+    if( !done ){
+        pideRima(palabra, asonante, silabas);
+    }
+}
+
+function getWorkerData(palabra, asonante, silabas ){
+    let changed = false;
+    if( workerData.palabra != palabra  ||
+        workerData.asonante != asonante ||
+        workerData.silabas != silabas ){
+
+        if( workerData.worker ){
+            workerData.worker.terminate();
+        }
+        console.log("Creo nuevo worker");
+        const worker = new Worker( "./rimas-worker.js" );
+        workerData = {
+            worker : worker,
+            palabra : palabra,
+            asonante : asonante,
+            silabas : silabas
+        };
+        worker.addEventListener('message', onWorkerMessage);
+        changed = true;
+    }
+    return {
+        workerData: workerData,
+        changed: changed
+    };
+}
+
+function pideRima(palabra, asonante, silabas){
+    const wd = getWorkerData(palabra,asonante,silabas).workerData;
+    wd.worker.postMessage({
+        palabra: palabra,
+        asonante: asonante,
+        silabas: silabas
+    });
 }
 
 function setUpUI(){
     const palabraInput = d.getElementById("palabra");
     palabraInput.addEventListener("keyup",()=>{
         const palabra = palabraARimar();
-        console.log(palabra);
-        muestraPalabrasQueRimanCon(palabra);
+        const asonante = true;
+        const silabas = 0;
+        const wd = getWorkerData(palabra,asonante,silabas);
+        if( wd.changed ){
+            const div = d.getElementById("resultado");
+            div.innerHTML = "";
+        }
+        console.log(wd);
+        pideRima( palabra, asonante, silabas );
     },true);
 }
 
