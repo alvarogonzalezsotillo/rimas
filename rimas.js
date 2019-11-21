@@ -23,8 +23,13 @@ var {
 
 
 function rimaConsonanteCon(p1,p2){
-    const silabas1 = palabraConHiatos(p1).map( normalizaPronunciacionDeSilaba );
-    const silabas2 = palabraConHiatos(p2).map( normalizaPronunciacionDeSilaba );
+    const s1 = palabraConHiatos(p1);
+    const s2 = palabraConHiatos(p2);
+    if( !s1 || !s2 ){
+        return false;
+    }
+    const silabas1 = s1.map( normalizaPronunciacionDeSilaba );
+    const silabas2 = s2.map( normalizaPronunciacionDeSilaba );
     //log( `${silabas1} ${silabas2}`);
     if( silabas1 == null || silabas2 == null ){
         return false;
