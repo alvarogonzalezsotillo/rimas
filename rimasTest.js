@@ -136,7 +136,7 @@ function testVocalTonica(){
 }
 
 function testRimasConsonantes(){
-    for( let p of todasLasPalabrasConRimaConsonante("galleta",2) ){
+    for( let p of todasLasPalabrasConRimaConsonante("peste") ){
         const silabas = palabraConHiatos(p);
         console.log(`${p}\t${silabas}`);
     }
@@ -149,6 +149,9 @@ function testRimasAsonantes(){
     }
 }
 
+function testCorto(){
+    console.log(rimaConsonanteCon("peste","peste"));
+}
 
 function testNormalizaPronunciacion(){
 
@@ -169,9 +172,10 @@ function testNormalizaPronunciacion(){
 
 }
 
-testSilabeado();
-testPalabra();
-testVocalTonica();
-testNormalizaPronunciacion();
+// testSilabeado();
+// testPalabra();
+// testVocalTonica();
+// testNormalizaPronunciacion();
 testRimasConsonantes();
-testRimasAsonantes();
+// testRimasAsonantes();
+testCorto();

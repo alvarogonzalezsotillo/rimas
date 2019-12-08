@@ -5,7 +5,7 @@
 const module = {
     __exports : {},
     __log : function(s){
-        console.log(s);  
+        //console.log(s);  
     },
     get log(){
         return this.__log;

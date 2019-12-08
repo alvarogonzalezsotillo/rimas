@@ -1,6 +1,10 @@
 // -*- mode: js2; -*-
 
 
+function log(s){
+    //console.log(s);
+}
+
 const d = document;
 
 // https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
@@ -11,11 +15,23 @@ function htmlToElement(html) {
     return template.content.firstChild;
 }
 
+function activaIndicacionProgreso(){
+    const div = d.getElementById("progreso");
+    div.style.display="initial";
+}
+
+function desactivaIndicacionProgreso(){
+    const div = d.getElementById("progreso");
+    div.style.display="none";
+}
 
 function agregaPalabra(palabra){
+    if( !palabra ){
+        return;
+    }
     const div = d.getElementById("resultado");
     const p = htmlToElement(`<div class="palabra">${palabra}</div>`);
-    console.log("agregaPalabra:" + palabra );
+    log("agregaPalabra:" + palabra );
     div.appendChild(p);
 }
 
@@ -24,20 +40,20 @@ function palabraARimar(){
     return palabraInput.value;
 }
 
-let workerData = {
-    worker : null,
-    palabra : null,
-    asonante : null,
-    silabas : null
-};
+let workerData = null;
 
 function onWorkerMessage(event){
-    console.log(event);
+    log(`onWorkerMessage: ${event}`);
     const {rima,done,palabra,asonante,silabas} = event.data;
 
+    if( !workerData ){
+        log("Sin workerdata");
+        return;
+    }
     if( workerData.palabra != palabra  ||
         workerData.asonante != asonante ||
         workerData.silabas != silabas ){
+        log("workerData no coincide");
         return;
     }
 
@@ -46,18 +62,23 @@ function onWorkerMessage(event){
     if( !done ){
         pideRima(palabra, asonante, silabas);
     }
+    else{
+        workerData = null;
+        desactivaIndicacionProgreso();
+    }
 }
 
 function getWorkerData(palabra, asonante, silabas ){
     let changed = false;
-    if( workerData.palabra != palabra  ||
+    if( !workerData ||
+        workerData.palabra != palabra  ||
         workerData.asonante != asonante ||
         workerData.silabas != silabas ){
 
-        if( workerData.worker ){
+        if( workerData && workerData.worker ){
             workerData.worker.terminate();
         }
-        console.log("Creo nuevo worker");
+        log("Creo nuevo worker");
         const worker = new Worker( "./rimas-worker.js" );
         workerData = {
             worker : worker,
@@ -75,7 +96,9 @@ function getWorkerData(palabra, asonante, silabas ){
 }
 
 function pideRima(palabra, asonante, silabas){
+    log(`pideRima: ${palabra}`);
     const wd = getWorkerData(palabra,asonante,silabas).workerData;
+    activaIndicacionProgreso();
     wd.worker.postMessage({
         palabra: palabra,
         asonante: asonante,
@@ -83,20 +106,53 @@ function pideRima(palabra, asonante, silabas){
     });
 }
 
+function paraProgreso(){
+    if( workerData && workerData.worker ){
+        workerData.worker.postMessage({
+            terminar: true
+        });
+        workerData = null;
+    }
+    desactivaIndicacionProgreso();
+}
+
+function iniciaPeticionRima(){
+    console.log("iniciaPeticionRima");
+
+    const numeroDeSilabas = d.getElementById("numeroDeSilabas");
+    const palabra = palabraARimar();
+    const asonante = !rimaConsonante.checked;
+    const silabas = numeroDeSilabas.value;
+    const wd = getWorkerData(palabra,asonante,silabas);
+    if( wd.changed ){
+        const div = d.getElementById("resultado");
+        div.innerHTML = "";
+    }
+    pideRima( palabra, asonante, silabas );
+}
+
 function setUpUI(){
+    desactivaIndicacionProgreso();
     const palabraInput = d.getElementById("palabra");
+    const rimaConsonante = d.getElementById("rimaConsonante");
+    const numeroDeSilabas = d.getElementById("numeroDeSilabas");
+    
     palabraInput.addEventListener("keyup",()=>{
-        const palabra = palabraARimar();
-        const asonante = true;
-        const silabas = 0;
-        const wd = getWorkerData(palabra,asonante,silabas);
-        if( wd.changed ){
-            const div = d.getElementById("resultado");
-            div.innerHTML = "";
-        }
-        console.log(wd);
-        pideRima( palabra, asonante, silabas );
-    },true);
+        iniciaPeticionRima();
+    });
+
+    const botonPararProgreso = d.getElementById("botonPararProgreso");
+    botonPararProgreso.addEventListener("click",()=>{
+        paraProgreso(); 
+    });
+
+    rimaConsonante.addEventListener("click",()=>{
+        iniciaPeticionRima();
+    });
+
+    numeroDeSilabas.addEventListener("click",()=>{
+        iniciaPeticionRima();
+    });
 }
 
 

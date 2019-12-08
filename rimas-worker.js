@@ -1,5 +1,11 @@
 // -*- mode: js2; -*-
-console.log("worker: loading");
+
+function log(s){
+//    console.log("rimas-worker:" + s );
+}
+
+log("worker: loading");
+
 
 
 self.importScripts( "./dummy-modules.js");
@@ -13,10 +19,16 @@ let palabraActual = "";
 let iteradorActual = null;
 
 
-self.onmessage = function(e){
+self.addEventListener("message", function(e){
     const data = e.data;
+
+    if( data.terminar ){
+        iteradorActual = null;
+        return;
+    }
+    
     const {palabra,asonante,silabas} = data;
-    console.log( `worker: palabra:${palabra} asonante:${asonante} silabas:${silabas}` );
+    log( `worker: message: palabra:${palabra} asonante:${asonante} silabas:${silabas}` );
 
     if( palabra != palabraActual ){
         palabraActual = palabra;
@@ -31,7 +43,7 @@ self.onmessage = function(e){
 
     const {value,done} = iteradorActual.next();
 
-    console.log( `worker: value:${value} done:${done}` );
+    log( `worker: value:${value} done:${done}` );
 
     self.postMessage({
         rima : value,
@@ -40,6 +52,7 @@ self.onmessage = function(e){
         asonante : asonante,
         silabas : silabas
     });
-};
+});
 
-console.log("worker: loaded");
+log("worker: loaded");
+log(self);

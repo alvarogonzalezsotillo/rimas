@@ -34,8 +34,36 @@
   
   <body>
     
-    <input type="text" id="palabra">
-
+    <input type="text" id="palabra" placeholder="Palabra a rimar">
+    <label for="rimaConsonante">Rima consonante</label>
+    <input type="checkbox" id="rimaConsonante">
+    <select id="numeroDeSilabas" type="text" value="0">
+        <option  value="0">Cualquier número de sílabas</option>
+        <option  value="1">1 sílaba</option>
+        <option  value="2">2 sílabas</option>
+        <option  value="3">3 sílabas</option>
+        <option  value="4">4 sílabas</option>
+        <option  value="5">5 sílabas</option>
+        <option  value="6">6 sílabas</option>
+        <option  value="7">7 sílabas</option>
+        <option  value="8">8 sílabas</option>
+        <option  value="9">9 sílabas</option>
+        <option  value="10">10 sílabas</option>
+        <option  value="11">11 sílabas</option>
+        <option  value="12">12 sílabas</option>
+        <option  value="13">13 sílabas</option>
+        <option  value="14">14 sílabas</option>
+        <option  value="15">15 sílabas</option>
+        <option  value="16">16 sílabas</option>
+        <option  value="17">17 sílabas</option>
+        <option  value="18">18 sílabas</option>
+        <option  value="19">19 sílabas</option>
+        <option  value="10">20 sílabas</option>
+    </select>
+    <span id="progreso">
+      Trabajando
+      <input type="button" id="botonPararProgreso" value="Detener búsqueda">
+    </span>
     <div id="resultado">
     </div>
   </body>

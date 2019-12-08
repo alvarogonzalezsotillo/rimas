@@ -1,7 +1,7 @@
 // -*- mode: js2; -*-
 
 function log(s){
-    //console.log(s);
+    //console.log("rimas: " + s);
 }
 
 
@@ -91,6 +91,7 @@ function rimaAsonanteCon(p1,p2){
 
 
 function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
+    const log = (s)=>console.log(s);
     log("todasLasPalabrasConRimaConsonante");
     const silabas = palabraConHiatos(palabra);
     const tonica = silabaTonica(silabas);
@@ -103,7 +104,7 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
     }
 
     
-    if( tonica+1 > numeroSilabas){
+    if( silabas.length - tonica+1 > numeroSilabas && numeroSilabas > 0 ){
         log("tonica+1 >= numeroSilabas");
         return;
     }
@@ -115,6 +116,7 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
 
     for( let c of candidatas ){
         if( rimaConsonanteCon(palabra,c) ){
+            log(c);
             yield c;
         }
     }
@@ -122,7 +124,7 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
 
 function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
 
-    
+    try{
 
 
     
@@ -131,16 +133,17 @@ function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
     const tonica = silabaTonica(silabas);
 
 
-    log(`tonica:${tonica} numeroSilabas:${numeroSilabas}`);
-    log(`tonica+1:${tonica+1} numeroSilabas:${numeroSilabas}`);
+    log(`todasLasPalabrasConRimaAsonante tonica:${tonica} numeroSilabas:${numeroSilabas}`);
+    log(`todasLasPalabrasConRimaAsonante tonica+1:${tonica+1} numeroSilabas:${numeroSilabas}`);
 
     if( !silabas || silabas.length == 0 || tonica == null ){
+        log( "todasLasPalabrasConRimaAsonante: return");
         return;
     }
 
-    
-    if( tonica+1 > numeroSilabas){
-        log("tonica+1 >= numeroSilabas");
+     
+    if( silabas.length -tonica+1 > numeroSilabas  && numeroSilabas > 0 ){
+        log("todasLasPalabrasConRimaAsonante: return tonica+1 >= numeroSilabas: " + tonica );
         return;
     }
 
@@ -151,9 +154,17 @@ function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
 
     for( let c of candidatas ){
         if( rimaAsonanteCon(palabra,c) ){
+            log( `todasLasPalabrasConRimaAsonante: yield: ${c}`); 
             yield c;
         }
     }
+
+    }catch(e){
+        log("ALGO PASA ********************************");
+        log(e);
+    }
+
+    log( `todasLasPalabrasConRimaAsonante: Se acabó el generator: ${palabra} ${numeroSilabas}`);
 }
 
 module.exports = {

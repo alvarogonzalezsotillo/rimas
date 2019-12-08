@@ -3,11 +3,11 @@
 // http://tulengua.es/es/separar-en-silabas
 
 function log(s){
-    //console.log(s);
+    //console.log("corpus-utils: " + s);
 }
 
 function warn(s){
-//    console.log(`WARN: ${s}` );
+    //console.log(`WARN: ${s}` );
 }
 
 
