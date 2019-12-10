@@ -40,7 +40,28 @@ class Palabra{
     toString(){
         return `${this.texto} ${this.silabasConTonica}`;
     }
+
+    toPlainObject(){
+        return {
+            texto: this.texto,
+            pronunciacion: this.pronunciacion,
+            silabas: this.silabas,
+            silabaTonica: this.silabaTonica,
+            letraTonica: this.letraTonica,
+        };
+    }
 }
+
+Palabra.cache = {};
+
+Palabra.fromString = function(texto){
+    if( Palabra.cache[texto] ){
+        return Palabra.cache[texto];
+    }
+    const ret = new Palabra(texto);
+    Palabra.cache[texto] = ret;
+    return ret;
+};
 
 addClassLazyProp(
     Palabra,
