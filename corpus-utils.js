@@ -454,6 +454,7 @@ function quitaConsonantes(silaba){
 
 
 function quitaAcentos(silaba){
+    log(`quitaConsonantes: silaba:${silaba} ${typeof silaba} ${silaba.constructor}`);
     const map = { "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u" };
     return silaba.toLowerCase().split("").map( l =>{
         return map[l] ? map[l] : l;

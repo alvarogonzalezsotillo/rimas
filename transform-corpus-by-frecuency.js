@@ -35,52 +35,50 @@ function addToCorpus(p){
     arrayFull.push(palabra.asPlainObject);
     array.push(p);
 
-    if( array.length % 10000 == 1 ){
-        console.log(p);
-    }
-    
     return true;
 }
 
-for(let p of corpusByFrequency){
+for(let i in corpusByFrequency){
+    const p = corpusByFrequency[i];
+    if( i % 10000 == 0 ){
+        console.log( `${i}/${corpusByFrequency.length}:${p}`);
+    }
     addToCorpus(p);
 }
 
-const header = "// -*- mode: fundamental;coding:utf-8 -*-\nexport const corpusBySyllable = ";
+
+
+function createFileContents(variableName, json){
+    
+    return `// -*- mode: fundamental;coding:utf-8 -*-\n
+const  ${variableName} = 
+${json};
+module.exports = {
+  ${variableName} : ${variableName}
+};`;
+    
+}
 
 console.log( "WARN: to MJS file...");
 
-/*
 fs.writeFile(
-    "corpus-by-syllable-full.mjs",
-    header + JSON.stringify(corpusBySyllableFull,null,2),
+    "corpus-by-syllable-full.js",
+    createFileContents( "corpusBySyllableFull" + JSON.stringify(corpusBySyllableFull,null,2) ),
     (error)=>{
     if(error){
         console.log(`ERROR: ${error}`);
     }
-    console.log("OK");
+    console.log("corpus-by-syllable-full.js OK");
 } );
-*/
 
-/*
-fs.writeFile(
-    "corpus-by-syllable.mjs",
-    header + JSON.stringify(corpusBySyllable,null,2),
-    (error)=>{
-    if(error){
-        console.log(`ERROR: ${error}`);
-    }
-    console.log("OK");
-} );
-*/
 
 fs.writeFile(
-    "corpus-by-syllable-no-pp.mjs",
-    header + JSON.stringify(corpusBySyllable),
+    "corpus-by-syllable-no-pp.js",
+    createFileContents( "corpusBySyllable", JSON.stringify(corpusBySyllable,null,2) ),
     (error)=>{
     if(error){
         console.log(`ERROR: ${error}`);
     }
-    console.log("corpus-by-syllable-no-pp.mjs OK");
+    console.log("corpus-by-syllable-no-pp.js OK");
 } );
 

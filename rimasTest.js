@@ -143,7 +143,7 @@ function testRimasConsonantes(){
 }
 
 function testRimasAsonantes(){
-    for( let p of todasLasPalabrasConRimaAsonante("galleta",3) ){
+    for( let p of todasLasPalabrasConRimaAsonante("hela",3 ) ){
         const silabas = palabraConHiatos(p);
         console.log(`${p}\t${silabas}`);
     }
@@ -176,6 +176,6 @@ function testNormalizaPronunciacion(){
 // testPalabra();
 // testVocalTonica();
 // testNormalizaPronunciacion();
-testRimasConsonantes();
-// testRimasAsonantes();
+// testRimasConsonantes();
+testRimasAsonantes();
 testCorto();

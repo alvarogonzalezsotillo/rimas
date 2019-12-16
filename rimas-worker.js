@@ -12,6 +12,7 @@ self.importScripts( "./dummy-modules.js");
 self.importScripts( "./corpus-by-syllable-no-pp.js");
 self.importScripts( "./corpus-by-frequency.js");
 self.importScripts( "./corpus-utils.js");
+self.importScripts( "./palabra.js");
 self.importScripts( "./rimas.js");
 
 

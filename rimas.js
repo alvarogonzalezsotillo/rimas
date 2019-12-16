@@ -19,47 +19,54 @@ var {
     quitaAcentos
 } = require( "./corpus-utils.js" );
 
+var {Palabra} = require( "./palabra.js" );
 
 
 
 function rimaConsonanteCon(p1,p2){
-    const s1 = palabraConHiatos(p1);
-    const s2 = palabraConHiatos(p2);
+
+    const palabra1 = Palabra.fromString(p1);
+    const palabra2 = Palabra.fromString(p2);
+
+    
+    const s1 = palabra1.pronunciacion;
+    const s2 = palabra2.pronunciacion;
     if( !s1 || !s2 ){
         return false;
     }
-    const silabas1 = s1.map( normalizaPronunciacionDeSilaba );
-    const silabas2 = s2.map( normalizaPronunciacionDeSilaba );
-    //log( `${silabas1} ${silabas2}`);
-    if( silabas1 == null || silabas2 == null ){
+
+    if( s1 == null || s2 == null ){
         return false;
     }
-    const i1 = letraTonica(silabas1);
-    const i2 = letraTonica(silabas2);
-    const fin1 = silabas1.join("").substring(i1);
-    const fin2 = silabas2.join("").substring(i2);
+    const i1 = palabra1.letraTonica;
+    const i2 = palabra2.letraTonica;
+    const fin1 = s1.join("").substring(i1);
+    const fin2 = s2.join("").substring(i2);
     return fin1 == fin2;
 }
 
+
 function rimaAsonanteCon(p1,p2){
-    const ph1 = palabraConHiatos(p1); 
-    const ph2 = palabraConHiatos(p2);
-    log( `rimaAsonanteCon: ${p1} ${ph1} ${p2} ${ph2}`);
-    if( !ph1 || !ph2 ){
-        return false;
-    }
+    log( `rimaAsonanteCon: ${p1}  ${p2}`);
 
-    const s1 = ph1.map( normalizaPronunciacionDeSilaba );
-    const t1 = silabaTonica(s1);
-    const s2 = ph2.map( normalizaPronunciacionDeSilaba );
-    const t2 = silabaTonica(s2);
-
+    const palabra1 = Palabra.fromString(p1);
+    const palabra2 = Palabra.fromString(p2);
+    const s1 = palabra1.pronunciacion;
+    const s2 = palabra2.pronunciacion;
+    const t1 = palabra1.silabaTonica;
+    const t2 = palabra2.silabaTonica;
+    
     log("  p1:" + p1 );
     log("  s1:" + s1 );
     log("  t1:" + t1 );
     log("  p2:" + p2 );
     log("  s2:" + s2 );
     log("  t2:" + t2 );
+
+    if( !palabra1 || !palabra2 || !s1 || !s2  ){
+        log("mala palabra:" + p1 + " -- " + p2 );
+        return false;
+    }
 
     
     function silabaRimaCon(s1,s2){
@@ -82,6 +89,7 @@ function rimaAsonanteCon(p1,p2){
     for(let i = 0 ; i < s1.length-t1 ; i++){
         const i1 = s1.length - i - 1;
         const i2 = s2.length - i - 1;
+        log( `    i1: ${i1} s1[i1]:${s1[i1]}  i2:${i2}  s2[i2]:${s2[i2]}`);
         if(!silabaRimaCon(s1[i1], s2[i2] )){
             return false;
         }
@@ -123,11 +131,7 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
 }
 
 function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
-
-    try{
-
-
-    
+  
     log("todasLasPalabrasConRimaAsonante");
     const silabas = palabraConHiatos(palabra);
     const tonica = silabaTonica(silabas);
@@ -159,10 +163,6 @@ function* todasLasPalabrasConRimaAsonante(palabra,numeroSilabas){
         }
     }
 
-    }catch(e){
-        log("ALGO PASA ********************************");
-        log(e);
-    }
 
     log( `todasLasPalabrasConRimaAsonante: Se acabó el generator: ${palabra} ${numeroSilabas}`);
 }
