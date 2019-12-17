@@ -136,16 +136,36 @@ function testVocalTonica(){
 }
 
 function testRimasConsonantes(){
+    const condition = new ExitCondition(10);
+
     for( let p of todasLasPalabrasConRimaConsonante("peste") ){
         const silabas = palabraConHiatos(p);
         console.log(`${p}\t${silabas}`);
+        if( !condition.shouldContinue() ){
+            return;
+        }
+    }
+}
+
+class ExitCondition{
+    constructor(max){
+        this._counter = 0;
+        this._max = max;
+    }
+    shouldContinue(){
+        this._counter += 1;
+        return this._counter < this._max;
     }
 }
 
 function testRimasAsonantes(){
+    const condition = new ExitCondition(10);
     for( let p of todasLasPalabrasConRimaAsonante("hela",3 ) ){
         const silabas = palabraConHiatos(p);
-        console.log(`${p}\t${silabas}`);
+        log(`${p}\t${silabas}`);
+        if( !condition.shouldContinue() ){
+            return;
+        }
     }
 }
 
@@ -174,8 +194,8 @@ function testNormalizaPronunciacion(){
 
 // testSilabeado();
 // testPalabra();
-// testVocalTonica();
+testVocalTonica();
 // testNormalizaPronunciacion();
-// testRimasConsonantes();
-testRimasAsonantes();
-testCorto();
+testRimasConsonantes();
+//testRimasAsonantes();
+//testCorto();

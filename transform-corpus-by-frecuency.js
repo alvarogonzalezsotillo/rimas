@@ -21,15 +21,9 @@ function addToCorpus(p){
     
     const l = palabra.silabas.length;
 
-    let arrayFull = corpusBySyllableFull[l-1];
-    if( !arrayFull ){
-        arrayFull = [];
-        corpusBySyllableFull[l-1] = arrayFull;
-    }
-
     let arrayFullArray = corpusBySyllableFullArray[l-1];
     if( !arrayFullArray ){
-        arrayFullArray = [];
+        arrayFullArray = {};
         corpusBySyllableFullArray[l-1] = arrayFullArray;
     }
     
@@ -41,8 +35,7 @@ function addToCorpus(p){
     }
 
 
-    arrayFullArray.push(palabra.toArray());
-    arrayFull.push(palabra.asPlainObject);
+    arrayFullArray[p] = palabra.toArray();
     array.push(p);
 
     return true;
@@ -83,23 +76,12 @@ fs.writeFile(
 
 
 fs.writeFile(
-    "corpus-by-syllable-full.js",
-    createFileContents( "corpusBySyllableFull", JSON.stringify(corpusBySyllableFull) ),
-    (error)=>{
-    if(error){
-        console.log(`ERROR: ${error}`);
-    }
-    console.log("corpus-by-syllable-full.js OK");
-} );
-
-
-fs.writeFile(
     "corpus-by-syllable-no-pp.js",
     createFileContents( "corpusBySyllable", JSON.stringify(corpusBySyllable) ),
     (error)=>{
     if(error){
         console.log(`ERROR: ${error}`);
     }
-    console.log("corpus-by-syllable-no-pp.js OK");
+    console.log("corpus-by-syllable.js OK");
 } );
 

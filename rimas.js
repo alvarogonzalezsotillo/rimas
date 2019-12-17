@@ -5,7 +5,7 @@ function log(s){
 }
 
 
-var corpus_BySyllable = require( "./corpus-by-syllable-no-pp.js" ).corpusBySyllable;
+var corpus_BySyllable = require( "./corpus-by-syllable.js" ).corpusBySyllable;
 var corpus_Frequency = require( "./corpus-by-frequency.js" ).corpusByFrequency;
 
 
@@ -38,10 +38,13 @@ function rimaConsonanteCon(p1,p2){
     if( s1 == null || s2 == null ){
         return false;
     }
-    const i1 = palabra1.letraTonica;
-    const i2 = palabra2.letraTonica;
+    const i1 = palabra1.letraTonicaPronunciacion;
+    const i2 = palabra2.letraTonicaPronunciacion;
     const fin1 = s1.join("").substring(i1);
     const fin2 = s2.join("").substring(i2);
+    if( fin1 == fin2 ){
+        console.log(`p1:${p1} p2:${p2} s1:${s1} s2:${s2} i1:${i1} i2:${i2} fin1:${fin1} fin2:${fin2}`);
+    }
     return fin1 == fin2;
 }
 
@@ -99,7 +102,6 @@ function rimaAsonanteCon(p1,p2){
 
 
 function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
-    const log = (s)=>console.log(s);
     log("todasLasPalabrasConRimaConsonante");
     const silabas = palabraConHiatos(palabra);
     const tonica = silabaTonica(silabas);
@@ -124,7 +126,6 @@ function* todasLasPalabrasConRimaConsonante(palabra,numeroSilabas){
 
     for( let c of candidatas ){
         if( rimaConsonanteCon(palabra,c) ){
-            log(c);
             yield c;
         }
     }

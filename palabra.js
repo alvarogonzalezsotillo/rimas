@@ -45,7 +45,7 @@ function body(){
 
         toArray(){
             return [
-                this.texto, this.pronunciacion, this.silabas, this.silabaTonica, this.letraTonica
+                this.texto, this.pronunciacion, this.silabas, this.silabaTonica, this.letraTonica, this.letraTonicaPronuncacion
             ];
         }
     }
@@ -61,13 +61,15 @@ function body(){
         const silabas = array[2];
         const silabaTonica = array[3];
         const letraTonica = array[4];
+        const letraTonicaPronunciacion = array[5];
 
         const ret = {
             texto : texto,
             pronunciacion : pronunciacion,
             silabas: silabas,
             silabaTonica: silabaTonica,
-            letraTonica : letraTonica
+            letraTonica : letraTonica,
+            letraTonicaPronunciacion: letraTonicaPronunciacion
         };
 
         Palabra.cache[texto] = ret;
@@ -92,6 +94,12 @@ function body(){
             }
             return o.silabas.map( s => normalizaPronunciacionDeSilaba(s) );
         }
+    );
+
+    addClassLazyProp(
+        Palabra,
+        "letraTonicaPronunciacion",
+        (o) => silabaTonica(o.pronunciacion)
     );
 
     addClassLazyProp(

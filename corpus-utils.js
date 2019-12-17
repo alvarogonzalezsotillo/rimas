@@ -244,9 +244,9 @@ function letraTonica(silabas){
         return null;
     }
     const s = silabas[t];
-    const i = vocalTonicaDeSilaba(s);
+    const
+    i = vocalTonicaDeSilaba(s);
 
-    log(`letraTonica: ${silabas} t:${t} s:${s} i:${i}`);
     return silabas.slice(0,t).join("").length + i;
 }
 
