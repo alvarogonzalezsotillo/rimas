@@ -44,12 +44,18 @@ let workerData = null;
 
 function onWorkerMessage(event){
     log(`onWorkerMessage: ${event}`);
-    const {rima,done,palabra,asonante,silabas} = event.data;
+    const {cargaInicialFinalizada,rima,done,palabra,asonante,silabas} = event.data;
 
     if( !workerData ){
         log("Sin workerdata");
         return;
     }
+
+    if( cargaInicialFinalizada ){
+        console.log("Carga inicial finalizada");
+        return;
+    }
+    
     if( workerData.palabra != palabra  ||
         workerData.asonante != asonante ||
         workerData.silabas != silabas ){
@@ -68,6 +74,14 @@ function onWorkerMessage(event){
     }
 }
 
+function createWorker(){
+    const ret = new Worker( "./rimas-worker.js" );
+    ret.postMessage({
+        cargaInicial: true 
+    });
+    return ret;
+}
+
 function getWorkerData(palabra, asonante, silabas ){
     let changed = false;
     if( !workerData ||
@@ -79,7 +93,7 @@ function getWorkerData(palabra, asonante, silabas ){
             workerData.worker.terminate();
         }
         log("Creo nuevo worker");
-        const worker = new Worker( "./rimas-worker.js" );
+        const worker = createWorker();
         workerData = {
             worker : worker,
             palabra : palabra,

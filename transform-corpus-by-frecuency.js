@@ -8,8 +8,7 @@ const {Palabra} = require( "./palabra.js" );
 const {corpusByFrequency} = require( "./corpus-by-frequency.js" );
 const fs = require( "fs" );
 
-const corpusBySyllableFullArray = [];
-const corpusBySyllableFull = [];
+const corpusArrayCached = {};
 const corpusBySyllable = [];
 
 function addToCorpus(p){
@@ -21,12 +20,6 @@ function addToCorpus(p){
     
     const l = palabra.silabas.length;
 
-    let arrayFullArray = corpusBySyllableFullArray[l-1];
-    if( !arrayFullArray ){
-        arrayFullArray = {};
-        corpusBySyllableFullArray[l-1] = arrayFullArray;
-    }
-    
     
     let array = corpusBySyllable[l-1];
     if( !array ){
@@ -35,7 +28,7 @@ function addToCorpus(p){
     }
 
 
-    arrayFullArray[p] = palabra.toArray();
+    corpusArrayCached[p] = palabra.toArray();
     array.push(p);
 
     return true;
@@ -65,8 +58,8 @@ module.exports = {
 console.log( "WARN: to MJS file...");
 
 fs.writeFile(
-    "corpus-by-syllable-full-array.js",
-    createFileContents( "corpusBySyllableFullArray", JSON.stringify(corpusBySyllableFullArray) ),
+    "corpus-array-cached.js",
+    createFileContents( "corpusArrayCached", JSON.stringify(corpusBySyllableFullArray) ),
     (error)=>{
     if(error){
         console.log(`ERROR: ${error}`);
@@ -77,7 +70,7 @@ fs.writeFile(
 
 fs.writeFile(
     "corpus-by-syllable-no-pp.js",
-    createFileContents( "corpusBySyllable", JSON.stringify(corpusBySyllable) ),
+    createFileContents( "corpusBySyllable", JSON.stringify(corpusArrayCached) ),
     (error)=>{
     if(error){
         console.log(`ERROR: ${error}`);

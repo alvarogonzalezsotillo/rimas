@@ -7,13 +7,14 @@ function log(s){
 log("worker: loading");
 
 
-
-self.importScripts( "./dummy-modules.js");
-self.importScripts( "./corpus-by-syllable.js");
-self.importScripts( "./corpus-by-frequency.js");
-self.importScripts( "./corpus-utils.js");
-self.importScripts( "./palabra.js");
-self.importScripts( "./rimas.js");
+function loadModules(){
+    self.importScripts( "./dummy-modules.js");
+    self.importScripts( "./corpus-by-syllable.js");
+    self.importScripts( "./corpus-by-frequency.js");
+    self.importScripts( "./corpus-utils.js");
+    self.importScripts( "./palabra.js");
+    self.importScripts( "./rimas.js");
+}
 
 
 let palabraActual = "";
@@ -25,6 +26,14 @@ self.addEventListener("message", function(e){
 
     if( data.terminar ){
         iteradorActual = null;
+        return;
+    }
+
+    if( data.cargaInicial ){
+        loadModules();
+        self.postMessage({
+            cargaInicialFinalizada: true
+        });
         return;
     }
     
