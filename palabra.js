@@ -1,7 +1,8 @@
 // -*- mode: js2; -*-
 
-function log(s){
-}
+var log = function(module,s){
+    //console.log(`${module}: ${s()}` );
+};
 
 
 var {
@@ -99,7 +100,7 @@ function body(){
     addClassLazyProp(
         Palabra,
         "letraTonicaPronunciacion",
-        (o) => silabaTonica(o.pronunciacion)
+        (o) => letraTonica(o.pronunciacion)
     );
 
     addClassLazyProp(

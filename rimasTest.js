@@ -19,10 +19,6 @@ const {
     Palabra
 } = require( "./palabra.js" );
 
-function log(s){
-    // console.log(s);
-}
-
 
 
 function arrayIgual(a,b){
@@ -170,7 +166,20 @@ function testRimasAsonantes(){
 }
 
 function testCorto(){
-    console.log(rimaConsonanteCon("peste","peste"));
+    const tests = [
+        ["peste","peste"],
+        ["hola","caracola"]
+    ];
+    const JS = JSON.stringify
+    for( t of tests ){
+        
+        assert( rimaConsonanteCon(t[0],t[1]), `No rima: 
+          ${JS(Palabra.fromString(t[0]).asPlainObject)}
+          ${JS(Palabra.fromString(t[1]).asPlainObject)}
+
+${JS(Palabra.fromString("karakola").asPlainObject)}
+        `);
+    }
 }
 
 function testNormalizaPronunciacion(){
@@ -192,10 +201,12 @@ function testNormalizaPronunciacion(){
 
 }
 
+testCorto();
 // testSilabeado();
 // testPalabra();
 testVocalTonica();
 // testNormalizaPronunciacion();
 testRimasConsonantes();
 //testRimasAsonantes();
-//testCorto();
+
+

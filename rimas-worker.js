@@ -1,19 +1,23 @@
 // -*- mode: js2; -*-
 
-function log(s){
-//    console.log("rimas-worker:" + s );
-}
+var ultimatelog = function(module,s){
+    if( //module == "rimas" ||
+        module == "rimas-worker"){
+        console.log(`${module}: ${s()}` );
+    }
+};
 
-log("worker: loading");
+var log = ultimatelog;
 
 
 function loadModules(){
-    self.importScripts( "./dummy-modules.js");
-    self.importScripts( "./corpus-by-syllable.js");
-    self.importScripts( "./corpus-by-frequency.js");
-    self.importScripts( "./corpus-utils.js");
-    self.importScripts( "./palabra.js");
-    self.importScripts( "./rimas.js");
+    self.importScripts("./dummy-modules.js");
+    self.importScripts("./corpus-by-syllable.js");
+    self.importScripts("./corpus-by-frequency.js");
+    self.importScripts("./corpus-utils.js");
+    self.importScripts("./palabra.js");
+    self.importScripts("./rimas.js");
+    log = ultimatelog;
 }
 
 
@@ -21,48 +25,121 @@ let palabraActual = "";
 let iteradorActual = null;
 
 
-self.addEventListener("message", function(e){
-    const data = e.data;
 
-    if( data.terminar ){
-        iteradorActual = null;
-        return;
+function cargaInicial(){
+    loadModules();
+    self.postMessage({
+        cargaInicialFinalizada: true
+    });
+    return;
+}
+
+const estado = {
+    palabra: "",
+    iterador: null,
+    asonante: null,
+    silabas: null
+};
+
+
+
+function cachedIterator(palabra,asonante,numeroSilabas){
+
+    function* iterador(){
+        const silabas = palabraConHiatos(palabra);
+        const tonica = silabaTonica(silabas);
+
+        if( !silabas || silabas.length == 0 || tonica == null ){
+            return;
+        }
+        
+        if( silabas.length - tonica+1 > numeroSilabas && numeroSilabas > 0 ){
+            return;
+        }
+
+        let candidatas = corpus_Frequency;
+        if( numeroSilabas > 0 && corpus_BySyllable[numeroSilabas-1] ){
+            candidatas = corpus_BySyllable[numeroSilabas-1];
+        }
+
+        for( let c of candidatas ){
+            yield c;
+        }
     }
 
+
+    if( palabra != estado.palabra ||
+        asonante != estado.asonante ||
+        numeroSilabas != estado.silabas ){
+        
+        estado.iterador = iterador(palabra,numeroSilabas);
+        estado.palabra = palabra;
+        estado.asonante = asonante;
+        estado.silabas = numeroSilabas;
+    }
+
+    return estado.iterador;
+}
+
+function procesa(palabra,asonante,silabas,paso,callback){
+    const iterador = cachedIterator(palabra,asonante,silabas);
+    const filtro = asonante ? rimaAsonanteCon : rimaConsonanteCon;
+    for( let i = 0 ; i < paso ; i++ ){
+        const {value,done} = iterador.next();
+        if( filtro(palabra,value) ){
+            callback(value);
+        }
+        if( done ){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+self.addEventListener("message", function(e){
+    const data = e.data;
+    log("rimas-worker", ()=>"worker: onMessage:" + JSON.stringify(data) );
+
     if( data.cargaInicial ){
-        loadModules();
-        self.postMessage({
-            cargaInicialFinalizada: true
-        });
+        cargaInicial();
         return;
     }
     
-    const {palabra,asonante,silabas} = data;
-    log( `worker: message: palabra:${palabra} asonante:${asonante} silabas:${silabas}` );
+    const {terminar,palabra,asonante,silabas,paso} = data;
+    log("rimas-worker", ()=> `worker: message: palabra:${palabra} asonante:${asonante} silabas:${silabas} terminar:${terminar}` );
 
-    if( palabra != palabraActual ){
-        palabraActual = palabra;
-
-        if( asonante ){
-            iteradorActual = todasLasPalabrasConRimaAsonante(palabraActual,silabas);
-        }
-        else{
-            iteradorActual = todasLasPalabrasConRimaConsonante(palabraActual,silabas);
-        }
+    if( terminar || typeof palabra == "undefined" ){
+        return;
     }
 
-    const {value,done} = iteradorActual.next();
-
-    log( `worker: value:${value} done:${done}` );
-
-    self.postMessage({
-        rima : value,
-        done : done,
-        palabra : palabra,
-        asonante : asonante,
-        silabas : silabas
+    const iteratorDone = procesa(palabra,asonante,silabas,paso, (value) => {
+        self.postMessage({
+            rima : value,
+            done : false,
+            palabra : palabra,
+            asonante : asonante,
+            silabas : silabas
+        });
     });
-});
 
-log("worker: loaded");
-log(self);
+    if( iteratorDone ){
+        self.postMessage({
+            done : true,
+            palabra : palabra,
+            asonante : asonante,
+            silabas : silabas
+        });
+    }
+    else{
+        self.postMessage({
+            finDePaso : true,
+            done : false,
+            palabra : palabra,
+            asonante : asonante,
+            silabas : silabas
+        });
+    }
+        
+});

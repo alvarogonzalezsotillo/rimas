@@ -2,13 +2,9 @@
 
 // http://tulengua.es/es/separar-en-silabas
 
-function log(s){
-    //console.log("corpus-utils: " + s);
-}
-
-function warn(s){
-    //console.log(`WARN: ${s}` );
-}
+var log = function(module,s){
+    console.log(`${module}: ${s()}` );
+};
 
 
 const acentuadas = "áéíóú".split("");
@@ -76,14 +72,14 @@ const grupoConsonanticoInicial =
 
 function grupoVocalico(s){
     const log = ()=>null;
-    log(`grupoVocalico: ${s}`);
+    log("corpus-utils", ()=>`grupoVocalico: ${s}`);
     const a = s.split("");
     let i = 0;
     for( i = 0 ; i < a.length ; i++){
         const c = a[i];
-        log(`grupoVocalico: ${s} i:${i} c:${c}`);
+        log("corpus-utils", ()=>`grupoVocalico: ${s} i:${i} c:${c}`);
         if(vocales.find(v=> v==c)){
-            log(`grupoVocalico: ${s} es vocal`);
+            log("corpus-utils", ()=>`grupoVocalico: ${s} es vocal`);
             continue;
         }
         if(i>0 &&
@@ -92,16 +88,16 @@ function grupoVocalico(s){
            i < a.length-1 &&
            a[i+1] &&
            vocales.find(v=>v==a[i+1]) ){
-            log(`grupoVocalico: ${s} es h intercalada`);
+            log("corpus-utils", ()=>`grupoVocalico: ${s} es h intercalada`);
             continue;
         }
-        log(`grupoVocalico: ${s} es consonante`);
+        log("corpus-utils", ()=>`grupoVocalico: ${s} es consonante`);
         break;
     }
     const ret = i ?
           [E(s.substring(0,i),s.substring(i))] :
           [];
-    log(`grupoVocalico: ${s} i:${i} ret:${ret}`);
+    log("corpus-utils", ()=>`grupoVocalico: ${s} i:${i} ret:${ret}`);
     return ret;
     
 
@@ -130,13 +126,13 @@ function silabaTodoDiptongo(str){
         [grupoConsonanticoInicial,grupoVocalico,trasVocal],
     ];
 
-    log(`silaba: str:${str}`);
+    log("corpus-utils", ()=>`silaba: str:${str}`);
     
     const ret = silabas.
           map(s=> secuencia(s,str)).
           filter(e=> e.length);
     
-    log(`silaba: str:${str} ret:${ret.join("  ")}`);
+    log("corpus-utils", ()=>`silaba: str:${str} ret:${ret.join("  ")}`);
     return arrayFlat(ret);
 }
 
@@ -149,10 +145,10 @@ function palabraSinHiatos(str){
             return silabas;
         }
 
-        log(`palabraR: silabas:${silabas}  resto:${resto}`);
+        log("corpus-utils", ()=>`palabraR: silabas:${silabas}  resto:${resto}`);
         
         const ss = silabaTodoDiptongo(resto);
-        log(`palabraR: resto:${resto} ss:${ss}`);
+        log("corpus-utils", ()=>`palabraR: resto:${resto} ss:${ss}`);
         for(let s of ss){
             const newSilabas = silabas.concat(s.extraido);
             const ret = palabraR(newSilabas, s.resto);
@@ -169,7 +165,7 @@ function palabraSinHiatos(str){
 function secuencia(buscas,str){
     // aplica varios extractores uno tras otro, y devuelve todas las posibilidades
     const log = ()=>null;
-    log(`secuencia: str:${str}`);
+    log("corpus-utils", ()=>`secuencia: str:${str}`);
     if(!str && buscas.length > 0){
         return [];
     }
@@ -178,7 +174,7 @@ function secuencia(buscas,str){
 
     
     for(let b of buscas){
-        log(`secuencia: str:${str} b:${b}`);
+        log("corpus-utils", ()=>`secuencia: str:${str} b:${b}`);
 
         ret = ret.map( r =>{
             const nrs = b(r.resto);
@@ -189,7 +185,7 @@ function secuencia(buscas,str){
         ret = arrayFlat(ret);
         
 
-        log(`secuencia: str:${str} b:${b} ret:${ret}`);
+        log("corpus-utils", ()=>`secuencia: str:${str} b:${b} ret:${ret}`);
         
     }
     return ret;
@@ -204,7 +200,7 @@ function secuencia(buscas,str){
 
 function acentuaSilabas(silabas){
     let i = silabaTonica(silabas);
-    log(`acentuaSilabas ${silabas} i:${i}`);
+    log("corpus-utils", ()=>`acentuaSilabas ${silabas} i:${i}`);
     const ret = silabas.slice();
     ret[i] = ret[i].toUpperCase();
     return ret;
@@ -300,32 +296,32 @@ function silabaTonica(silabas){
           ultimaL == "s" ||
           vocales.includes(ultimaL);
 
-    log( `silabaTonica: ${silabas} ${ultimaL} ${acabaNSVocal}`);
+    log("corpus-utils", ()=> `silabaTonica: ${silabas} ${ultimaL} ${acabaNSVocal}`);
     
     let i = -1;
     if( acabaNSVocal ){
         // acaba en nsa sin acento gráfico, es llana
-        log( `silabaTonica: llana` );
+        log("corpus-utils", ()=> `silabaTonica: llana` );
         i = silabas.length-2;
     }
     else{
         // no acaba en nsa ni acento gráfico, es aguda
-        log( `silabaTonica: aguda` );
+        log("corpus-utils", ()=> `silabaTonica: aguda` );
         i = silabas.length-1;
     }
 
-    log( `silabaTonica: ${i}` );
+    log("corpus-utils", ()=> `silabaTonica: ${i}` );
     return i;
 }
 
 function palabraConHiatos(str){
     const condiptongos = palabraSinHiatos(str);
     if( !condiptongos ){
-        warn(`condiptongos es null:${str}`);
+        log("corpus-utils", ()=>`condiptongos es null:${str}`);
         return null;
     }
     let ret = [];
-    log(`palabraConHiatos:  ${str} condiptongos:${condiptongos}`);
+    log("corpus-utils", ()=>`palabraConHiatos:  ${str} condiptongos:${condiptongos}`);
     for(let s of condiptongos){
         ret = ret.concat(separaHiato(s));
     }
@@ -345,13 +341,13 @@ function palabraConHiatos(str){
 
 
         function separables(v1,v2){
-            log(`separables:  v1:${v1} v2:${v2}`);
+            log("corpus-utils", ()=>`separables:  v1:${v1} v2:${v2}`);
             const c1 = !esAbierta(v1);
             const c2 = !esAbierta(v2);
             const a1 = esAcentuada(v1);
             const a2 = esAcentuada(v2);
 
-            log(`separables: c1:${c1}  a1:${a1} c2:${c2} a2:${a2}`);
+            log("corpus-utils", ()=>`separables: c1:${c1}  a1:${a1} c2:${c2} a2:${a2}`);
 
             if( !c1 && !a1 && !c2 && !a2){
                 return true; // ae
@@ -417,7 +413,7 @@ function palabraConHiatos(str){
 
         
         function buscaVocal(desde){
-            // log(`buscaVocal: ${vocales} ${silabas} desde:${desde}`);
+            // log("corpus-utils", ()=>`buscaVocal: ${vocales} ${silabas} desde:${desde}`);
             for( let i = desde; i < silabas.length ; i++ ){
                 if( esVocal(silabas[i]) ){
                     return i;
@@ -435,12 +431,12 @@ function palabraConHiatos(str){
             return [silabaS];
         }
         
-        log(`separaHiato: ${silabaS}: i1:${i1} i2:${i2}`);
+        log("corpus-utils", ()=>`separaHiato: ${silabaS}: i1:${i1} i2:${i2}`);
         if(separables(silabas[i1],silabas[i2]) == true){
             let [ret,resto] = separaPor(i1);
-            log(`separaHiato: ret:${ret} resto:${resto}`);
+            log("corpus-utils", ()=>`separaHiato: ret:${ret} resto:${resto}`);
             let recursion = separaHiato(resto);
-            log(`separaHiato: recursion:${recursion}`);
+            log("corpus-utils", ()=>`separaHiato: recursion:${recursion}`);
             return [ret].concat(recursion);
         }
         return [silabaS];
@@ -454,7 +450,7 @@ function quitaConsonantes(silaba){
 
 
 function quitaAcentos(silaba){
-    log(`quitaConsonantes: silaba:${silaba} ${typeof silaba} ${silaba.constructor}`);
+    log("corpus-utils", ()=>`quitaConsonantes: silaba:${silaba} ${typeof silaba} ${silaba.constructor}`);
     const map = { "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u" };
     return silaba.toLowerCase().split("").map( l =>{
         return map[l] ? map[l] : l;
