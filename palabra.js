@@ -9,7 +9,8 @@ var {
     palabraConHiatos,
     silabaTonica,
     letraTonica,
-    normalizaPronunciacion
+    normalizaPronunciacion,
+    quitaAcentos
 } = require( "./corpus-utils.js" );
 
 function addObjectLazyProp(o,p,evaluator,notEnumerable){
@@ -46,7 +47,7 @@ function body(){
 
         toArray(){
             return [
-                this.texto, this.pronunciacion, this.silabas, this.silabaTonica, this.letraTonica, this.letraTonicaPronuncacion
+                this.texto, this.pronunciacion, this.silabas, this.silabaTonica, this.letraTonica, this.letraTonicaPronunciacion
             ];
         }
     }
@@ -86,6 +87,21 @@ function body(){
         return ret;
     };
 
+
+    addClassLazyProp(
+        Palabra,
+        "sufijoRimaConsonante",
+        (p) => {
+            const s = p.pronunciacion;
+            if( !s ){
+                return null;
+            }
+            const i = p.letraTonicaPronunciacion;
+            const fin = s.join("").substring(i);
+            return quitaAcentos(fin);
+        }
+    );
+    
     addClassLazyProp(
         Palabra,
         "pronunciacion",

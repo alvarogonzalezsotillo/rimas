@@ -25,7 +25,6 @@ function domIdAccessFunctions(ids, suffix){
         window[`${id}E`] = function(){
             return idE(id);
         };
-        console.log(id);
     });
 }
               
@@ -64,6 +63,7 @@ function pidePaso(palabra, asonante, silabas){
     workerData.palabra = palabra;
     workerData.asonante = asonante;
     workerData.silabas = silabas;
+
     
     workerData.worker.postMessage({
         palabra: palabra,
@@ -103,7 +103,8 @@ function onWorkerMessage(event){
         log("index", ()=>"Carga inicial finalizada");
         return;
     }
-    
+
+   
     if( workerData.palabra != palabra  ||
         workerData.asonante != asonante ||
         workerData.silabas != silabas ){
@@ -198,7 +199,7 @@ function setUpUI(){
 function resizeUI(){
     const wh = window.innerHeight;
     const hh = cabeceraE().clientHeight;
-    console.log(`wh:${wh} hh:${hh}` );
+    log("index", ()=>`wh:${wh} hh:${hh}` );
     resultadoE().style.height = `${wh - hh - 50}px`;
 }
 

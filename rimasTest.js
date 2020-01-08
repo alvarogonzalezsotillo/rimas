@@ -143,11 +143,12 @@ class ExitCondition{
 }
 
 
-function testCorto(){
+function testConsonante(){
     const tests = [
         ["dios","adiós"],
         ["peste","peste"],
         ["hola","caracola"],
+        ["vivo","recibo"],
     ];
     const JS = JSON.stringify;
     for( t of tests ){
@@ -158,6 +159,23 @@ function testCorto(){
         `);
     }
 }
+
+function testAsonante(){
+    const tests = [
+        ["dios","adiós"],
+    ];
+    const JS = JSON.stringify;
+    for( t of tests ){
+        
+        assert( rimaAsonanteCon(t[0],t[1]), `No rima: 
+          ${JS(Palabra.fromString(t[0]).asPlainObject)}
+          ${JS(Palabra.fromString(t[1]).asPlainObject)}
+        `);
+    }
+}
+
+
+
 
 function testNormalizaPronunciacion(){
 
@@ -182,10 +200,11 @@ function testNormalizaPronunciacion(){
 
 }
 
-testCorto();
-testSilabeado();
-testPalabra();
-testVocalTonica();
-testNormalizaPronunciacion();
+testConsonante();
+// testAsonante();
+// testSilabeado();
+// testPalabra();
+// testVocalTonica();
+// testNormalizaPronunciacion();
 
 
