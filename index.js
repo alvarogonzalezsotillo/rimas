@@ -15,34 +15,49 @@ function htmlToElement(html) {
     return template.content.firstChild;
 }
 
+function idE(id){
+    return d.getElementById(id);
+}
+
+function domIdAccessFunctions(ids, suffix){
+    suffix = suffix || "E";
+    ids.forEach( id => {
+        window[`${id}E`] = function(){
+            return idE(id);
+        };
+        console.log(id);
+    });
+}
+              
+domIdAccessFunctions( ["cabecera","resultado", "progreso", "palabra", "porcentaje", "numeroDeSilabas", "rimaConsonante", "botonPararProgreso"] );
+
 function activaIndicacionProgreso(){
-    const div = d.getElementById("progreso");
-    div.style.display="initial";
+    progresoE().style.display="initial";
 }
 
 function desactivaIndicacionProgreso(){
-    const div = d.getElementById("progreso");
-    div.style.display="none";
+    progresoE().style.display="none";
 }
+
 
 function agregaPalabra(palabra){
     if( !palabra ){
         return;
     }
-    const div = d.getElementById("resultado");
+    const div = resultadoE();
     const p = htmlToElement(`<div class="palabra">${palabra}</div>`);
     log("index", ()=>"agregaPalabra:" + palabra );
     div.appendChild(p);
 }
 
 function palabraARimar(){
-    const palabraInput = d.getElementById("palabra");
+    const palabraInput = palabraE();
     return palabraInput.value;
 }
 
-function pidePaso(palabra, asonante, silabas, paso){
+function pidePaso(palabra, asonante, silabas){
 
-    paso = 1000;
+    const paso = 1037;
     
     log("index", ()=>`pidePaso: ${palabra}`);
     activaIndicacionProgreso();
@@ -58,13 +73,27 @@ function pidePaso(palabra, asonante, silabas, paso){
     });
 }
 
+
+function  indicaPorcentaje(indice,total){
+    const porcentaje = porcentajeE();
+    if( !indice && !total ){
+        porcentaje.innerHTML = "";
+    }
+    else{
+        porcentaje.innerHTML = `${indice}/${total}`;
+    }
+}
+
+
 const JS = o => JSON.stringify(o);
 
 
 function onWorkerMessage(event){
     log("index", ()=>`onWorkerMessage: ${JS(event.data)}`);
-    const {cargaInicialFinalizada,rima,done,palabra,asonante,silabas,finDePaso} = event.data;
+    const {cargaInicialFinalizada,rima,done,palabra,asonante,silabas,finDePaso,indice,total} = event.data;
 
+    indicaPorcentaje(indice,total);
+    
     if( !workerData ){
         log("index", ()=>"Sin workerdata");
         return;
@@ -87,7 +116,7 @@ function onWorkerMessage(event){
     }        
 
     if( finDePaso ){
-        pidePaso(palabra, asonante, silabas, 2 );
+        pidePaso(palabra, asonante, silabas);
     }
     
     if( done ){
@@ -126,31 +155,31 @@ function paraProgreso(){
 function iniciaPeticionRima(){
     log("index", ()=>"iniciaPeticionRima");
 
-    const numeroDeSilabas = d.getElementById("numeroDeSilabas");
-    const rimaConsonante = d.getElementById("rimaConsonante");
+    const numeroDeSilabas = numeroDeSilabasE();
+    const rimaConsonante = rimaConsonanteE();
     const palabra = palabraARimar();
     const asonante = !rimaConsonante.checked;
     const silabas = numeroDeSilabas.value;
     if( workerData.palabra != palabra  ||
         workerData.asonante != asonante ||
         workerData.silabas != silabas ){
-        const div = d.getElementById("resultado");
+        const div = resultadoE();
         div.innerHTML = "";
     }
-    pidePaso( palabra, asonante, silabas, 2 );
+    pidePaso( palabra, asonante, silabas);
 }
 
 function setUpUI(){
     desactivaIndicacionProgreso();
-    const palabraInput = d.getElementById("palabra");
-    const rimaConsonante = d.getElementById("rimaConsonante");
-    const numeroDeSilabas = d.getElementById("numeroDeSilabas");
+    const palabraInput = palabraE();
+    const rimaConsonante = rimaConsonanteE();
+    const numeroDeSilabas = numeroDeSilabasE();
     
     palabraInput.addEventListener("keyup",()=>{
         iniciaPeticionRima();
     });
 
-    const botonPararProgreso = d.getElementById("botonPararProgreso");
+    const botonPararProgreso = botonPararProgresoE();
     botonPararProgreso.addEventListener("click",()=>{
         paraProgreso(); 
     });
@@ -162,9 +191,23 @@ function setUpUI(){
     numeroDeSilabas.addEventListener("click",()=>{
         iniciaPeticionRima();
     });
+
+    resizeUI();
+}
+
+function resizeUI(){
+    const wh = window.innerHeight;
+    const hh = cabeceraE().clientHeight;
+    console.log(`wh:${wh} hh:${hh}` );
+    resultadoE().style.height = `${wh - hh - 50}px`;
 }
 
 
 window.addEventListener("load", ()=>{
     setUpUI();
+});
+
+
+window.addEventListener("resize", ()=>{
+    resizeUI();
 });

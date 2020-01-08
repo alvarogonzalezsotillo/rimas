@@ -167,17 +167,16 @@ function testRimasAsonantes(){
 
 function testCorto(){
     const tests = [
+        ["dios","adiós"],
         ["peste","peste"],
-        ["hola","caracola"]
+        ["hola","caracola"],
     ];
-    const JS = JSON.stringify
+    const JS = JSON.stringify;
     for( t of tests ){
         
         assert( rimaConsonanteCon(t[0],t[1]), `No rima: 
           ${JS(Palabra.fromString(t[0]).asPlainObject)}
           ${JS(Palabra.fromString(t[1]).asPlainObject)}
-
-${JS(Palabra.fromString("karakola").asPlainObject)}
         `);
     }
 }

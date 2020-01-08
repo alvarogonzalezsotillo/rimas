@@ -1,10 +1,10 @@
 // -*- mode: js2; -*-
 
 var ultimatelog = function(module,s){
-    if( //module == "rimas" ||
-        module == "rimas-worker"){
-        console.log(`${module}: ${s()}` );
-    }
+//     if( module == "rimas" ||
+//         module == "rimas-worker"){
+//         console.log(`${module}: ${s()}` );
+//     }
 };
 
 var log = ultimatelog;
@@ -38,12 +38,15 @@ const estado = {
     palabra: "",
     iterador: null,
     asonante: null,
-    silabas: null
+    silabas: null,
+    candidatas: null
 };
 
 
 
 function cachedIterator(palabra,asonante,numeroSilabas){
+
+    let candidatas = corpus_Frequency;
 
     function* iterador(){
         const silabas = palabraConHiatos(palabra);
@@ -57,13 +60,35 @@ function cachedIterator(palabra,asonante,numeroSilabas){
             return;
         }
 
-        let candidatas = corpus_Frequency;
         if( numeroSilabas > 0 && corpus_BySyllable[numeroSilabas-1] ){
             candidatas = corpus_BySyllable[numeroSilabas-1];
         }
 
+        estado.candidatas = candidatas;
+
         for( let c of candidatas ){
             yield c;
+        }
+    }
+
+    class iteratorWithIndex{
+        constructor(iterator){
+            this.iterator = iterator;
+            this._index = 0;
+        }
+
+        next(){
+            this._index += 1;
+            const ret = this.iterator.next();
+            return {
+                value : ret.value,
+                done : ret.done,
+                index : this.index
+            };
+        }
+
+        get index(){
+            return this._index;
         }
     }
 
@@ -71,8 +96,10 @@ function cachedIterator(palabra,asonante,numeroSilabas){
     if( palabra != estado.palabra ||
         asonante != estado.asonante ||
         numeroSilabas != estado.silabas ){
+
+        const it = iterador(palabra,numeroSilabas);
         
-        estado.iterador = iterador(palabra,numeroSilabas);
+        estado.iterador = new iteratorWithIndex( it );
         estado.palabra = palabra;
         estado.asonante = asonante;
         estado.silabas = numeroSilabas;
@@ -86,7 +113,7 @@ function procesa(palabra,asonante,silabas,paso,callback){
     const filtro = asonante ? rimaAsonanteCon : rimaConsonanteCon;
     for( let i = 0 ; i < paso ; i++ ){
         const {value,done} = iterador.next();
-        if( filtro(palabra,value) ){
+        if( value && filtro(palabra,value) ){
             callback(value);
         }
         if( done ){
@@ -115,7 +142,7 @@ self.addEventListener("message", function(e){
     }
 
     const iteratorDone = procesa(palabra,asonante,silabas,paso, (value) => {
-        self.postMessage({
+        sendResponse({
             rima : value,
             done : false,
             palabra : palabra,
@@ -125,7 +152,7 @@ self.addEventListener("message", function(e){
     });
 
     if( iteratorDone ){
-        self.postMessage({
+        sendResponse({
             done : true,
             palabra : palabra,
             asonante : asonante,
@@ -133,7 +160,7 @@ self.addEventListener("message", function(e){
         });
     }
     else{
-        self.postMessage({
+        sendResponse({
             finDePaso : true,
             done : false,
             palabra : palabra,
@@ -143,3 +170,18 @@ self.addEventListener("message", function(e){
     }
         
 });
+
+function sendResponse( {rima,palabra, done, asonante, silabas, index, finDePaso} ){
+    const iterador = cachedIterator(palabra,asonante,silabas);
+
+    self.postMessage({
+        rima : rima,
+        done : done,
+        palabra : palabra,
+        asonante : asonante,
+        indice : iterador.index,
+        total : estado.candidatas ? estado.candidatas.length : 0,
+        silabas : silabas,
+        finDePaso : finDePaso
+    });
+}

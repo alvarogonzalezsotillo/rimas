@@ -42,9 +42,7 @@ function rimaConsonanteCon(p1,p2){
     const i2 = palabra2.letraTonicaPronunciacion;
     const fin1 = s1.join("").substring(i1);
     const fin2 = s2.join("").substring(i2);
-    if( fin1 == fin2 ){
-        log("rimas",()=>`p1:${p1} p2:${p2} s1:${s1} s2:${s2} i1:${i1} i2:${i2} fin1:${fin1} fin2:${fin2}`);
-    }
+    log("rimas",()=>`p1:${p1} p2:${p2} s1:${s1} s2:${s2} i1:${i1} i2:${i2} fin1:${fin1} fin2:${fin2}`);
     return fin1 == fin2;
 }
 

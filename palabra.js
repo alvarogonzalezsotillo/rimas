@@ -93,7 +93,7 @@ function body(){
             if( !o.silabas ){
                 return null;
             }
-            return o.silabas.map( s => normalizaPronunciacionDeSilaba(s) );
+            return o.silabas.map( s => normalizaPronunciacionDeSilaba(s,true) );
         }
     );
 

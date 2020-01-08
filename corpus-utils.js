@@ -450,7 +450,7 @@ function quitaConsonantes(silaba){
 
 
 function quitaAcentos(silaba){
-    log("corpus-utils", ()=>`quitaConsonantes: silaba:${silaba} ${typeof silaba} ${silaba.constructor}`);
+    log("corpus-utils", ()=>`quitaConsonantes: silaba:${silaba} ${typeof silaba} ${silaba.constructor.name}`);
     const map = { "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u" };
     return silaba.toLowerCase().split("").map( l =>{
         return map[l] ? map[l] : l;
@@ -462,7 +462,7 @@ function normalizaPronunciacion(palabra){
     return palabraConHiatos(palabra).map(s => normalizaPronunciacionDeSilaba(s) );
 }
 
-function normalizaPronunciacionDeSilaba(silaba){
+function normalizaPronunciacionDeSilaba(silaba,sinAcentos){
     /*
       GUI -> GI
       GÜI -> GUI
@@ -549,6 +549,10 @@ function normalizaPronunciacionDeSilaba(silaba){
         ret += m.traduccion;
     }
 
+    if( sinAcentos ){
+        ret = quitaAcentos(ret);
+    }
+    
     return ret;
 }
 
