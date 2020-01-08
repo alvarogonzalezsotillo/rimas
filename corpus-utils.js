@@ -240,8 +240,7 @@ function letraTonica(silabas){
         return null;
     }
     const s = silabas[t];
-    const
-    i = vocalTonicaDeSilaba(s);
+    const i = vocalTonicaDeSilaba(s);
 
     return silabas.slice(0,t).join("").length + i;
 }
@@ -458,11 +457,13 @@ function quitaAcentos(silaba){
 }
 
 
-function normalizaPronunciacion(palabra){
-    return palabraConHiatos(palabra).map(s => normalizaPronunciacionDeSilaba(s) );
+function normalizaPronunciacion(silabas,silabaTonica){
+    const ret = silabas.map(normalizaPronunciacionDeSilaba);
+    ret[silabaTonica] = ret[silabaTonica].toUpperCase();
+    return ret;
 }
 
-function normalizaPronunciacionDeSilaba(silaba,sinAcentos){
+function normalizaPronunciacionDeSilaba(silaba){
     /*
       GUI -> GI
       GÜI -> GUI
@@ -549,10 +550,6 @@ function normalizaPronunciacionDeSilaba(silaba,sinAcentos){
         ret += m.traduccion;
     }
 
-    if( sinAcentos ){
-        ret = quitaAcentos(ret);
-    }
-    
     return ret;
 }
 
