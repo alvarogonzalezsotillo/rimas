@@ -47,7 +47,7 @@ function body(){
 
         toArray(){
             return [
-                this.texto, this.pronunciacion, this.silabas, this.silabaTonica, this.letraTonica, this.letraTonicaPronunciacion
+                this.texto, this.pronunciacion, this.silabas, this.silabaTonica, this.letraTonica, this.letraTonicaPronunciacion, this.sufijoRimaConsonante
             ];
         }
     }
@@ -64,6 +64,7 @@ function body(){
         const silabaTonica = array[3];
         const letraTonica = array[4];
         const letraTonicaPronunciacion = array[5];
+        const sufijoRimaConsonante = array[6];
 
         const ret = {
             texto : texto,
@@ -71,7 +72,8 @@ function body(){
             silabas: silabas,
             silabaTonica: silabaTonica,
             letraTonica : letraTonica,
-            letraTonicaPronunciacion: letraTonicaPronunciacion
+            letraTonicaPronunciacion: letraTonicaPronunciacion,
+            sufijoRimaConsonante: sufijoRimaConsonante
         };
 
         Palabra.cache[texto] = ret;
@@ -79,9 +81,14 @@ function body(){
     };
 
     Palabra.fromString = function(texto){
+        if( texto.constructor.name == "Palabra" ){
+            return texto;
+        }
+        
         if( Palabra.cache[texto] ){
             return Palabra.cache[texto];
         }
+        
         const ret = new Palabra(texto);
         Palabra.cache[texto] = ret;
         return ret;

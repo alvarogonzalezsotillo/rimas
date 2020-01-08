@@ -201,10 +201,10 @@ function testNormalizaPronunciacion(){
 }
 
 testConsonante();
-// testAsonante();
-// testSilabeado();
-// testPalabra();
-// testVocalTonica();
-// testNormalizaPronunciacion();
+testAsonante();
+testSilabeado();
+testPalabra();
+testVocalTonica();
+testNormalizaPronunciacion();
 
 
