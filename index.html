@@ -38,6 +38,10 @@
          #resultado{
              overflow-y: scroll;
          }
+
+         #porcentaje{
+             display: table-cell;
+         }
          
         </style>
     </head>
@@ -71,10 +75,12 @@
                 <option  value="19">19 sílabas</option>
                 <option  value="10">20 sílabas</option>
             </select>
-            <div id="progreso">
-                <span id="porcentaje"></span>
-                <input type="button" id="botonPararProgreso" value="Detener búsqueda">
-                </span>
+            <input type="button" id="botonPararProgreso" value="Detener búsqueda">
+            <div id="progreso" style="height:2em">
+                <progress style="position:absolute; width:20em; height:2em" id="barraDeProgreso" value="4" max="7"></progress>
+                <div style="position:absolute; display: table; width:20em; height:2em; ">
+                    <div style="display:table-cell; vertical-align:middle; text-align:center;" id="porcentaje"></div>
+                </div>
             </div>
         </div>
 

@@ -56,9 +56,9 @@ function cachedIterator(palabra,asonante,numeroSilabas){
             return;
         }
         
-        if( silabas.length - tonica+1 > numeroSilabas && numeroSilabas > 0 ){
-            return;
-        }
+        // if( silabas.length - tonica+1 > numeroSilabas && numeroSilabas > 0 ){
+        //     return;
+        // }
 
         if( numeroSilabas > 0 && corpus_BySyllable[numeroSilabas-1] ){
             candidatas = corpus_BySyllable[numeroSilabas-1];
@@ -138,6 +138,8 @@ self.addEventListener("message", function(e){
     log("rimas-worker", ()=> `worker: message: palabra:${palabra} asonante:${asonante} silabas:${silabas} terminar:${terminar}` );
 
     if( terminar || typeof palabra == "undefined" ){
+        estado.palabra = null;
+        estado.iterador = null;
         return;
     }
 

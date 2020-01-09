@@ -29,14 +29,19 @@ function domIdAccessFunctions(ids, suffix){
     });
 }
               
-domIdAccessFunctions( ["cabecera","resultado", "progreso", "palabra", "porcentaje", "numeroDeSilabas", "rimaConsonante", "botonPararProgreso"] );
+domIdAccessFunctions( ["barraDeProgreso", "cabecera","resultado", "progreso", "palabra", "porcentaje", "numeroDeSilabas", "rimaConsonante", "botonPararProgreso"] );
 
 function activaIndicacionProgreso(){
-    progresoE().style.display="initial";
+    progresoE().style.display="block";
+    botonPararProgresoE().value = "Parar búsqueda";
 }
 
 function desactivaIndicacionProgreso(){
     progresoE().style.display="none";
+    botonPararProgresoE().value = "Iniciar búsqueda";
+    workerData.palabra = null;
+    workerData.asonante = null;
+    workerData.silabas = null;
 }
 
 
@@ -76,11 +81,15 @@ function pidePaso(palabra, asonante, silabas){
 
 function  indicaPorcentaje(indice,total){
     const porcentaje = porcentajeE();
+    const barraProgreso = barraDeProgresoE();
     if( !indice && !total ){
         porcentaje.innerHTML = "";
     }
     else{
         porcentaje.innerHTML = `${indice}/${total}`;
+        barraDeProgreso.min = 0;
+        barraDeProgreso.max = total;
+        barraDeProgreso.value=indice;
     }
 }
 
@@ -133,15 +142,21 @@ function createWorker(){
     return ret;
 }
 
-const workerData = {
-    worker : createWorker()
-};
+const workerData = Object.seal({
+    worker : createWorker(),
+    palabra : null,
+    asonante: null,
+    silabas : null
+});
 
 
+function progresoActivado(){
+    return workerData && workerData.worker && workerData.palabra;
+}
 
 
 function paraProgreso(){
-    if( workerData && workerData.worker ){
+    if( progresoActivado() ){
         workerData.worker.postMessage({
             terminar: true
         });
@@ -181,7 +196,12 @@ function setUpUI(){
 
     const botonPararProgreso = botonPararProgresoE();
     botonPararProgreso.addEventListener("click",()=>{
-        paraProgreso(); 
+        if( progresoActivado() ){
+            paraProgreso();
+        }
+        else{
+            iniciaPeticionRima();
+        }
     });
 
     rimaConsonante.addEventListener("click",()=>{
