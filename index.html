@@ -34,6 +34,10 @@
              height: 100%;
              overflow-y: hidden;
          }
+
+         input, select, body{
+             font-family: sans;
+         }
          
          #resultado{
              overflow-y: scroll;
@@ -48,7 +52,7 @@
     
     <body>
 
-        <div id="cabecera">
+        <div id="cabecera" style="margin: 0 auto">
             <input type="text" id="palabra" placeholder="Palabra a rimar">
             <label for="rimaConsonante">Rima consonante</label>
             <input type="checkbox" id="rimaConsonante">
@@ -76,16 +80,21 @@
                 <option  value="10">20 sílabas</option>
             </select>
             <input type="button" id="botonPararProgreso" value="Detener búsqueda">
-            <div id="progreso" style="height:2em">
-                <progress style="position:absolute; width:20em; height:2em" id="barraDeProgreso" value="4" max="7"></progress>
-                <div style="position:absolute; display: table; width:20em; height:2em; ">
+            
+        </div>
+
+        <div id="resultado">
+        </div>
+
+        <div style="position:fixed;bottom:0;width:100%">
+            <div id="progreso" style="height:2em;width:100%">
+                <progress style="position:absolute; width:100%; height:2em" id="barraDeProgreso" value="4" max="7"></progress>
+                <div style="position:absolute; display: table; width:100%; height:2em; ">
                     <div style="display:table-cell; vertical-align:middle; text-align:center;" id="porcentaje"></div>
                 </div>
             </div>
         </div>
 
-        <div id="resultado">
-        </div>
         
     </body>
 

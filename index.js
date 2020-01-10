@@ -32,7 +32,7 @@ function domIdAccessFunctions(ids, suffix){
 domIdAccessFunctions( ["barraDeProgreso", "cabecera","resultado", "progreso", "palabra", "porcentaje", "numeroDeSilabas", "rimaConsonante", "botonPararProgreso"] );
 
 function activaIndicacionProgreso(){
-    progresoE().style.display="block";
+    progresoE().style.display="inline-block";
     botonPararProgresoE().value = "Parar búsqueda";
 }
 
@@ -183,6 +183,7 @@ function iniciaPeticionRima(){
     }
     pidePaso( palabra, asonante, silabas);
 }
+
 
 function setUpUI(){
     desactivaIndicacionProgreso();
