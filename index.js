@@ -1,6 +1,11 @@
 // -*- mode: js2; -*-
 
 
+var {
+    Palabra
+} = require( "./palabra.js" );
+
+
 var log = function(module,s){
     //console.log(`${module}: ${s()}` );
 };
@@ -9,7 +14,7 @@ const d = document;
 
 // https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro/35385518#35385518
 function htmlToElement(html) {
-    var template = document.createElement('template');
+    var template = d.createElement('template');
     html = html.trim(); // Never return a text node of whitespace as the result
     template.innerHTML = html;
     return template.content.firstChild;
@@ -25,7 +30,6 @@ function domIdAccessFunctions(ids, suffix){
         window[`${id}E`] = function(){
             return idE(id);
         };
-        console.log(id);
     });
 }
               
@@ -52,6 +56,9 @@ function agregaPalabra(palabra){
     const div = resultadoE();
     const p = htmlToElement(`<div class="palabra">${palabra}</div>`);
     log("index", ()=>"agregaPalabra:" + palabra );
+    p.addEventListener("click", ()=>{
+        console.log( (new Palabra(palabra).asPlainObject ) ); 
+    });
     div.appendChild(p);
 }
 
@@ -62,13 +69,14 @@ function palabraARimar(){
 
 function pidePaso(palabra, asonante, silabas){
 
-    const paso = 1037;
+    const paso = 1037; // suficientemente grande y casi primo;
     
     log("index", ()=>`pidePaso: ${palabra}`);
     activaIndicacionProgreso();
     workerData.palabra = palabra;
     workerData.asonante = asonante;
     workerData.silabas = silabas;
+
     
     workerData.worker.postMessage({
         palabra: palabra,
@@ -112,7 +120,8 @@ function onWorkerMessage(event){
         log("index", ()=>"Carga inicial finalizada");
         return;
     }
-    
+
+   
     if( workerData.palabra != palabra  ||
         workerData.asonante != asonante ||
         workerData.silabas != silabas ){
@@ -219,7 +228,7 @@ function setUpUI(){
 function resizeUI(){
     const wh = window.innerHeight;
     const hh = cabeceraE().clientHeight;
-    console.log(`wh:${wh} hh:${hh}` );
+    log("index", ()=>`wh:${wh} hh:${hh}` );
     resultadoE().style.height = `${wh - hh - 50}px`;
 }
 

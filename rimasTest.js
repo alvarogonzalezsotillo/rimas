@@ -53,7 +53,7 @@ function PP(silabeado,separador,tonica){
     const p = array.join("");
     const s = separador(p);
     const test = s.join("-");
-    log(`PP: s:${s}`);
+    console.log(`PP: s:${s}`);
     const t = silabaTonica(s);
     console.log(`pruebaPalabra: ${p} -> ${test} -> ${new Palabra(p).pronunciacion} -> t:${t}`);
     if(silabeado != test){
@@ -131,18 +131,6 @@ function testVocalTonica(){
     assertEQ( vocalTonicaDeSilaba("cíe"), 1 );
 }
 
-function testRimasConsonantes(){
-    const condition = new ExitCondition(10);
-
-    for( let p of todasLasPalabrasConRimaConsonante("peste") ){
-        const silabas = palabraConHiatos(p);
-        console.log(`${p}\t${silabas}`);
-        if( !condition.shouldContinue() ){
-            return;
-        }
-    }
-}
-
 class ExitCondition{
     constructor(max){
         this._counter = 0;
@@ -154,22 +142,13 @@ class ExitCondition{
     }
 }
 
-function testRimasAsonantes(){
-    const condition = new ExitCondition(10);
-    for( let p of todasLasPalabrasConRimaAsonante("hela",3 ) ){
-        const silabas = palabraConHiatos(p);
-        log(`${p}\t${silabas}`);
-        if( !condition.shouldContinue() ){
-            return;
-        }
-    }
-}
 
-function testCorto(){
+function testConsonante(){
     const tests = [
         ["dios","adiós"],
         ["peste","peste"],
         ["hola","caracola"],
+        ["vivo","recibo"],
     ];
     const JS = JSON.stringify;
     for( t of tests ){
@@ -181,10 +160,30 @@ function testCorto(){
     }
 }
 
+function testAsonante(){
+    const tests = [
+        ["dios","adiós"],
+    ];
+    const JS = JSON.stringify;
+    for( t of tests ){
+        
+        assert( rimaAsonanteCon(t[0],t[1]), `No rima: 
+          ${JS(Palabra.fromString(t[0]).asPlainObject)}
+          ${JS(Palabra.fromString(t[1]).asPlainObject)}
+        `);
+    }
+}
+
+
+
+
 function testNormalizaPronunciacion(){
 
     function f(palabra, esperado){
-        const n = normalizaPronunciacion(palabra).join("");
+        console.log(`f: ${palabra}`);
+        const silabas = palabraConHiatos(palabra);
+        const tonica = silabaTonica(silabas);
+        const n = normalizaPronunciacion(silabas,tonica).join("");
         if( esperado !=  n ){
             console.log( `No enjaca: ${palabra} ${n} ${esperado}`);
             throw(palabra);
@@ -192,20 +191,20 @@ function testNormalizaPronunciacion(){
 
     }
 
-    f("baca" , "baka" );
-    f("vigui", "bigi" );
-    f("cige", "zije" );
-    f("chigi", "chiji" );
-    f("quio" , "kio" );
+    f("baca" , "BAka" );
+    f("vigui", "BIgi" );
+    f("cige", "ZIje" );
+    f("cigé", "ziJÉ" );
+    f("chigi", "CHIji" );
+    f("quio" , "KIO" );
 
 }
 
-testCorto();
-// testSilabeado();
-// testPalabra();
+testConsonante();
+testAsonante();
+testSilabeado();
+testPalabra();
 testVocalTonica();
-// testNormalizaPronunciacion();
-testRimasConsonantes();
-//testRimasAsonantes();
+testNormalizaPronunciacion();
 
 

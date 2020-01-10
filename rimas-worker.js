@@ -46,7 +46,7 @@ const estado = {
 
 function cachedIterator(palabra,asonante,numeroSilabas){
 
-    let candidatas = corpus_Frequency;
+    let candidatas = corpusByFrequency;
 
     function* iterador(){
         const silabas = palabraConHiatos(palabra);
@@ -56,12 +56,12 @@ function cachedIterator(palabra,asonante,numeroSilabas){
             return;
         }
         
-        // if( silabas.length - tonica+1 > numeroSilabas && numeroSilabas > 0 ){
-        //     return;
-        // }
+        if( silabas.length - tonica-1 > numeroSilabas && numeroSilabas > 0 ){
+            return;
+        }
 
-        if( numeroSilabas > 0 && corpus_BySyllable[numeroSilabas-1] ){
-            candidatas = corpus_BySyllable[numeroSilabas-1];
+        if( numeroSilabas > 0 && corpusBySyllable[numeroSilabas-1] ){
+            candidatas = corpusBySyllable[numeroSilabas-1];
         }
 
         estado.candidatas = candidatas;
