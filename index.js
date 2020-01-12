@@ -49,17 +49,37 @@ function desactivaIndicacionProgreso(){
 }
 
 
+function pronunciacion(palabra){
+    const w = new Palabra(palabra);
+    const silabas = w.pronunciacion.map(quitaAcentos);
+    silabas[w.silabaTonica] = silabas[w.silabaTonica].toUpperCase();
+    return silabas;
+}
+
+function alternaPalabraODatos(event){
+    const div = event.target;
+    console.log(div);
+    const palabra = div.getAttribute("palabra");
+    const expanded = div.getAttribute("expandido");
+    if( expanded == "true" ){
+        div.innerHTML = palabra;
+        div.setAttribute("expandido","false");
+    }
+    else{
+        const silabas = pronunciacion(palabra);
+        div.innerHTML = `${palabra} se pronuncia <br> ${silabas.join("-")}`;
+        div.setAttribute("expandido","true");
+    }
+}
+
 function agregaPalabra(palabra){
     if( !palabra ){
         return;
     }
     const div = resultadoE();
-    const p = htmlToElement(`<div class="palabra">${palabra}</div>`);
+    const p = htmlToElement(`<div class="palabra" palabra="${palabra}">${palabra}</div>`);
     log("index", ()=>"agregaPalabra:" + palabra );
-    p.addEventListener("click", ()=>{
-        const w = new Palabra(palabra);
-        p.appendChild( htmlToElement(`${w.pronunciacion.join("-")}` ) );
-    });
+    p.addEventListener("click", alternaPalabraODatos );
     div.appendChild(p);
 }
 
@@ -95,7 +115,8 @@ function  indicaPorcentaje(indice,total){
         porcentaje.innerHTML = "";
     }
     else{
-        porcentaje.innerHTML = `${indice}/${total}`;
+        const palabra = palabraARimar()P;
+        porcentaje.innerHTML = `Buscando rimas para ${palabra} (${pronunciacion(palabra)}) ${indice}/${total}`;
         barraDeProgreso.min = 0;
         barraDeProgreso.max = total;
         barraDeProgreso.value=indice;
