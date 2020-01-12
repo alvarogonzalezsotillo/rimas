@@ -51,6 +51,9 @@ function desactivaIndicacionProgreso(){
 
 function pronunciacion(palabra){
     const w = new Palabra(palabra);
+    if( !w.pronunciacion ){
+        return [];
+    }
     const silabas = w.pronunciacion.map(quitaAcentos);
     silabas[w.silabaTonica] = silabas[w.silabaTonica].toUpperCase();
     return silabas;
@@ -115,7 +118,7 @@ function  indicaPorcentaje(indice,total){
         porcentaje.innerHTML = "";
     }
     else{
-        const palabra = palabraARimar()P;
+        const palabra = palabraARimar();
         porcentaje.innerHTML = `Buscando rimas para ${palabra} (${pronunciacion(palabra)}) ${indice}/${total}`;
         barraDeProgreso.min = 0;
         barraDeProgreso.max = total;
