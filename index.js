@@ -57,7 +57,8 @@ function agregaPalabra(palabra){
     const p = htmlToElement(`<div class="palabra">${palabra}</div>`);
     log("index", ()=>"agregaPalabra:" + palabra );
     p.addEventListener("click", ()=>{
-        console.log( (new Palabra(palabra).asPlainObject ) ); 
+        const w = new Palabra(palabra);
+        p.appendChild( htmlToElement(`${w.pronunciacion.join("-")}` ) );
     });
     div.appendChild(p);
 }
