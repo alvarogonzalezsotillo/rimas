@@ -13,11 +13,19 @@ var {
     quitaAcentos
 } = require( "./corpus-utils.js" );
 
+const LazyPropIsLazy = true;
+
+
 function addObjectLazyProp(o,p,evaluator,notEnumerable){
     const internalName = `_private_${p}_`;
     Object.defineProperty(o,p, {
         enumerable: !(notEnumerable),
         get: function(){
+
+            if( !LazyPropIsLazy ){
+                return evaluator.call(this,this);
+            }
+            
             if(!this[internalName]){
                 Object.defineProperty(this,internalName,{
                     writable: false,
@@ -106,6 +114,18 @@ function body(){
             const i = p.letraTonicaPronunciacion;
             const fin = s.join("").substring(i);
             return quitaAcentos(fin);
+        }
+    );
+
+    addClassLazyProp(
+        Palabra,
+        "sufijoRimaAsonante",
+        (p) => {
+            const s = p.sufijoRimaConsonante;
+            if( !s ){
+                return null;
+            }
+            return quitaConsonantes(quitaAcentos(s));
         }
     );
     
