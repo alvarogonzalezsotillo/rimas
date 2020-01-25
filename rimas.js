@@ -17,15 +17,12 @@ var {
 var {Palabra} = require( "./palabra.js" );
 
 function rimaConsonanteCon(p1,p2){
-
-    
     const palabra1 = Palabra.fromString(p1);
     const palabra2 = Palabra.fromString(p2);
 
     
     const fin1 = palabra1.sufijoRimaConsonante;
     const fin2 = palabra2.sufijoRimaConsonante;
-    log("rimas",()=>`p1:${p1} p2:${p2} fin1:${fin1} fin2:${fin2}`);
     if( !fin1 || !fin2 ){
         return false;
     }
@@ -37,13 +34,13 @@ function rimaAsonanteCon(p1,p2){
     const palabra2 = Palabra.fromString(p2);
 
     
-    const fin1 = palabra1.sufijoRimaConsonante;
-    const fin2 = palabra2.sufijoRimaConsonante;
+    const fin1 = palabra1.sufijoRimaAsonante;
+    const fin2 = palabra2.sufijoRimaAsonante;
     if( !fin1 || !fin2 ){
         return false;
     }
 
-    return quitaConsonantes(quitaAcentos(fin1)) == quitaConsonantes(quitaAcentos(fin2));
+    return fin1 == fin2;
 }
 
 
