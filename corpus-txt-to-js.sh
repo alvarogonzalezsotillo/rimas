@@ -25,5 +25,5 @@ doit(){
 }
 
 echo DOING...
-doit > corpus-by-frequency-kk.mjs
+doit > corpus-by-frequency.js
 echo DONE
