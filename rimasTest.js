@@ -185,7 +185,7 @@ function testNormalizaPronunciacion(){
         const tonica = silabaTonica(silabas);
         const n = normalizaPronunciacion(silabas,tonica).join("");
         if( esperado !=  n ){
-            console.log( `No enjaca: ${palabra} ${n} ${esperado}`);
+            console.log( `No encaja: ${palabra} ${n} ${esperado}`);
             throw(palabra);
         }
 

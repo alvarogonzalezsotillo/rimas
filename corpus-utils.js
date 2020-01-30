@@ -3,7 +3,7 @@
 // http://tulengua.es/es/separar-en-silabas
 
 var log = function(module,s){
-    console.log(`${module}: ${s()}` );
+//    console.log(`${module}: ${s()}` );
 };
 
 
@@ -459,29 +459,14 @@ function quitaAcentos(silaba){
 }
 
 
-function normalizaPronunciacion(silabas,silabaTonica){
-    const ret = silabas.map(normalizaPronunciacionDeSilaba);
+function normalizaPronunciacion(silabas,silabaTonica,AFI=false){
+    const ret = silabas.map(s => normalizaPronunciacionDeSilaba(s,AFI));
     ret[silabaTonica] = ret[silabaTonica].toUpperCase();
     return ret;
 }
 
-function normalizaPronunciacionDeSilaba(silaba){
-    /*
-      GUI -> GI
-      GÜI -> GUI
-      GI  -> JI
-      HA  -> A
-      VI  -> BI
-      QUI -> KI
-      CA  -> KA
-      CI  -> ZI
-      LL  -> Y
-      Yv  -> Yv
-      Y   -> i  
-      
-    */
-
-    const map = [
+function normalizaPronunciacionDeSilaba(silaba,AFI=false){
+    const mapNoAFI = [
         ["gue", "ge"],
         ["gué", "gé"],
         ["gui", "gi"],
@@ -519,6 +504,48 @@ function normalizaPronunciacionDeSilaba(silaba){
         ["v", "b"],
         ["c", "k"],
     ];
+    
+    const mapAFI = [
+        ["gue", "ge"],
+        ["gué", "gé"],
+        ["gui", "gi"],
+        ["guí", "gí"],
+        ["güe", "gue"],
+        ["güé", "gué"],
+        ["güi", "gui"],
+        ["güí", "guí"],
+        ["que", "ke"],
+        ["qué", "ké"],
+        ["qui", "ki"],
+        ["quí", "kí"],
+        ["ce", "θe"],
+        ["cé", "θé"],
+        ["ci", "θi"],
+        ["cí", "θí"],
+        ["ge", "je"],
+        ["gé", "xé"],
+        ["gi", "xi"],
+        ["gí", "xí"],
+        ["ch", "ʧ"],
+        ["ll", "ʎ"],
+        ["ya", "ʎa"],
+        ["ye", "ʎe"],
+        ["yi", "ʎi"],
+        ["yo", "ʎo"],
+        ["yu", "ʎu"],
+        ["yá", "ʎá"],
+        ["yé", "ʎé"],
+        ["yí", "ʎí"],
+        ["yó", "ʎó"],
+        ["yú", "ʎú"],
+        ["y", "i"],
+        ["h", ""],
+        ["v", "b"],
+        ["c", "k"],
+    ];
+
+    
+    const map = AFI ? mapAFI : mapNoAFI;
 
     function match(restoDeSilaba){
         if( restoDeSilaba.length == 0 ){
