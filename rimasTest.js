@@ -5,7 +5,9 @@ const {
     silabaTonica,
     normalizaPronunciacion,
     letraTonica,
-    testExport
+    testExport,
+    quitaAcentos,
+    quitaConsonantes
 } = require( "./corpus-utils.js" );
 
 const {
@@ -200,11 +202,30 @@ function testNormalizaPronunciacion(){
 
 }
 
-testConsonante();
-testAsonante();
-testSilabeado();
-testPalabra();
-testVocalTonica();
-testNormalizaPronunciacion();
+function testSufijoAsonante(){
 
+    const pruebas = [
+        ["familia", "i.ia"],
+        ["pepe", "e.e"],
+        ["rápidamente","a.i.a.e.e"]
+    ];
+
+    for( p of pruebas ){
+        assert( Palabra.fromString(p[0]).sufijoRimaAsonante == p[1] );
+    }
+    
+
+
+}
+
+// testConsonante();
+// testAsonante();
+// testSilabeado();
+// testPalabra();
+// testVocalTonica();
+// testNormalizaPronunciacion();
+testSufijoAsonante();
+assert( !rimaAsonanteCon("familia","característica") );
+
+console.log("Fin del test");
 

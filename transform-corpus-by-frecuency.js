@@ -26,10 +26,10 @@ function addToCorpus(p){
         array = [];
         corpusBySyllable[l-1] = array;
     }
-
-
-    corpusArrayCached[p] = palabra.toArray();
     array.push(p);
+
+
+    corpusArrayCached[p] = [palabra.sufijoRimaConsonante,palabra.sufijoRimaAsonante];
 
     return true;
 }
@@ -55,16 +55,24 @@ module.exports = {
     
 }
 
-console.log( "WARN: to MJS file...");
-
+fs.writeFile(
+    "corpus-by-syllable.js",
+    createFileContents( "corpusBySyllable", JSON.stringify(corpusBySyllable) ),
+    (error)=>{
+        if(error){
+            console.log(`ERROR: ${error}`);
+        }
+        console.log("corpus-by-syllable.js OK");
+    }
+);
 
 fs.writeFile(
-    "corpus-by-syllable-no-pp.js",
-    createFileContents( "corpusBySyllable", JSON.stringify(corpusArrayCached) ),
+    "corpus-by-sufix.js",
+    createFileContents( "corpusBySufix", JSON.stringify(corpusArrayCached) ),
     (error)=>{
-    if(error){
-        console.log(`ERROR: ${error}`);
+        if(error){
+            console.log(`ERROR: ${error}`);
+        }
+        console.log("corpus-by-sufix.js OK");
     }
-    console.log("corpus-by-syllable.js OK");
-} );
-
+);

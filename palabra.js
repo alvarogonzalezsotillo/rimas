@@ -115,11 +115,17 @@ function body(){
         Palabra,
         "sufijoRimaAsonante",
         (p) => {
-            const s = p.sufijoRimaConsonante;
+            const s = p.texto.substring(p.letraTonica);
             if( !s ){
                 return null;
             }
-            return quitaConsonantes(quitaAcentos(s));
+
+            const sufijo = new Palabra(s);
+            //console.log( `p:${p}  sufijo:${sufijo}` );
+            return sufijo.silabas.
+                map(quitaAcentos).
+                map(quitaConsonantes).
+                join(".");
         }
     );
     

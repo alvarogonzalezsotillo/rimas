@@ -3,7 +3,7 @@
 // http://tulengua.es/es/separar-en-silabas
 
 var log = function(module,s){
-    console.log(`${module}: ${s()}` );
+    //console.log(`${module}: ${s()}` );
 };
 
 
@@ -446,7 +446,7 @@ function palabraConHiatos(str){
 }
 
 function quitaConsonantes(silaba){
-    return silaba.split("").filter( l=> !consonantes.includes(l) ).join();
+    return silaba.split("").filter( l=> !consonantes.includes(l) ).join("");
 }
 
 
