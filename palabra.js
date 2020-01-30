@@ -10,38 +10,56 @@ var {
     silabaTonica,
     letraTonica,
     normalizaPronunciacion,
-    quitaAcentos
+    quitaAcentos,
+    quitaConsonantes
 } = require( "./corpus-utils.js" );
 
-const LazyPropIsLazy = true;
+function internalNameOfLazyProp(propName){
+    return `_private_${propName}_`;
+}
+
 
 function prepareObjectLazyProps(o, ...props){
     // https://draft.li/blog/2016/12/22/javascript-engines-hidden-classes/
     // INTENTO OPTIMIZAR LA VELOCIDAD USANDO HIDDEN CLASSES
     for( p of props ){
-        const internalName = `_private_${p}_`;        
+        const internalName = internalNameOfLazyProp(p);
         o[internalName] = null;
     }
 }
 
+
+function sideloadLazyProp(object,propName,value){
+
+    const internalName = internalNameOfLazyProp(propName);
+
+    Object.defineProperty(object,internalName,{
+        writable: false,
+        enumerable: false,
+        value: value
+    });
+
+}
+const LazyPropIsLazy = true;
+
 function addObjectLazyProp(o,p,evaluator,notEnumerable){
-    const internalName = `_private_${p}_`;
     Object.defineProperty(o,p, {
         enumerable: !(notEnumerable),
         get: function(){
+            const internalName = internalNameOfLazyProp(p);
 
             if( !LazyPropIsLazy ){
                 return evaluator.call(this,this);
             }
             
             if(!this[internalName]){
-                Object.defineProperty(this,internalName,{
-                    writable: false,
-                    enumerable: false,
-                    value: evaluator.call(this,this)
-                });
+                const value = evaluator.call(this,this);
+                sideloadLazyProp(this,p,value);
             }
             return this[internalName];
+        },
+        set: function(v){
+            throw new Error(`Property ${p} is lazy, so is not writable`);  
         }
     });
 }
@@ -61,42 +79,14 @@ function body(){
             return `${this.texto} ${this.pronunciacion}`;
         }
 
-        toArray(){
-            return [
-                this.texto, this.pronunciacion, this.silabas, this.silabaTonica, this.letraTonica, this.letraTonicaPronunciacion, this.sufijoRimaConsonante
-            ];
-        }
     }
 
     Palabra.cache = {};
 
-    Palabra.fromArray = function(array){
-        const texto = array[0];
-        if( Palabra.cache[texto] ){
-            return Palabra.cache[texto];
-        }
-        const pronunciacion = array[1];
-        const silabas = array[2];
-        const silabaTonica = array[3];
-        const letraTonica = array[4];
-        const letraTonicaPronunciacion = array[5];
-        const sufijoRimaConsonante = array[6];
 
-        const ret = {
-            texto : texto,
-            pronunciacion : pronunciacion,
-            silabas: silabas,
-            silabaTonica: silabaTonica,
-            letraTonica : letraTonica,
-            letraTonicaPronunciacion: letraTonicaPronunciacion,
-            sufijoRimaConsonante: sufijoRimaConsonante
-        };
+    Palabra.fromString = function(texto,sufijoConsonante,sufijoAsonante){
 
-        Palabra.cache[texto] = ret;
-        return ret;
-    };
-
-    Palabra.fromString = function(texto){
+        // Por si construyo una Palabra desde una Palabra
         if( texto.constructor.name == "Palabra" ){
             return texto;
         }
@@ -106,6 +96,12 @@ function body(){
         }
         
         const ret = new Palabra(texto);
+        if( sufijoConsonante ){
+            sideloadLazyProp(ret,"sufijoRimaConsonante",sufijoConsonante);
+        }
+        if( sufijoAsonante ){
+            sideloadLazyProp(ret,"sufijoRimaAsonante",sufijoAsonante);
+        }
         Palabra.cache[texto] = ret;
         return ret;
     };

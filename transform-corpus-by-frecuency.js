@@ -57,16 +57,6 @@ module.exports = {
 
 console.log( "WARN: to MJS file...");
 
-fs.writeFile(
-    "corpus-array-cached.js",
-    createFileContents( "corpusArrayCached", JSON.stringify(corpusBySyllableFullArray) ),
-    (error)=>{
-    if(error){
-        console.log(`ERROR: ${error}`);
-    }
-    console.log("corpus-by-syllable-full-array.js OK");
-} );
-
 
 fs.writeFile(
     "corpus-by-syllable-no-pp.js",

@@ -121,7 +121,9 @@ function silabaTodoDiptongo(str){
     const silabas = [
         [s=>buscaSubstr(silabasEspeciales,s)],
         [grupoVocalico],
+        //[grupoVocalico,"p"], // EPSILON sale mal si no
         [grupoConsonanticoInicial,grupoVocalico],
+        //[grupoConsonanticoInicial,grupoVocalico,"p"], // SEPSIS sale mal si no
         [grupoVocalico,trasVocal],    
         [grupoConsonanticoInicial,grupoVocalico,trasVocal],
     ];
