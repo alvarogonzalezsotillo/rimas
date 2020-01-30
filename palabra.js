@@ -18,10 +18,20 @@ function internalNameOfLazyProp(propName){
     return `_private_${propName}_`;
 }
 
+
+function prepareObjectLazyProps(o, ...props){
+    // https://draft.li/blog/2016/12/22/javascript-engines-hidden-classes/
+    // INTENTO OPTIMIZAR LA VELOCIDAD USANDO HIDDEN CLASSES
+    for( p of props ){
+        const internalName = internalNameOfLazyProp(p);
+        o[internalName] = null;
+    }
+}
+
+
 function sideloadLazyProp(object,propName,value){
 
     const internalName = internalNameOfLazyProp(propName);
-
 
     Object.defineProperty(object,internalName,{
         writable: false,
