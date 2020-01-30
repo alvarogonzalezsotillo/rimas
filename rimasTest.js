@@ -218,12 +218,12 @@ function testSufijoAsonante(){
 
 }
 
-// testConsonante();
-// testAsonante();
-// testSilabeado();
-// testPalabra();
-// testVocalTonica();
-// testNormalizaPronunciacion();
+testConsonante();
+testAsonante();
+testSilabeado();
+testPalabra();
+testVocalTonica();
+testNormalizaPronunciacion();
 testSufijoAsonante();
 assert( !rimaAsonanteCon("familia","característica") );
 
