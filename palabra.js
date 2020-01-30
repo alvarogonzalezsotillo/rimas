@@ -15,6 +15,14 @@ var {
 
 const LazyPropIsLazy = true;
 
+function prepareObjectLazyProps(o, ...props){
+    // https://draft.li/blog/2016/12/22/javascript-engines-hidden-classes/
+    // INTENTO OPTIMIZAR LA VELOCIDAD USANDO HIDDEN CLASSES
+    for( p of props ){
+        const internalName = `_private_${p}_`;        
+        o[internalName] = null;
+    }
+}
 
 function addObjectLazyProp(o,p,evaluator,notEnumerable){
     const internalName = `_private_${p}_`;
