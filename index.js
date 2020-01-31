@@ -33,7 +33,7 @@ function domIdAccessFunctions(ids, suffix){
     });
 }
               
-domIdAccessFunctions( ["barraDeProgreso", "cabecera","resultado", "progreso", "palabra", "porcentaje", "numeroDeSilabas", "rimaConsonante", "botonPararProgreso"] );
+domIdAccessFunctions( ["pronunciacion", "barraDeProgreso", "cabecera","resultado", "progreso", "palabra", "porcentaje", "numeroDeSilabas", "rimaConsonante", "botonPararProgreso"] );
 
 function activaIndicacionProgreso(){
     progresoE().style.display="inline-block";
@@ -51,10 +51,10 @@ function desactivaIndicacionProgreso(){
 
 function pronunciacion(palabra){
     const w = new Palabra(palabra);
-    if( !w.pronunciacion ){
+    if( !w.pronunciacionAFI ){
         return [];
     }
-    const silabas = w.pronunciacion.map(quitaAcentos);
+    const silabas = w.pronunciacionAFI.map(quitaAcentos);
     silabas[w.silabaTonica] = silabas[w.silabaTonica].toUpperCase();
     return silabas;
 }
@@ -70,7 +70,7 @@ function alternaPalabraODatos(event){
     }
     else{
         const silabas = pronunciacion(palabra);
-        div.innerHTML = `${palabra} se pronuncia <br> ${silabas.join("-")}`;
+        div.innerHTML = `${palabra} se pronuncia <br> ${silabas.join(".")}`;
         div.setAttribute("expandido","true");
     }
 }
@@ -119,7 +119,7 @@ function  indicaPorcentaje(indice,total){
     }
     else{
         const palabra = palabraARimar();
-        porcentaje.innerHTML = `Buscando rimas para ${palabra} (${pronunciacion(palabra)}) ${indice}/${total}`;
+        porcentaje.innerHTML = `Buscando rimas para ${palabra} (${pronunciacion(palabra).join(".")}) ${indice}/${total}`;
         barraDeProgreso.min = 0;
         barraDeProgreso.max = total;
         barraDeProgreso.value=indice;
@@ -132,7 +132,17 @@ const JS = o => JSON.stringify(o);
 
 function onWorkerMessage(event){
     log("index", ()=>`onWorkerMessage: ${JS(event.data)}`);
-    const {cargaInicialFinalizada,rima,done,palabra,asonante,silabas,finDePaso,indice,total} = event.data;
+    const {
+        cargaInicialFinalizada,
+        rima,
+        done,
+        palabra,
+        asonante,
+        silabas,
+        finDePaso,
+        indice,
+        total
+    } = event.data;
 
     indicaPorcentaje(indice,total);
     
@@ -218,6 +228,11 @@ function iniciaPeticionRima(){
     pidePaso( palabra, asonante, silabas);
 }
 
+function actualizaPronunciacion(pronunciacion){
+    const p = pronunciacionE();
+    p.innerHTML = pronunciacion;
+}
+
 
 function setUpUI(){
     desactivaIndicacionProgreso();
@@ -227,6 +242,7 @@ function setUpUI(){
     
     palabraInput.addEventListener("keyup",()=>{
         iniciaPeticionRima();
+        actualizaPronunciacion(pronunciacion(palabraARimar()).join("."));
     });
 
     const botonPararProgreso = botonPararProgresoE();

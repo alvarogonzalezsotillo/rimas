@@ -125,13 +125,18 @@ function body(){
         Palabra,
         "sufijoRimaAsonante",
         (p) => {
+            if( !p.silabas ){
+                return null;
+            }
             const s = p.texto.substring(p.letraTonica);
             if( !s ){
                 return null;
             }
 
             const sufijo = new Palabra(s);
-            //console.log( `p:${p}  sufijo:${sufijo}` );
+            if( !sufijo.silabas ){
+                return null;
+            }
             return sufijo.silabas.
                 map(quitaAcentos).
                 map(quitaConsonantes).
@@ -147,6 +152,17 @@ function body(){
                 return null;
             }
             return normalizaPronunciacion(o.silabas,o.silabaTonica);
+        }
+    );
+
+    addClassLazyProp(
+        Palabra,
+        "pronunciacionAFI",
+        (o) => {
+            if( !o.silabas ){
+                return null;
+            }
+            return normalizaPronunciacion(o.silabas,o.silabaTonica,true);
         }
     );
 

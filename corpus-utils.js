@@ -262,7 +262,7 @@ function silabaTonica(silabas){
     }
 
     if( !silabas ){
-        return -1;
+        return null;
     }
     
     if(silabas.length < 2){
@@ -542,6 +542,7 @@ function normalizaPronunciacionDeSilaba(silaba,AFI=false){
         ["h", ""],
         ["v", "b"],
         ["c", "k"],
+        ["ñ","ɲ"]
     ];
 
     
