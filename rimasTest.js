@@ -121,6 +121,8 @@ function testSilabeado(){
     PPT("pa-ra-guay", 2);
     PPT("e-rra-ta",1);
     PPT("lla-na",0);
+    PPT("ép-si-lon",0);
+    PPT("sep-sis",0);
 }
 
 function testVocalTonica(){

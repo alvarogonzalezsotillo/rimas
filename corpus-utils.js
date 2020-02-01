@@ -44,6 +44,13 @@ function buscaSubstr(array,s){
     
 }
 
+function extraePCuandoEsPS(s){
+    if( s.startsWith("ps") ){
+        return [E("p",s.substr(1))];
+    }
+    return [];
+}
+
 
 function primero(array,s){
     // resultado del primer extractor valido
@@ -120,10 +127,10 @@ function silabaTodoDiptongo(str){
     // extrae todas las siguientes posibles sílabas, dejando primero la que debe ser explorada primero
     const silabas = [
         [s=>buscaSubstr(silabasEspeciales,s)],
+        [grupoVocalico,extraePCuandoEsPS], // EPSILON sale mal si no
         [grupoVocalico],
-        //[grupoVocalico,"p"], // EPSILON sale mal si no
+        [grupoConsonanticoInicial,grupoVocalico,extraePCuandoEsPS], // SEPSIS sale mal si no
         [grupoConsonanticoInicial,grupoVocalico],
-        //[grupoConsonanticoInicial,grupoVocalico,"p"], // SEPSIS sale mal si no
         [grupoVocalico,trasVocal],    
         [grupoConsonanticoInicial,grupoVocalico,trasVocal],
     ];
