@@ -230,7 +230,7 @@ function iniciaPeticionRima(){
 
 function actualizaPronunciacion(pronunciacion){
     const p = pronunciacionE();
-    p.innerHTML = pronunciacion;
+    p.innerHTML = `Pronunciación AFI (aproximada): ${pronunciacion}`;
 }
 
 

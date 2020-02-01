@@ -547,9 +547,13 @@ function normalizaPronunciacionDeSilaba(silaba,AFI=false){
         ["yú", "ʎu"],
         ["y", "i"],
         ["h", ""],
-        ["v", "b"],
+        ["v", "β"],
         ["c", "k"],
-        ["ñ","ɲ"]
+
+        ["rr","r"],
+        ["ñ","ɲ"],
+        ["b","β"],
+        ["r","ɾ"]
     ];
 
     
