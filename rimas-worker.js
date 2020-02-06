@@ -1,10 +1,10 @@
 // -*- mode: js2; -*-
 
 var ultimatelog = function(module,s){
-//     if( module == "rimas" ||
-//         module == "rimas-worker"){
-//         console.log(`${module}: ${s()}` );
-//     }
+     if( module == "rimas" ||
+         module == "rimas-worker"){
+         console.log(`${module}: ${s()}` );
+     }
 };
 
 var log = ultimatelog;
@@ -19,10 +19,6 @@ function loadModules(){
     self.importScripts("./rimas.js");
     log = ultimatelog;
 }
-
-
-let palabraActual = "";
-let iteradorActual = null;
 
 
 
@@ -154,6 +150,9 @@ self.addEventListener("message", function(e){
     });
 
     if( iteratorDone ){
+        estado.palabra = null;
+        estado.iterador = null;
+        
         sendResponse({
             done : true,
             palabra : palabra,

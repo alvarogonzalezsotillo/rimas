@@ -467,6 +467,9 @@ function quitaAcentos(silaba){
 
 
 function normalizaPronunciacion(silabas,silabaTonica,AFI=false){
+    if( !silabas || !silabas.length ){
+        return null;
+    }
     const ret = silabas.map(s => normalizaPronunciacionDeSilaba(s,AFI));
     ret[silabaTonica] = ret[silabaTonica].toUpperCase();
     return ret;

@@ -7,10 +7,15 @@ var {
 
 
 var log = function(module,s){
+    if( !(["conTrazaDeError"].includes(module)) ){
+        return false;
+    }
+    
     //console.log(`${module}: ${s()}` );
     const logE = idE("log");
     child = htmlToElement(`<p>${module}: ${s()}</p>`);
-    logE.appendChild(child);    
+    logE.appendChild(child);
+    return true;
 };
 
 const d = document;
@@ -115,7 +120,7 @@ function pidePaso(palabra, asonante, silabas){
 
 function  indicaPorcentaje(indice,total){
     const porcentaje = porcentajeE();
-    const barraProgreso = barraDeProgresoE();
+    const barraDeProgreso = barraDeProgresoE();
     if( !indice && !total ){
         porcentaje.innerHTML = "";
     }
@@ -147,6 +152,7 @@ function onWorkerMessage(event){
     } = event.data;
 
     indicaPorcentaje(indice,total);
+
     
     if( !workerData ){
         log("index", ()=>"Sin workerdata");
@@ -181,7 +187,7 @@ function onWorkerMessage(event){
 
 function createWorker(){
     const ret = new Worker( "./rimas-worker.js" );
-    ret.addEventListener("message",onWorkerMessage);
+    ret.addEventListener("message", conTrazaDeError(onWorkerMessage) );
     ret.postMessage({
         cargaInicial: true 
     });
@@ -236,14 +242,14 @@ function actualizaPronunciacion(pronunciacion){
 }
 
 function conTrazaDeError(fun){
-    return function(){
+    return function(...args){
         try{
-            fun();
+            fun.apply(null,args);
         }
         catch(error){
-            log("index",()=> `${error}`);
+            log("conTrazaDeError",()=> `${error}`);
             if( error.stack ){
-                log("index",()=> `${error.stack}`);
+                log("conTrazaDeError",()=> `${error.stack}`);
             }
         }
     };
