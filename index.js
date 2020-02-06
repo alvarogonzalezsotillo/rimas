@@ -8,6 +8,9 @@ var {
 
 var log = function(module,s){
     //console.log(`${module}: ${s()}` );
+    const logE = idE("log");
+    child = htmlToElement(`<p>${module}: ${s()}</p>`);
+    logE.appendChild(child);    
 };
 
 const d = document;
@@ -24,15 +27,14 @@ function idE(id){
     return d.getElementById(id);
 }
 
-function domIdAccessFunctions(ids, suffix){
-    suffix = suffix || "E";
+function domIdAccessFunctions(ids, suffix="E",object=window){
     ids.forEach( id => {
-        window[`${id}E`] = function(){
+        object[`${id}${suffix}`] = function(){
             return idE(id);
         };
     });
 }
-              
+
 domIdAccessFunctions( ["pronunciacion", "barraDeProgreso", "cabecera","resultado", "progreso", "palabra", "porcentaje", "numeroDeSilabas", "rimaConsonante", "botonPararProgreso"] );
 
 function activaIndicacionProgreso(){
@@ -156,7 +158,7 @@ function onWorkerMessage(event){
         return;
     }
 
-   
+    
     if( workerData.palabra != palabra  ||
         workerData.asonante != asonante ||
         workerData.silabas != silabas ){
@@ -233,6 +235,19 @@ function actualizaPronunciacion(pronunciacion){
     p.innerHTML = `Pronunciación AFI (aproximada): ${pronunciacion}`;
 }
 
+function conTrazaDeError(fun){
+    return function(){
+        try{
+            fun();
+        }
+        catch(error){
+            log("index",()=> `${error}`);
+            if( error.stack ){
+                log("index",()=> `${error.stack}`);
+            }
+        }
+    };
+}
 
 function setUpUI(){
     desactivaIndicacionProgreso();
@@ -240,28 +255,28 @@ function setUpUI(){
     const rimaConsonante = rimaConsonanteE();
     const numeroDeSilabas = numeroDeSilabasE();
     
-    palabraInput.addEventListener("keyup",()=>{
+    palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
         iniciaPeticionRima();
         actualizaPronunciacion(pronunciacion(palabraARimar()).join("."));
-    });
+    }));
 
     const botonPararProgreso = botonPararProgresoE();
-    botonPararProgreso.addEventListener("click",()=>{
+    botonPararProgreso.addEventListener("click",conTrazaDeError( ()=>{
         if( progresoActivado() ){
             paraProgreso();
         }
         else{
             iniciaPeticionRima();
         }
-    });
+    }));
 
-    rimaConsonante.addEventListener("click",()=>{
+    rimaConsonante.addEventListener("click", conTrazaDeError( ()=>{
         iniciaPeticionRima();
-    });
+    }));
 
-    numeroDeSilabas.addEventListener("click",()=>{
+    numeroDeSilabas.addEventListener("click", conTrazaDeError( ()=>{
         iniciaPeticionRima();
-    });
+    }));
 
     resizeUI();
 }
