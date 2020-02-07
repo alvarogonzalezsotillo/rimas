@@ -11,10 +11,12 @@ var log = function(module,s){
         return false;
     }
     
-    //console.log(`${module}: ${s()}` );
-    const logE = idE("log");
-    child = htmlToElement(`<p>${module}: ${s()}</p>`);
-    logE.appendChild(child);
+    console.log(`${module}: ${s()}` );
+
+    //     const logE = idE("log");
+    //     child = htmlToElement(`<p>${module}: ${s()}</p>`);
+    //     logE.appendChild(child);
+
     return true;
 };
 
@@ -95,7 +97,7 @@ function agregaPalabra(palabra){
 
 function palabraARimar(){
     const palabraInput = palabraE();
-    return palabraInput.value;
+    return palabraInput.value.toLowerCase();
 }
 
 function pidePaso(palabra, asonante, silabas){
@@ -244,6 +246,7 @@ function actualizaPronunciacion(pronunciacion){
 function conTrazaDeError(fun){
     return function(...args){
         try{
+            log("conTrazaDeError", ()=> "Llamado con:" + fun + args );
             fun.apply(null,args);
         }
         catch(error){

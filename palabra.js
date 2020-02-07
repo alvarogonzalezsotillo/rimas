@@ -72,7 +72,7 @@ function body(){
 
     class Palabra{
         constructor(texto){
-            this.texto = texto;
+            this.texto = texto.toLowerCase();
         }
 
         toString(){
@@ -86,6 +86,8 @@ function body(){
 
     Palabra.fromString = function(texto,sufijoConsonante,sufijoAsonante){
 
+        texto = texto.toLowerCase();
+        
         // Por si construyo una Palabra desde una Palabra
         if( texto.constructor.name == "Palabra" ){
             return texto;
