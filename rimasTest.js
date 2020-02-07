@@ -220,6 +220,10 @@ function testSufijoAsonante(){
 
 }
 
+function testMayusculas(){
+    assert( rimaAsonanteCon("Pepe","leCHE"));
+}
+
 testConsonante();
 testAsonante();
 testSilabeado();
@@ -227,6 +231,7 @@ testPalabra();
 testVocalTonica();
 testNormalizaPronunciacion();
 testSufijoAsonante();
+testMayusculas();
 assert( !rimaAsonanteCon("familia","característica") );
 
 console.log("Fin del test");
