@@ -1,10 +1,12 @@
 // -*- mode: js2; -*-
 
 var ultimatelog = function(module,s){
-     if( module == "rimas" ||
-         module == "rimas-worker"){
-         console.log(`${module}: ${s()}` );
-     }
+    if( false 
+        //|| module == "rimas" 
+        //|| module == "rimas-worker"
+      ){
+        console.log(`${module} hola: ${s()}` );
+    }
 };
 
 var log = ultimatelog;

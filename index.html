@@ -4,115 +4,69 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
 
-        <script src="./dummy-modules.js"></script>
-        <script src="./corpus-utils.js"></script>
-        <script src="./palabra.js"></script>
+    <script src="./dummy-modules.js"></script>
+    <script src="./corpus-utils.js"></script>
+    <script src="./palabra.js"></script>
 
-        <script src="./index.js"></script>
-        <style>
-         .palabra{
-             vertical-align: middle;
-             text-align: center;
-             border-radius: 3px;
-             display:inline-block;
-             margin:0.3em;
-             padding:0.4em;
-             text-shadow:
-                 -0.01em -0.01em 1px #ffffff,
-                 -0.01em 0em 1px #ffffff,
-                 -0.01em 0.01em 1px #ffffff,
-                 0em -0.01em 1px #ffffff,
-                 0em 0em 1px #ffffff,
-                 0em 0.01em 1px #ffffff,
-                 0.01em -0.01em 1px #ffffff,
-                 0.01em 0em 1px #ffffff,
-                 0.01em 0.01em 1px #ffffff;
-             background-color:#5ABAD0;
-         }
+    <script src="./index.js"></script>
+    <style>
+      input, select, body{
+          font-family: sans;
+      }
 
-         html, body{
-             height: 100%;
-             overflow-y: hidden;
-         }
+      .debug{
+          background-color: pink;
+      }
+      
+      #pronunciacion{
+          font-size: 40px;
 
-         input, select, body{
-             font-family: sans;
-         }
-         
-         #resultado{
-             overflow-y: scroll;
-         }
+          display: inline-block;
+          width: 45%;
+          min-height: 60px;
+          max-height: 60px;
+          text-align: center;
+      }
 
-         #porcentaje{
-             display: table-cell;
-         }
-         
-         #pronunciacion{
-             margin: auto;
-             width: 100%;
-             text-align: center;
-         }
-         
-        </style>
+      #palabra-outter{
+          display: inline-block;
+          width: 45%;
+          min-height: 60px;
+          max-height: 60px;
+          text-align: center;
+      }
+      
+      #palabra{
+          text-align: center;
+          font-size: 40px;
+          width: 100%;
+          height: 100%;
+          border: none;
+          --border-bottom-style: solid;
+          --border-bottom-width: 1px;
+          --border-bottom-color: black;
 
-    </head>
+      }
+      
+    </style>
+
+  </head>
+  
+  <body>
+    <div>
+      <div id="palabra-outter">
+        <input type="text" id="palabra" placeholder="Introduzca una palabra" class="debug">
+      </div>  
+      <div id="pronunciacion" class="debug">
+      </div>
+    </div>
+
+
     
-    <body>
-
-        <div id="cabecera" style="margin: 0 auto">
-            <input type="text" id="palabra" placeholder="Palabra a rimar">
-            <label for="rimaConsonante">Rima consonante</label>
-            <input type="checkbox" id="rimaConsonante">
-            <select id="numeroDeSilabas" type="text" value="0">
-                <option  value="0">Cualquier número de sílabas</option>
-                <option  value="1">1 sílaba</option>
-                <option  value="2">2 sílabas</option>
-                <option  value="3">3 sílabas</option>
-                <option  value="4">4 sílabas</option>
-                <option  value="5">5 sílabas</option>
-                <option  value="6">6 sílabas</option>
-                <option  value="7">7 sílabas</option>
-                <option  value="8">8 sílabas</option>
-                <option  value="9">9 sílabas</option>
-                <option  value="10">10 sílabas</option>
-                <option  value="11">11 sílabas</option>
-                <option  value="12">12 sílabas</option>
-                <option  value="13">13 sílabas</option>
-                <option  value="14">14 sílabas</option>
-                <option  value="15">15 sílabas</option>
-                <option  value="16">16 sílabas</option>
-                <option  value="17">17 sílabas</option>
-                <option  value="18">18 sílabas</option>
-                <option  value="19">19 sílabas</option>
-                <option  value="10">20 sílabas</option>
-            </select>
-            <input type="button" id="botonPararProgreso" value="Detener búsqueda">
-            
-        </div>
-       
-        <div id="pronunciacion">
-        </div>
-
-        <div id="log" style="height:300px;overflow:scroll;background-color: pink;display:none;">
-        </div>
-
-        <div id="resultado">
-        </div>
-
-        <div style="position:fixed;bottom:0;width:100%">
-            <div id="progreso" style="height:2em;width:100%">
-                <progress style="position:absolute; width:100%; height:2em" id="barraDeProgreso" value="4" max="7"></progress>
-                <div style="position:absolute; display: table; width:100%; height:2em; ">
-                    <div style="display:table-cell; vertical-align:middle; text-align:center;" id="porcentaje"></div>
-                </div>
-            </div>
-        </div>
-
-        
-    </body>
+  </body>
 
 </html>
