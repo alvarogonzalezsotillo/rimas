@@ -465,6 +465,32 @@ function quitaAcentos(silaba){
     }).join("");
 }
 
+function explicacionPronunciacion(silabas,silabaTonica){
+    function longitud(){
+        let longitud = [
+            "","mono", "bi", "tri", "tetra", "penta", "hexa", "hepta", "octo", "enea", "deca"
+        ];
+        if( silabas.length < longitud.length ){
+            return longitud[silabas.length] + "sílaba";
+        }
+        return "polisílaba";
+    }
+
+    function acento(){
+        let acento = ["aguda","llana","esdrújula"];
+        let a = silabas.length-silabaTonica-1;
+        if( a < acento.length ){
+            return acento[a];
+        }
+        return "sobreesdrújula";
+    }
+
+    if( silabas == null || silabas.length == 0 ){
+        return "Esta palabra no sigue las normas de una palabra en castellano";
+    }
+    
+    return `${longitud()} ${acento()}`;
+}
 
 function normalizaPronunciacion(silabas,silabaTonica,AFI=false){
     if( !silabas || !silabas.length ){
@@ -556,7 +582,8 @@ function normalizaPronunciacionDeSilaba(silaba,AFI=false){
         ["rr","r"],
         ["ñ","ɲ"],
         ["b","β"],
-        ["r","ɾ"]
+        ["r","ɾ"],
+        ["x","ks"]
     ];
 
     

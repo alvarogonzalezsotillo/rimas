@@ -44,40 +44,50 @@ function domIdAccessFunctions(ids, suffix="E",object=window){
     });
 }
 
-domIdAccessFunctions( ["pronunciacion", "palabra"] );
+domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion"] );
 
 function pronunciacionHTML(palabra){
     const w = new Palabra(palabra);
     if( !w.pronunciacionAFI ){
-        return [];
+        return "&nbsp;";
     }
     const silabas = w.pronunciacionAFI.map(quitaAcentos);
     silabas[w.silabaTonica] = `<b>${silabas[w.silabaTonica]}</b>`;
     return silabas.join(".");
 }
 
+function explicacionHTML(palabra){
+    if( palabra == "" ){
+        return "&nbsp;";
+    }
+    const w = new Palabra(palabra);
+    if( !w.explicacionPronunciacion ){
+        return "&nbsp;";
+    }
+    return w.explicacionPronunciacion;
+}
 
 
 function palabraARimar(){
     const palabraInput = palabraE();
-    return palabraInput.value.toLowerCase();
+    return palabraInput.value.toLowerCase().replaceAll(" ","");
 }
 
 const JS = o => JSON.stringify(o);
 
-function actualizaPronunciacion(pronunciacion){
-    const p = pronunciacionE();
-    p.innerHTML = pronunciacion;
+function actualizaPronunciacion(palabra){
+    pronunciacionE().innerHTML = pronunciacionHTML(palabra);
+    explicacionE().innerHTML = explicacionHTML(palabra);
 }
 
 function conTrazaDeError(fun){
     return function(...args){
         try{
-            log("conTrazaDeError", ()=> "Llamado con:" + fun + args );
+            log("conTrazaDeError", ()=> "Llamado con:" + fun + " -- " + args );
             fun.apply(null,args);
         }
         catch(error){
-            log("conTrazaDeError",()=> `${error}`);
+            log("conTrazaDeError",()=> `${error} ${fun} ${args}`);
             if( error.stack ){
                 log("conTrazaDeError",()=> `${error.stack}`);
             }
@@ -89,7 +99,8 @@ function setUpUI(){
     const palabraInput = palabraE();
     
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
-        actualizaPronunciacion(pronunciacionHTML(palabraARimar()));
+        let palabra = palabraARimar();
+        actualizaPronunciacion(palabra);
     }));
 
 }

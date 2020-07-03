@@ -170,6 +170,12 @@ function body(){
 
     addClassLazyProp(
         Palabra,
+        "explicacionPronunciacion",
+        (o) => explicacionPronunciacion(o.silabas, o.silabaTonica)
+    );
+
+    addClassLazyProp(
+        Palabra,
         "letraTonicaPronunciacion",
         (o) => letraTonica(o.pronunciacion.map(s=>s.toLowerCase()))
     );
