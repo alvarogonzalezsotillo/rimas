@@ -11,7 +11,7 @@ var log = function(module,s){
         return false;
     }
     
-     console.log(`${module}: ${s()}` );
+    // console.log(`${module}: ${s()}` );
 
     //     const logE = idE("log");
     //     child = htmlToElement(`<p>${module}: ${s()}</p>`);

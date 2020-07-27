@@ -11,7 +11,9 @@ var {
     letraTonica,
     normalizaPronunciacion,
     quitaAcentos,
-    quitaConsonantes
+    quitaConsonantes,
+    sufijoRimaConsonante,
+    explicacionPronunciacion
 } = require( "./corpus-utils.js" );
 
 function internalNameOfLazyProp(propName){
@@ -112,15 +114,7 @@ function body(){
     addClassLazyProp(
         Palabra,
         "sufijoRimaConsonante",
-        (p) => {
-            const s = p.pronunciacion;
-            if( !s ){
-                return null;
-            }
-            const i = p.letraTonicaPronunciacion;
-            const fin = s.join("").substring(i);
-            return quitaAcentos(fin);
-        }
+        (p) => sufijoRimaConsonante(p)
     );
 
     addClassLazyProp(

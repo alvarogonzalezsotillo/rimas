@@ -148,7 +148,7 @@ function silabaTodoDiptongo(str){
 
 
 function palabraSinHiatos(str){
-    // extrae sílabas de forma recursiva, devielve el primer éxito
+    // extrae sílabas de forma recursiva, devuelve el primer éxito
     function palabraR(silabas,resto){
         if(!resto){
             return silabas;
@@ -624,6 +624,16 @@ function normalizaPronunciacionDeSilaba(silaba,AFI=false){
     return ret;
 }
 
+function sufijoRimaConsonante(p, AFI=false){
+    const s = p.pronunciacion;
+    if( !s ){
+        return null;
+    }
+    const i = p.letraTonicaPronunciacion;
+    const fin = s.join("").substring(i);
+    return quitaAcentos(fin);
+}
+
 const testExport = {
     vocalTonicaDeSilaba: vocalTonicaDeSilaba,
 };
@@ -636,6 +646,8 @@ module.exports = {
     normalizaPronunciacionDeSilaba: normalizaPronunciacionDeSilaba,
     quitaConsonantes: quitaConsonantes,
     quitaAcentos: quitaAcentos,
+    sufijoRimaConsonante: sufijoRimaConsonante,
+    explicacionPronunciacion: explicacionPronunciacion,
     testExport: testExport
 };
 

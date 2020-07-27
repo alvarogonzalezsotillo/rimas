@@ -1,0 +1,202 @@
+
+
+http://archive.drublic.com/css3-auto-hyphenation-for-text-elements/
+
+https://github.com/mnater/hyphenator
+https://github.com/mnater/Hyphenopoly
+https://github.com/mnater/hyphenator
+
+https://www.ushuaia.pl/hyphen/?ln=en
+
+https://dirae.es/palabras/%C3%A9xito
+
+
+* Presentación del problema
+
+El castellano es un idioma transparente, lo que significa que hay una gran relación entre cómo se escribe una palabra y cómo se pronuncia. Se pretenden resolver los siguientes problemas a partir de una *palabra escrita*:
+- Dividir la palabra en sílabas
+- Conocer la sílaba tónica de la palabra
+- Saber si la palabra rima con otra palabra
+- Determinar las posibles divisiones de la palabra al final de un renglón.
+
+
+
+#+BEGIN_SRC dot :file ./dependencias-entre-problemas.svg :exports results :cmd dot :cmdline -Tsvg
+digraph {
+                compound=true
+                label=""
+                node [shape="ellipse",margin=0]
+
+                "Palabra escrita" -> "Sílabas (ignorando tildes e hiatos)"
+                "Normas de formación de sílabas" -> "Sílabas (ignorando tildes e hiatos)"
+                "Sílabas (ignorando tildes e hiatos)" -> División
+                "Sílabas (ignorando tildes e hiatos)" -> "Sílabas"
+                "Sílabas" -> "Sílaba tónica"
+                "Normas de acentuación" -> "Sílaba tónica"
+                "Normas de acentuación" -> "Sílabas"
+                "Normas de acentuación" -> "Diptongo/hiato"
+                "Diptongo/hiato" -> "Normas de acentuación" 
+                "Sílaba tónica" -> "Vocal tónica"
+                "Vocal tónica" -> Rimas
+                
+}
+#+end_src
+
+#+RESULTS:
+[[file:./dependencias-entre-problemas.svg]]
+
+
+
+** <<diptongos-hiatos>> Diptongos e hiatos
+Varias vocales juntas forman un hiato, y pertenecen a sílabas distintas, si
+- Son vocales abiertas, o fuertes: *a*, *e*, *o*. Por ejemplo, /es. car . *ce* . o/
+- El acento prosódico recae en una vocal cerrada (débil): *i*, *u*. Por ejemplo, /al . cal . *dí* . a/
+- En los demás casos (vocales cerradas y abiertas, o vocales cerradas), las vocales forman un diptongo.
+
+Estas normas se ven afectadas, por tanto, por las normas de acentuación.
+
+
+** [[http://tulengua.es/es/separar-en-silabas][División en sílabas]] de una palabra
+Una palabra se compone de sílabas. En castellano, una sílaba tiene solo un grupo vocálico, que puede ser una sola vocal o varias vocales formando un diptongo (por tanto, los [[diptongos-hiatos][diptongos/hiatos]] afectan a este problema).
+
+Al grupo vocálico pueden acompañar consonantes como sufijo o prefijo.
+
+** "Normas de acentuación" de palabras
+- El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. 
+- La tilde (o acento gráfico) es una indicación gráfica del acento prosódico
+
+Las normas generales de acentuación indican en qué sílaba tiene el acento una palabra escrita, y están diseñadas para minimizar el uso de las tildes. La tilde se coloca sobre la vocal de la sílaba con acento prosódico. Si es un diptongo, se colocará sobre la vocal abierta.
+- Advervios acabados en *mente*: conservan la tilde del adjetivo original (/tranquilamente/)
+- Formas verbales con pronombres: conservan la tilde del la forma verbal sin pronombres (/haceroslo/)
+- Palabras monosílabas: no llevan tilde
+- Palabras agudas (acento en última sílaba): tendrán tilde si acaban en vocal, *n* o *s*.
+- Palabras llanas (acento en la penúltima sílaba): tendrán tilde si no acaban en vocal, *n* o *s*.
+- Palabras esdrújulas y sobreesdrújulas (acento más alla de la penúltima sílaba): tienen tilde siempre
+- Tilde diacrítica: se utiliza para distinguir palabras homófonas (que se  pronuncian igual), pero con distinto significado. 
+
+Este problema se ve afectado por la división en sílabas, y por tanto por los diptongos/hiatos.
+
+** Rimas
+Dos palabras riman si su /final/ suena de forma /similar/. El final de la palabra incluye a partir de la vocal tónica. El sonido similar puede ser
+- Consonante: todas los sonidos coinciden a partir de la vocal tónica
+- Asonante: todas las vocales coinciden a partir de la vocal tónica
+
+Hay algunas [[https://lengualdia.blogspot.com/2012/02/excepciones-de-la-rima-los-diptongos-y.html?m=1][excepciones a esta norma]]:
+- La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que /*cán* . ti . co/ rimase con /*zan*.co/ . 
+- Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que /a. *cei* . te/ rimase con /*pe*.ces/ .
+
+** División de palabra
+Al final del renglón, las palabras pueden dividirse con un guión. No todas las posiciones son posibles:
+- El guión irá siempre entre sílabas
+- El guión no separará vocales, aunque formen un hiato. Esto hace que no importe la acentuación ni la distinción diptongo/hiato en este problema.
+- El guión no dejará una vocal aislada al final o al principio de la palabra
+
+* División en sílabas de una palabra
+Las sílabas en castellano tienen la siguiente estructura general: Posiblemente algunas consonantes, algunas vocales y posiblemente algunas consontantes:
+1. No todas las consonantes pueden darse al principio de sílaba. Las que pueden darse son:
+   - Dobles consonantes: *ch*, *rr*, *ll*, *dr*, *tr*, *ps*. No pueden darse otras como *dl* o *tl*.
+   - Cualquier consonante simple
+2. Pueden ir varias vocales juntas. Según la RAE, una letra *h* no rompe el grupo vocálico. De momento, supondremos que
+3. No todas las consonantes pueden darse al final de la sílaba. las que pueden darse son *b* , *c* , *d* , *f* , *g* , *l* , *m* , *n* , *ns* , *p* , *r* , *rs* , *s* , *t* , *x* , *y* , *z*
+
+Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra *apeninos* podría dividirse como *ap-en-in-os*, *a-pen-i-nos*... La forma correcta se consigue aplicando algunas /prioridades/ al extraer las sílabas:
+1. Una sílaba solo con vocales
+2. Una sílaba con consonantes y vocales
+3. Una sílaba con vocales y consonantes
+4. Una sílaba con consonantes, vocales y consonantes
+
+De esta forma, se utiliza un /backtraking/ extrayendo la siguiente sílaba en el orden anterior, y se considera la primera forma de división encontrada. Por ejemplo:
+- ~apeninos~ 
+- ~a peninos~ (1)
+- ~a-pe ninos~ (1 no es aplicable, se aplica 2)
+- ~a-pe-ni-no s~ (1 no es aplicable, se aplica 2)
+- ~a-pe-ni-no s~ (no puede aplicarse ninguna regla, /backtrack/)
+- ~a-pe-ni-nos~ (1 y 2 no son aplicables, se aplica 3)
+
+
+Estas normas generales no funcionan en algunos casos, para los que se utilizan normas especiales:
+- la sílaba *trans* es un prefijo, que no debe separarse: *trans-at-lán-ti-co*
+- Aunque una sílaba puede empezar por *ps*, solo debe ocurrir a principio de palabra. Si no, palabras como *ep-si-lon* o *sep-sis* se interpretarían como *e-psi-lon* o *se-psis*
+
+#+begin_src javascript
+class Extraccion{
+    constructor(extraido,resto){
+        this.extraido = extraido;
+        this.resto = resto;
+    }
+
+    toString(){
+        return `${this.extraido}:${this.resto}`;
+    }
+}
+
+function E(e,r){
+    return new Extraccion(e,r);
+}
+
+
+function secuencia(buscas,str){
+    // aplica varios extractores uno tras otro, y devuelve todas las posibilidades
+    if(!str && buscas.length > 0){
+        return [];
+    }
+    
+    let ret = [E("",str)];
+
+    
+    for(let b of buscas){
+        ret = ret.map( r =>{
+            const nrs = b(r.resto);
+            return nrs.map(
+                nr => E(r.extraido + nr.extraido, nr.resto)   
+            );
+        });
+        ret = arrayFlat(ret);
+        
+    }
+    return ret;
+}
+
+
+function silabaTodoDiptongo(str){
+    // extrae todas las siguientes posibles sílabas, dejando primero la que debe ser explorada primero
+    const silabas = [
+        [s=>buscaSubstr(silabasEspeciales,s)],
+        [grupoVocalico,extraePCuandoEsPS], // EPSILON sale mal si no
+        [grupoVocalico],
+        [grupoConsonanticoInicial,grupoVocalico,extraePCuandoEsPS], // SEPSIS sale mal si no
+        [grupoConsonanticoInicial,grupoVocalico],
+        [grupoVocalico,trasVocal],    
+        [grupoConsonanticoInicial,grupoVocalico,trasVocal],
+    ];
+
+    const ret = silabas.
+          map(s=> secuencia(s,str)).
+          filter(e=> e.length);
+    
+    return arrayFlat(ret);
+}
+
+
+function palabraSinHiatos(str){
+    // extrae sílabas de forma recursiva, devuelve el primer éxito
+    function palabraR(silabas,resto){
+        if(!resto){
+            return silabas;
+        }
+
+        const ss = silabaTodoDiptongo(resto);
+        for(let s of ss){
+            const newSilabas = silabas.concat(s.extraido);
+            const ret = palabraR(newSilabas, s.resto);
+            if(ret){
+                return ret;
+            }
+        }
+        
+        return null;
+    }
+    return palabraR([],str);
+}
+#+end_src
+
