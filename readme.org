@@ -61,8 +61,8 @@ Una palabra se compone de sílabas. En castellano, una sílaba tiene solo un gru
 
 Al grupo vocálico pueden acompañar consonantes como sufijo o prefijo.
 
-** "Normas de acentuación" de palabras
-- El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. 
+** Localización de la sílaba tónica
+- El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. Esa sílaba se denomina sílaba tónica.
 - La tilde (o acento gráfico) es una indicación gráfica del acento prosódico
 
 Las normas generales de acentuación indican en qué sílaba tiene el acento una palabra escrita, y están diseñadas para minimizar el uso de las tildes. La tilde se coloca sobre la vocal de la sílaba con acento prosódico. Si es un diptongo, se colocará sobre la vocal abierta.
@@ -92,6 +92,8 @@ Al final del renglón, las palabras pueden dividirse con un guión. No todas las
 - El guión no dejará una vocal aislada al final o al principio de la palabra
 
 * División en sílabas de una palabra
+
+** División sin importar hiatos/diptongos
 Las sílabas en castellano tienen la siguiente estructura general: Posiblemente algunas consonantes, algunas vocales y posiblemente algunas consontantes:
 1. No todas las consonantes pueden darse al principio de sílaba. Las que pueden darse son:
    - Dobles consonantes: *ch*, *rr*, *ll*, *dr*, *tr*, *ps*. No pueden darse otras como *dl* o *tl*.
@@ -116,87 +118,86 @@ De esta forma, se utiliza un /backtraking/ extrayendo la siguiente sílaba en el
 
 Estas normas generales no funcionan en algunos casos, para los que se utilizan normas especiales:
 - la sílaba *trans* es un prefijo, que no debe separarse: *trans-at-lán-ti-co*
-- Aunque una sílaba puede empezar por *ps*, solo debe ocurrir a principio de palabra. Si no, palabras como *ep-si-lon* o *sep-sis* se interpretarían como *e-psi-lon* o *se-psis*
+- Aunque una sílaba puede empezar por *ps*, solo debe ocurrir a principio de palabra. Si no, palabras como *ép-si-lon* o *sep-sis* se interpretarían como *é-psi-lon* o *se-psis*
 
-#+begin_src javascript
-class Extraccion{
-    constructor(extraido,resto){
-        this.extraido = extraido;
-        this.resto = resto;
-    }
-
-    toString(){
-        return `${this.extraido}:${this.resto}`;
-    }
-}
-
-function E(e,r){
-    return new Extraccion(e,r);
-}
-
-
-function secuencia(buscas,str){
-    // aplica varios extractores uno tras otro, y devuelve todas las posibilidades
-    if(!str && buscas.length > 0){
-        return [];
-    }
-    
-    let ret = [E("",str)];
-
-    
-    for(let b of buscas){
-        ret = ret.map( r =>{
-            const nrs = b(r.resto);
-            return nrs.map(
-                nr => E(r.extraido + nr.extraido, nr.resto)   
-            );
-        });
-        ret = arrayFlat(ret);
-        
-    }
-    return ret;
-}
-
-
-function silabaTodoDiptongo(str){
-    // extrae todas las siguientes posibles sílabas, dejando primero la que debe ser explorada primero
-    const silabas = [
-        [s=>buscaSubstr(silabasEspeciales,s)],
-        [grupoVocalico,extraePCuandoEsPS], // EPSILON sale mal si no
-        [grupoVocalico],
-        [grupoConsonanticoInicial,grupoVocalico,extraePCuandoEsPS], // SEPSIS sale mal si no
-        [grupoConsonanticoInicial,grupoVocalico],
-        [grupoVocalico,trasVocal],    
-        [grupoConsonanticoInicial,grupoVocalico,trasVocal],
-    ];
-
-    const ret = silabas.
-          map(s=> secuencia(s,str)).
-          filter(e=> e.length);
-    
-    return arrayFlat(ret);
-}
-
-
-function palabraSinHiatos(str){
-    // extrae sílabas de forma recursiva, devuelve el primer éxito
-    function palabraR(silabas,resto){
-        if(!resto){
-            return silabas;
-        }
-
-        const ss = silabaTodoDiptongo(resto);
-        for(let s of ss){
-            const newSilabas = silabas.concat(s.extraido);
-            const ret = palabraR(newSilabas, s.resto);
-            if(ret){
-                return ret;
-            }
-        }
-        
-        return null;
-    }
-    return palabraR([],str);
-}
+#+begin_src emacs-lisp :export nil
+(setenv "NODE_PATH" default-directory)
 #+end_src
+
+
+El siguiente es un ejemplo de uso de la función =palabraSinHiatos=, que divide una palabra en sílabas sin tener en cuenta los hiatos:
+
+#+begin_src typescript :export code
+const {
+    palabraSinHiato
+} = require( "corpus-utils.js" );
+
+console.log( palabraSinHiatos("épsilon" ) ); // => ['ép','si','lon']
+console.log( palabraSinHiatos("maría" ) ); // => ['ma','ría']
+#+end_src
+
+
+** Hiatos
+Para localizar los hiatos de una sílaba se siguen las siguientes normas:
+1. Si solo hay una vocal, no hay hiatos
+2. Se comprueba si cada par de vocales (puede haber triptongos y vocales separadas por *h*) es un hiato, con las siguientes normas:
+   - Una vocal cerrada acentuada al lado de otra vocal forma un hiato
+   - Dos vocales abiertas forman un hiato
+
+La siguiente tabla muestra todas las posibles combinaciones de un par de vocales:
+   | vocal 1 abierta | vocal 1 acentuada | vocal 2 abierta | vocal 2 acentuada | Ejemplo    | Forma hiato |
+   |-----------------+-------------------+-----------------+-------------------+------------+-------------|
+   | Sí              | Sí                | Sí              | Sí                | +petréó+   | *Imposible* |
+   | Sí              | Sí                | Sí              | No                | +petréo+   | *Imposible* |
+   | Sí              | Sí                | No              | Sí                | +vendréís+ | *Imposible* |
+   | Sí              | Sí                | No              | No                | vendréis   | No          |
+   | Sí              | No                | Sí              | Sí                | panteón    | No          |
+   | Sí              | No                | Sí              | No                | pétreo     | Si          |
+   | Sí              | No                | No              | Sí                | zalacaín   | Sí          |
+   | Sí              | No                | No              | No                | haití      | No          |
+   | No              | Sí                | Sí              | Sí                | +camíón+   | *Imposible* |
+   | No              | Sí                | Sí              | No                | maría      | Sí          |
+   | No              | Sí                | No              | Sí                | +cíúdad+   | *Imposible* |
+   | No              | Sí                | No              | No                | +rúiseñor+ | *Imposible* |
+   | No              | No                | Sí              | Sí                | camión     | No          |
+   | No              | No                | Sí              | No                | piar       | No          |
+   | No              | No                | No              | Sí                | veintiún   | No          |
+   | No              | No                | No              | No                | ciudad     | No          |
+
+Como puede verse, hay combinaciones que no se dan en idioma castellano. 
+
+En el caso de tres vocales o más, se va probando cada par de vocales. Por ejemplo, en *constituía* se prueba primero *uí* y después *ía*.
+
+
+#+begin_src typescript :export code
+const {
+    palabraConHiatos,
+    palabraSinHiatos
+} = require( "corpus-utils.js" );
+
+console.log( palabraConHiatos("épsilon" ) ); // => ['ép','si','lon']
+console.log( palabraSinHiatos("maría" ) ); // => ['ma','ría']
+console.log( palabraConHiatos("maría" ) ); // => ['ma','rí', 'a']
+console.log( palabraConHiatos("constituía" ) ); // => []
+#+end_src
+
+#+RESULTS:
+: ../../../../tmp/babel-sFYEMx/ts-src-arenLg.ts(4,5): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i @types/node`.
+: [ 'ép', 'si', 'lon' ]
+: [ 'ma', 'ría' ]
+: [ 'ma', 'rí', 'a' ]
+: [ 'cons', 'ti', 'tuía' ]
+
+
+
+
+* Sílaba tónica
+
+
+
+
+
+
+
+
 

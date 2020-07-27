@@ -123,6 +123,7 @@ function testSilabeado(){
     PPT("lla-na",0);
     PPT("ép-si-lon",0);
     PPT("sep-sis",0);
+    PPT("cons-ti-tuí-a",2);
 }
 
 function testVocalTonica(){

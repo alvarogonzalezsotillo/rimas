@@ -648,6 +648,7 @@ module.exports = {
     quitaAcentos: quitaAcentos,
     sufijoRimaConsonante: sufijoRimaConsonante,
     explicacionPronunciacion: explicacionPronunciacion,
+    palabraSinHiatos: palabraSinHiatos,
     testExport: testExport
 };
 
