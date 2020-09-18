@@ -189,10 +189,22 @@ console.log( palabraConHiatos("constituía" ) ); // => []
 : [ 'cons', 'ti', 'tuía' ]
 
 
+** Normas no contempladas
+Hay algunas normas que no pueden aplicarse sin un corpus completo:
+- Los prefijos forman sílabas aparte. Por ejemplo *interaliado* debe silabearse *in-ter-a-lia-do*, pero con las normas anteriores sería *in-te-ra-li-a-do*
 
 
 * Sílaba tónica
 
+- El sufijo *mente* no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de /a . gra . *da* . ble/ se obtiene /a . gra . *da* . ble . men . te/.
+- Los pronombres enclíticos, al igual que el sufijo *mente*, no cambian adsfadfadsf 
+asf
+asdf 
+adf
+asd
+f a
+s
+af
 
 
 

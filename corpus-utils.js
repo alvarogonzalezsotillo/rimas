@@ -430,24 +430,32 @@ function palabraConHiatos(str){
             return null;
         }
         
-        let i1 = buscaVocal(0);
+        const i1 = buscaVocal(0);
         if(i1==null){
             throw "esperaba vocal";
         }
-        let i2 = buscaVocal(i1+1);
+        const i2 = buscaVocal(i1+1);
         if(i2==null){
             return [silabaS];
         }
         
         log("corpus-utils", ()=>`separaHiato: ${silabaS}: i1:${i1} i2:${i2}`);
         if(separables(silabas[i1],silabas[i2]) == true){
-            let [ret,resto] = separaPor(i1);
+            const [ret,resto] = separaPor(i1);
             log("corpus-utils", ()=>`separaHiato: ret:${ret} resto:${resto}`);
-            let recursion = separaHiato(resto);
+            const recursion = separaHiato(resto);
             log("corpus-utils", ()=>`separaHiato: recursion:${recursion}`);
             return [ret].concat(recursion);
         }
-        return [silabaS];
+        else{
+            const [ret,resto] = separaPor(i1);
+            const recursion = separaHiato(resto);
+            const [ignored,...tail] = recursion;
+            return [ret+recursion[0]].concat(tail);
+        }
+
+        
+        throw "Error inesperado";
     }    
     
 }
