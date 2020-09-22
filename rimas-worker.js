@@ -16,6 +16,7 @@ function loadModules(){
     self.importScripts("./dummy-modules.js");
     self.importScripts("./corpus-by-syllable.js");
     self.importScripts("./corpus-by-frequency.js");
+    self.importScripts("./lemario.js");
     self.importScripts("./corpus-utils.js");
     self.importScripts("./palabra.js");
     self.importScripts("./rimas.js");
@@ -44,12 +45,12 @@ const estado = {
 
 function cachedIterator(palabra,asonante,numeroSilabas){
 
-    let candidatas = corpusByFrequency;
 
     function* iterador(){
         const silabas = palabraConHiatos(palabra);
         const tonica = silabaTonica(silabas);
-
+        let candidatas = lemario; //corpusByFrequency;
+        
         if( !silabas || silabas.length == 0 || tonica == null ){
             return;
         }
