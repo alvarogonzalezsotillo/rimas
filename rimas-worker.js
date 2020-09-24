@@ -49,7 +49,7 @@ function cachedIterator(palabra,asonante,numeroSilabas){
     function* iterador(){
         const silabas = palabraConHiatos(palabra);
         const tonica = silabaTonica(silabas);
-        let candidatas = lemario; //corpusByFrequency;
+        let candidatas = corpusByFrequency; // lemario; 
         
         if( !silabas || silabas.length == 0 || tonica == null ){
             return;

@@ -83,6 +83,8 @@ function body(){
 
     }
 
+    Palabra.cacheActivo = true;
+
     Palabra.cache = {};
 
 
@@ -106,7 +108,11 @@ function body(){
         if( sufijoAsonante ){
             sideloadLazyProp(ret,"sufijoRimaAsonante",sufijoAsonante);
         }
-        Palabra.cache[texto] = ret;
+
+        if( Palabra.cacheActivo ){
+            Palabra.cache[texto] = ret;
+        }
+        
         return ret;
     };
 

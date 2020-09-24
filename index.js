@@ -5,6 +5,15 @@ var {
     Palabra
 } = require( "./palabra.js" );
 
+var {
+    rimaConsonanteCon,
+    rimaAsonanteCon
+} = require( "./rimas.js" );
+
+var {
+    corpusByFrequency
+} = require( "./corpus-by-frequency.js" );
+
 
 var log = function(module,s){
     if( !(["conTrazaDeError"].includes(module)) ){
@@ -104,6 +113,59 @@ function setUpUI(){
     }));
 
 }
+
+
+function* rimaCon( palabra, candidatas, asonante ){
+    for( candidata of candidatas ){
+        if( asonante && rimaAsonanteCon(palabra, candidata) ){
+            yield candidata;
+        }
+        if( !asonante && rimaConsonanteCon(palabra, candidata) ){
+            yield candidata;
+        }
+    }
+}
+
+function asincronizaUnGenerador( generator, callback ){
+
+    class Control{
+        constructor(){
+            this._stopAssap = false;
+        }
+
+        stopAssap(){
+            this._stopAssap = true;
+        }
+
+        step(){
+            const item = generator.next();
+            if( item.done || this._stopAssap ){
+                return;
+            }
+            callback(item.value);
+            this.timeout();
+        }
+
+        timeout(){
+            window.setTimeout( ()=> this.step(), 10 );
+        }
+        
+    }
+
+    const control = new Control();
+    control.timeout();
+    return control;
+    
+}
+
+Palabra.cacheActivo = true;
+Palabra.fromString("hola");
+Palabra.cacheActivo = false;
+
+const control = asincronizaUnGenerador( rimaCon( "hola", corpusByFrequency, false) , (p) => console.log(p) );
+
+window.setTimeout( ()=> control.stopAssap(), 10000 );
+
 
 window.addEventListener("load", ()=>{
     setUpUI();
