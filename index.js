@@ -137,7 +137,7 @@ function iniciaBusquedaRimas(palabra){
     const control = asincronizaUnGenerador( rimaCon( palabra, corpusByFrequency, false) , (value,done,control) => {
         const actual = control === iniciaBusquedaRimas.controlActual;
         console.log(`value:${value} done:${done} actual:${actual}`);
-        if( actual && !done ){
+        if( value && actual && !done ){
             rimasE().innerHTML += " " + value;
         }
     });
@@ -156,17 +156,25 @@ function iniciaBusquedaRimas(palabra){
 }
 
 
-function* rimaCon( palabra, candidatas, asonante ){
+function* rimaCon( palabra, candidatas, asonante, maxStep = 100 ){
     const silabas =  Palabra.fromString(palabra).silabas;
     if( !silabas || silabas.length == 0 ){
         return;
     }
-    
+
+    let step = 0;
     for( candidata of candidatas ){
+        step += 1;
+        if( step >= maxStep ){
+            step = 0;
+            yield null;
+        }
         if( asonante && rimaAsonanteCon(palabra, candidata) ){
+            step = 0;
             yield candidata;
         }
         if( !asonante && rimaConsonanteCon(palabra, candidata) ){
+            step = 0;
             yield candidata;
         }
     }
