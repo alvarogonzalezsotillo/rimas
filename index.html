@@ -1,84 +1,105 @@
-
-
-
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
 
-    <script src="./dummy-modules.js"></script>
-    <script src="./corpus-utils.js"></script>
-    <script src="./palabra.js"></script>
-    <script src="./corpus-by-frequency.js"></script>
-    <script src="./rimas.js"></script>
-    <script src="./index.js"></script>
-    <style>
-      input, select, body{
-          font-family: sans;
-      }
+        <script src="./dummy-modules.js"></script>
+        <script src="./corpus-utils.js"></script>
+        <script src="./palabra.js"></script>
+        <script src="./corpus-by-frequency.js"></script>
+        <script src="./rimas.js"></script>
+        <script src="./index.js"></script>
+        <style>
+         input, select, body{
+             font-family: sans;
+         }
 
-      .debug{
-          background-color: pink;
-      }
-      
-      #pronunciacion{
-          font-size: 40px;
-      }
+         .debug{
+             background-color: pink;
+         }
+         
+         #pronunciacion{
+             font-size: 40px;
+         }
 
-      #palabra-outter{
-          min-height: 60px;
-          max-height: 60px;
-          text-align: center;
-      }
+         #palabra-outter{
+             min-height: 60px;
+             max-height: 60px;
+             text-align: center;
+         }
 
-      #pronunciacion-outter{
-          min-height: 60px;
-          max-height: 60px;
-          text-align: center;
-      }
+         #pronunciacion-outter{
+             min-height: 60px;
+             max-height: 60px;
+             text-align: center;
+         }
 
-      #palabra{
-      text-align: center;
-      font-size: 40px;
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-bottom-style: solid;
-      border-bottom-width: 1px;
-      border-bottom-color: black;
+         #palabra{
+             text-align: center;
+             font-size: 40px;
+             width: 100%;
+             height: 100%;
+             border: none;
+             border-bottom-style: solid;
+             border-bottom-width: 1px;
+             border-bottom-color: black;
+             background-color: white;
+             color: black;
+         }
 
-      }
+         #palabra-flex-outter{
+             display: flex;
+         }
 
-      #flex-outter{
-      display: flex;
-      }
+         .flex-item{
+             flex: 1;
+             margin: 10px;
+         }
 
-      .flex-item{
-      flex: 1;
-      margin: 10px;
-      }
-    </style>
+         #rimas-outter{
+             font-size: 40px;
+         }
+         
+         #rimas{
+             font-size: initial;
+         }
+        </style>
 
-  </head>
-  <body>
-    <div id="flex-outter">
-      <div id="palabra-outter" class="flex-item">
-        <input type="text" id="palabra" placeholder="Introduzca una palabra">
-      </div>
-      <div id="pronunciacion-outter" class="flex-item">
-        <div id="pronunciacion">
-          &nbsp;
+    </head>
+    <body>
+
+        <div id="palabra-flex-outter">
+            <div id="palabra-outter" class="flex-item">
+                <input type="text" id="palabra" placeholder="Introduzca una palabra">
+            </div>
+            <div id="pronunciacion-outter" class="flex-item">
+                <div id="pronunciacion">
+                    &nbsp;
+                </div>
+                <div id="explicacion">
+                    &nbsp;
+                </div>
+            </div>
         </div>
-        <div id="explicacion">
-          &nbsp;
+
+        <div id="rimas-outter">
+
+
+            
+            Rima consonante con 
+            <div id="rimas">
+            </div>
         </div>
-      </div>
-    </div>
 
-
-    
-  </body>
+        
+    </body>
 
 </html>
+
+<!--
+     Local variables:
+     mode: web
+     End:
+-->

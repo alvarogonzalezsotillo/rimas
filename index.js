@@ -53,7 +53,7 @@ function domIdAccessFunctions(ids, suffix="E",object=window){
     });
 }
 
-domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion"] );
+domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas"] );
 
 function pronunciacionHTML(palabra){
     const w = new Palabra(palabra);
@@ -110,12 +110,58 @@ function setUpUI(){
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
         let palabra = palabraARimar();
         actualizaPronunciacion(palabra);
+        iniciaBusquedaRimas(palabra);
     }));
 
 }
 
 
+function iniciaBusquedaRimas(palabra){
+
+    rimasE().innerHTML = "";
+
+    if( iniciaBusquedaRimas.controlActual ){
+        iniciaBusquedaRimas.controlActual.pauseAssap();
+        iniciaBusquedaRimas.controlActual = null;
+    }
+
+    const cacheaPalabra = true;
+    if( cacheaPalabra ){
+        Palabra.cacheActivo = true;
+        Palabra.fromString(palabra);
+        Palabra.cacheActivo = false;
+    }
+
+    console.log("********* INICIO **********" + palabra);
+
+    const control = asincronizaUnGenerador( rimaCon( palabra, corpusByFrequency, false) , (value,done,control) => {
+        const actual = control === iniciaBusquedaRimas.controlActual;
+        console.log(`value:${value} done:${done} actual:${actual}`);
+        if( actual && !done ){
+            rimasE().innerHTML += " " + value;
+        }
+    });
+    console.log( "asincronizado" );
+    
+    
+    iniciaBusquedaRimas.controlActual = control;
+    console.log( "controlado" );
+    
+    window.setTimeout( ()=> {
+        control.pauseAssap();
+        console.log("********* TIMEOUT **********" + palabra);
+    }, 50000);
+
+    console.log( "Fin iniciaBusquedaRimas" );
+}
+
+
 function* rimaCon( palabra, candidatas, asonante ){
+    const silabas =  Palabra.fromString(palabra).silabas;
+    if( !silabas || silabas.length == 0 ){
+        return;
+    }
+    
     for( candidata of candidatas ){
         if( asonante && rimaAsonanteCon(palabra, candidata) ){
             yield candidata;
@@ -128,44 +174,74 @@ function* rimaCon( palabra, candidatas, asonante ){
 
 function asincronizaUnGenerador( generator, callback ){
 
+    const log = (s)=> undefined; //console.log(s);
+    
     class Control{
-        constructor(){
-            this._stopAssap = false;
+        constructor(generator,callback){
+            this._pauseAssap = false;
+            this._steps = 0;
+            this._callback = callback;
+            this._generator = generator;
+            this._done = false;
+            this._running = false;
+            this._delay = 10;
         }
 
-        stopAssap(){
-            this._stopAssap = true;
+        pauseAssap(){
+            this._pauseAssap = true;
+        }
+
+        continue(){
+            if( this._running ){
+                return false;
+            }
+            this._pauseAssap = false;
+            this.timeout();
+            return true;
         }
 
         step(){
-            const item = generator.next();
-            if( item.done || this._stopAssap ){
+            log( "step" );
+            log( this );
+            
+            const item = this._generator.next();
+            if( item.done ){
+                this._done = true;
+                this._running = false;
+                this._callback(undefined,this.done,this);
                 return;
             }
-            callback(item.value);
-            this.timeout();
+            this._steps += 1;
+            this._callback(item.value,this.done,this);
+            if( this._pauseAssap ){
+                this._running = false;
+            }
+            else{
+                this.timeout();
+            }
         }
 
+        get steps(){ return this._steps; }
+        get done(){ return this._done; }
+
         timeout(){
-            window.setTimeout( ()=> this.step(), 10 );
+            log( "timeout" );
+            log( this );
+            
+            if( this._done ){
+                return;
+            }
+            this._running = true;
+            window.setTimeout( ()=> this.step(), this._delay );
         }
         
     }
 
-    const control = new Control();
+    const control = new Control(generator,callback);
     control.timeout();
     return control;
     
 }
-
-Palabra.cacheActivo = true;
-Palabra.fromString("hola");
-Palabra.cacheActivo = false;
-
-const control = asincronizaUnGenerador( rimaCon( "hola", corpusByFrequency, false) , (p) => console.log(p) );
-
-window.setTimeout( ()=> control.stopAssap(), 10000 );
-
 
 window.addEventListener("load", ()=>{
     setUpUI();
