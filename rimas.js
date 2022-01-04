@@ -5,20 +5,11 @@ var log = function(module,s){
 };
 
 
-var {
-    palabraConHiatos,
-    silabaTonica,
-    letraTonica,
-    normalizaPronunciacionDeSilaba,
-    quitaConsonantes,
-    quitaAcentos
-} = require( "./corpus-utils.js" );
-
 var {Palabra} = require( "./palabra.js" );
 
 function rimaConsonanteCon(p1,p2){
-    const palabra1 = Palabra.fromString(p1);
-    const palabra2 = Palabra.fromString(p2);
+    const palabra1 = Palabra.from(p1);
+    const palabra2 = Palabra.from(p2);
 
     
     const fin1 = palabra1.sufijoRimaConsonante;
@@ -30,8 +21,8 @@ function rimaConsonanteCon(p1,p2){
 }
 
 function rimaAsonanteCon(p1,p2){
-    const palabra1 = Palabra.fromString(p1);
-    const palabra2 = Palabra.fromString(p2);
+    const palabra1 = Palabra.from(p1);
+    const palabra2 = Palabra.from(p2);
 
     
     const fin1 = palabra1.sufijoRimaAsonante;

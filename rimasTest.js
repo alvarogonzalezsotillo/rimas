@@ -160,8 +160,8 @@ function testConsonante(){
     for( t of tests ){
         
         assert( rimaConsonanteCon(t[0],t[1]), `No rima: 
-          ${JS(Palabra.fromString(t[0]).asPlainObject)}
-          ${JS(Palabra.fromString(t[1]).asPlainObject)}
+          ${JS(Palabra.from(t[0]).asPlainObject)}
+          ${JS(Palabra.from(t[1]).asPlainObject)}
         `);
     }
 }
@@ -174,8 +174,8 @@ function testAsonante(){
     for( t of tests ){
         
         assert( rimaAsonanteCon(t[0],t[1]), `No rima: 
-          ${JS(Palabra.fromString(t[0]).asPlainObject)}
-          ${JS(Palabra.fromString(t[1]).asPlainObject)}
+          ${JS(Palabra.from(t[0]).asPlainObject)}
+          ${JS(Palabra.from(t[1]).asPlainObject)}
         `);
     }
 }
@@ -215,7 +215,7 @@ function testSufijoAsonante(){
     ];
 
     for( p of pruebas ){
-        assert( Palabra.fromString(p[0]).sufijoRimaAsonante == p[1] );
+        assert( Palabra.from(p[0]).sufijoRimaAsonante == p[1] );
     }
     
 

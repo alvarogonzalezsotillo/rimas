@@ -128,7 +128,7 @@ function iniciaBusquedaRimas(palabra){
     const cacheaPalabra = true;
     if( cacheaPalabra ){
         Palabra.cacheActivo = true;
-        Palabra.fromString(palabra);
+        Palabra.from(palabra);
         Palabra.cacheActivo = false;
     }
 
@@ -157,7 +157,7 @@ function iniciaBusquedaRimas(palabra){
 
 
 function* rimaCon( palabra, candidatas, asonante, maxStep = 100 ){
-    const silabas =  Palabra.fromString(palabra).silabas;
+    const silabas =  Palabra.from(palabra).silabas;
     if( !silabas || silabas.length == 0 ){
         return;
     }

@@ -88,7 +88,7 @@ function body(){
     Palabra.cache = {};
 
 
-    Palabra.fromString = function(texto,sufijoConsonante,sufijoAsonante){
+    Palabra.from = function(texto,sufijoConsonante,sufijoAsonante){
 
         texto = texto.toLowerCase();
         
@@ -120,7 +120,15 @@ function body(){
     addClassLazyProp(
         Palabra,
         "sufijoRimaConsonante",
-        (p) => sufijoRimaConsonante(p)
+        (p, AFI=false) => {
+            const s = p.pronunciacion;
+            if( !s ){
+                return null;
+            }
+            const i = p.letraTonicaPronunciacion;
+            const fin = s.join("").substring(i);
+            return quitaAcentos(fin);
+        }
     );
 
     addClassLazyProp(
