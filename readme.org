@@ -197,7 +197,7 @@ Al final del renglón, las palabras pueden dividirse con un guión. No todas las
 * <<implementacion>> Implementación
 ** División en sílabas de una palabra
 
-#+begin_src emacs-lisp :export none
+#+begin_src emacs-lisp :exports none
 (setenv "NODE_PATH" default-directory)
 #+end_src
 

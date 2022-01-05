@@ -1,0 +1,411 @@
+% Created 2022-01-04 mar 19:15
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{alvaro}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={alvaro},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.0.50 (Org mode 9.4.6)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Presentación del problema}
+\label{sec:org000001b}
+
+El castellano es un idioma transparente, lo que significa que hay una gran relación entre cómo se escribe una palabra y cómo se pronuncia. Se pretenden resolver los siguientes problemas a partir de una \textbf{palabra escrita}:
+\begin{itemize}
+\item Dividir la palabra en sílabas
+\item Conocer la sílaba tónica de la palabra
+\item Saber si la palabra rima con otra palabra
+\end{itemize}
+
+Este es un problema que parece simple a primera vista, pero con una complejidad, interdependencia y cantidad casos particulares que no esperaba encontrarme.
+
+
+\begin{center}
+\includesvg[width=0.2\linewidth]{./dependencias-entre-problemas}
+\end{center}
+
+
+
+\subsection{\label{diptongos-hiatos} Diptongos e hiatos}
+\label{sec:org0000000}
+Varias vocales juntas forman un hiato, y pertenecen a sílabas distintas, si
+\begin{itemize}
+\item Son vocales abiertas, o fuertes: \textbf{a}, \textbf{e}, \textbf{o}. Por ejemplo, \emph{es. car . \textbf{ce} . o}
+\item El acento prosódico recae en una vocal cerrada (débil): \textbf{i}, \textbf{u}. Por ejemplo, \emph{al . cal . \textbf{dí} . a}
+\item En los demás casos (vocales cerradas y abiertas, o vocales cerradas), las vocales forman un diptongo.
+\end{itemize}
+
+Estas normas se ven afectadas, por tanto, por las normas de acentuación.
+
+
+\subsection{\label{separar-silabas} \href{http://tulengua.es/es/separar-en-silabas}{División en sílabas} de una palabra}
+\label{sec:org0000009}
+Una palabra se compone de sílabas. En castellano, una sílaba tiene solo un grupo vocálico, que puede ser una sola vocal o varias vocales formando un diptongo (por tanto, los \hyperref[diptongos-hiatos]{diptongos/hiatos} afectan a este problema).
+
+Al grupo vocálico pueden acompañar consonantes como sufijo o prefijo.
+
+\subsubsection{División sin importar hiatos/diptongos}
+\label{sec:org0000003}
+Las sílabas en castellano tienen la siguiente estructura general: Posiblemente algunas consonantes, algunas vocales y posiblemente algunas consontantes:
+\begin{enumerate}
+\item No todas las consonantes pueden darse al principio de sílaba. Las que pueden darse son:
+\begin{itemize}
+\item Dobles consonantes: \textbf{ch}, \textbf{rr}, \textbf{ll}, \textbf{dr}, \textbf{tr}, \textbf{ps}. No pueden darse otras como \textbf{dl} o \textbf{tl}.
+\item Cualquier consonante simple
+\end{itemize}
+\item Pueden ir varias vocales juntas. Según la RAE, una letra \textbf{h} no rompe el grupo vocálico.
+\item No todas las consonantes pueden darse al final de la sílaba. las que pueden darse son \textbf{b} , \textbf{c} , \textbf{d} , \textbf{f} , \textbf{g} , \textbf{l} , \textbf{m} , \textbf{n} , \textbf{ns} , \textbf{p} , \textbf{r} , \textbf{rs} , \textbf{s} , \textbf{t} , \textbf{x} , \textbf{y} , \textbf{z}
+\end{enumerate}
+
+Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra \textbf{apeninos} podría dividirse como \textbf{ap-en-in-os}, \textbf{a-pen-i-nos}\ldots{} La forma correcta se consigue aplicando algunas \emph{prioridades} al extraer las sílabas:
+\begin{enumerate}
+\item Una sílaba solo con vocales
+\item Una sílaba con consonantes y vocales
+\item Una sílaba con vocales y consonantes
+\item Una sílaba con consonantes, vocales y consonantes
+\end{enumerate}
+
+De esta forma, se utiliza un \emph{backtraking} extrayendo la siguiente sílaba en el orden anterior, y se considera la primera forma de división encontrada. Por ejemplo:
+\begin{itemize}
+\item \texttt{apeninos}
+\item \texttt{a peninos} (1)
+\item \texttt{a-pe ninos} (1 no es aplicable, se aplica 2)
+\item \texttt{a-pe-ni-no s} (1 no es aplicable, se aplica 2)
+\item \texttt{a-pe-ni-no s} (no puede aplicarse ninguna regla, \emph{backtrack})
+\item \texttt{a-pe-ni-nos} (1 y 2 no son aplicables, se aplica 3)
+\end{itemize}
+
+
+Estas normas generales no funcionan en algunos casos, para los que se utilizan normas especiales:
+\begin{itemize}
+\item la sílaba \textbf{trans} es un prefijo, que no debe separarse: \textbf{trans-at-lán-ti-co}
+\item Aunque una sílaba puede empezar por \textbf{ps}, solo debe ocurrir a principio de palabra. Si no, palabras como \textbf{ép-si-lon} o \textbf{sep-sis} se interpretarían como \textbf{é-psi-lon} o \textbf{se-psis}
+\end{itemize}
+
+\subsubsection{Hiatos}
+\label{sec:org0000006}
+Para localizar los hiatos de una sílaba se siguen las siguientes normas:
+\begin{enumerate}
+\item Si solo hay una vocal, no hay hiatos
+\item Se comprueba si cada par de vocales (puede haber triptongos y vocales separadas por \textbf{h}) es un hiato, con las siguientes normas:
+\begin{itemize}
+\item Una vocal cerrada acentuada al lado de otra vocal forma un hiato
+\item Dos vocales abiertas forman un hiato
+\end{itemize}
+\end{enumerate}
+
+La siguiente tabla muestra todas las posibles combinaciones de un par de vocales:
+\begin{center}
+\begin{tabular}{llllll}
+vocal 1 abierta & vocal 1 acentuada & vocal 2 abierta & vocal 2 acentuada & Ejemplo & Forma hiato\\
+\hline
+Sí & Sí & Sí & Sí & \sout{petréó} & \textbf{Imposible}\\
+Sí & Sí & Sí & No & \sout{petréo} & \textbf{Imposible}\\
+Sí & Sí & No & Sí & \sout{vendréís} & \textbf{Imposible}\\
+Sí & Sí & No & No & vendréis & No\\
+Sí & No & Sí & Sí & panteón & No\\
+Sí & No & Sí & No & pétreo & Si\\
+Sí & No & No & Sí & zalacaín & Sí\\
+Sí & No & No & No & haití & No\\
+No & Sí & Sí & Sí & \sout{camíón} & \textbf{Imposible}\\
+No & Sí & Sí & No & maría & Sí\\
+No & Sí & No & Sí & \sout{cíúdad} & \textbf{Imposible}\\
+No & Sí & No & No & \sout{rúiseñor} & \textbf{Imposible}\\
+No & No & Sí & Sí & camión & No\\
+No & No & Sí & No & piar & No\\
+No & No & No & Sí & veintiún & No\\
+No & No & No & No & ciudad & No\\
+\end{tabular}
+\end{center}
+
+Como puede verse, hay combinaciones que no se dan en idioma castellano. 
+
+En el caso de tres vocales o más, se va probando cada par de vocales. Por ejemplo, en \textbf{constituía} se prueba primero \textbf{uí} y después \textbf{ía}.
+
+
+\subsection{Localización de la \label{silaba-tonica} sílaba tónica}
+\label{sec:org000000c}
+\begin{itemize}
+\item El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. Esa sílaba se denomina sílaba tónica.
+\item La tilde (o acento gráfico) es una indicación gráfica del acento prosódico
+\end{itemize}
+
+Las normas generales de acentuación indican en qué sílaba tiene el acento una palabra escrita, y están diseñadas para minimizar el uso de las tildes. La tilde se coloca sobre la vocal de la sílaba con acento prosódico. Si es un diptongo, se colocará sobre la vocal abierta.
+\begin{itemize}
+\item Palabras monosílabas: no llevan tilde
+\item Palabras agudas (acento en última sílaba): tendrán tilde si acaban en vocal, \textbf{n} o \textbf{s}.
+\item Palabras llanas (acento en la penúltima sílaba): tendrán tilde si no acaban en vocal, \textbf{n} o \textbf{s}.
+\item Palabras esdrújulas y sobreesdrújulas (acento más alla de la penúltima sílaba): tienen tilde siempre
+\item Tilde diacrítica: se utiliza para distinguir palabras homófonas (que se  pronuncian igual), pero con distinto significado.
+\end{itemize}
+
+Este problema se ve afectado por la \hyperref[separar-silabas]{división en sílabas}, y por tanto por los \hyperref[diptongos-hiatos]{diptongos/hiatos}.
+
+Hay que tener en cuenta además otras normas:
+\begin{itemize}
+\item Advervios acabados en \textbf{mente}: conservan la tilde del adjetivo original (\emph{tranquilamente})
+\item Formas verbales con pronombres: conservan la tilde de la forma verbal sin pronombres (\emph{haceroslo})
+\end{itemize}
+
+De estas dos últimas normas se deduce que no es posible localizar la sílaba tónica sin conocer el \textbf{significado} de la palabra.   
+
+
+\subsection{Rimas}
+\label{sec:org0000015}
+Dos palabras riman si su \emph{final} suena de forma \emph{similar}. El final de la palabra incluye a partir de la vocal tónica. El sonido similar puede ser
+\begin{itemize}
+\item Consonante: todas los sonidos coinciden a partir de la vocal tónica
+\item Asonante: todas las vocales coinciden a partir de la vocal tónica
+\end{itemize}
+
+Hay algunas \href{https://lengualdia.blogspot.com/2012/02/excepciones-de-la-rima-los-diptongos-y.html?m=1}{excepciones a esta norma}:
+\begin{itemize}
+\item La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que \emph{\textbf{cán} . ti . co} rimase con \emph{\textbf{zan}.co} .
+\item Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que \emph{a. \textbf{cei} . te} rimase con \emph{\textbf{pe}.ces} .
+\end{itemize}
+
+\subsubsection{Rima Consonante}
+\label{sec:org000000f}
+Hay que tener en cuenta que la pronunciación varias consonantes distintas puede ser similar o no, como \emph{K} y \emph{C}, dependiendo de la vocal a la que se asocien. Para poder comparar las palabras, se realizan las siguientes sustituciones dentro de cada sílaba, en orden de preferencia:
+\begin{center}
+\begin{tabular}{ll}
+Si aparece & Se sustituye por\\
+\hline
+gue & ge\\
+gué & gé\\
+gui & gi\\
+guí & gí\\
+güe & gue\\
+güé & gué\\
+güi & gui\\
+güí & guí\\
+que & ke\\
+qué & ké\\
+qui & ki\\
+quí & kí\\
+ce & ze\\
+cé & zé\\
+ci & zi\\
+cí & zí\\
+ge & je\\
+gé & jé\\
+gi & ji\\
+gí & jí\\
+ch & ch\\
+ll & y\\
+ya & ya\\
+ye & ye\\
+yi & yi\\
+yo & yo\\
+yu & yu\\
+yá & yá\\
+yé & yé\\
+yí & yí\\
+yó & yó\\
+yú & yú\\
+y & i\\
+h & \\
+v & b\\
+c & k\\
+\end{tabular}
+\end{center}
+
+Posteriormente, se sustituyen las vocales acentuadas por vocales sin acentuar
+
+\subsubsection{Rima asonante}
+\label{sec:org0000012}
+Se parte del final de la palabra tenido en cuenta en la rima consonante, y se eliminan todas las consonantes. Para evitar que \emph{ma . \textbf{rí} . a} rime asonantemente con \emph{mar . \textbf{cial}}, cada grupo consonántico se transforma en un mismo carácter. De esa forma:
+\begin{itemize}
+\item \emph{ma . \textbf{rí} . a} termina en \emph{ría} ➡ \emph{i.a}
+\item \emph{mar . \textbf{cial}} termina en \emph{cial} ➡ \emph{ia}
+\end{itemize}
+
+\subsection{División de palabra}
+\label{sec:org0000018}
+Al final del renglón, las palabras pueden dividirse con un guión. No todas las posiciones son posibles:
+\begin{itemize}
+\item El guión irá siempre entre sílabas
+\item El guión no separará vocales, aunque formen un hiato. Esto hace que no importe la acentuación ni la distinción diptongo/hiato en este problema.
+\item El guión no dejará una vocal aislada al final o al principio de la palabra
+\end{itemize}
+
+\section{Implementación}
+\label{sec:org0000030}
+\subsection{División en sílabas de una palabra}
+\label{sec:org0000021}
+
+\lstset{language=Lisp,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+(setenv "NODE_PATH" default-directory)
+\end{lstlisting}
+
+
+El siguiente es un ejemplo de uso de la función \texttt{palabraSinHiatos}, que divide una palabra en sílabas sin tener en cuenta los hiatos:
+
+\lstset{language=typescript,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+const {
+    palabraSinHiato
+} = require( "corpus-utils.js" );
+
+console.log( palabraSinHiatos("épsilon") ); // => ['ép','si','lon']
+console.log( palabraSinHiatos("maría") ); // => ['ma','ría']
+\end{lstlisting}
+
+
+
+\lstset{language=typescript,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+const {
+    palabraConHiatos,
+    palabraSinHiatos
+} = require( "corpus-utils.js" );
+
+console.log( palabraConHiatos("épsilon") ); // => ['ép','si','lon']
+console.log( palabraSinHiatos("maría") ); // => ['ma','ría']
+console.log( palabraConHiatos("maría") ); // => ['ma','rí', 'a']
+console.log( palabraConHiatos("constituía") ); // => []
+\end{lstlisting}
+
+
+\subsubsection{Normas no contempladas}
+\label{sec:org000001e}
+Hay algunas normas que no pueden aplicarse sin un corpus completo:
+\begin{itemize}
+\item Los prefijos forman sílabas aparte. Por ejemplo \textbf{interaliado} debe silabearse \textbf{in-ter-a-lia-do}, pero con las normas anteriores sería \textbf{in-te-ra-li-a-do}
+\end{itemize}
+
+
+\subsection{Sílaba tónica}
+\label{sec:org0000024}
+Como \hyperref[silaba-tonica]{ya se ha comentado}, no es posible encontrar la sílaba tónica sin conocer el significado de la palabra, ya que:
+\begin{itemize}
+\item El sufijo \textbf{mente} no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de \emph{a . gra . \textbf{da} . ble} se obtiene \emph{a . gra . \textbf{da} . ble . men . te}.
+\item Los pronombres enclíticos, al igual que el sufijo \textbf{mente}, no cambian la sílaba tónica del verbo del que forman parte. Por ejemplo \emph{\textbf{sú} . be . me . lo} es una palabra sobreesdrújula, ya que \emph{\textbf{su} . be} es llana.
+\end{itemize}
+
+
+\lstset{language=typescript,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+const {
+    palabraConHiatos,
+    silabaTonica
+} = require( "corpus-utils.js" );
+
+val maria = palabraConHiatos("maría") // => ['ma','rí', 'a']
+console.log( silabaTonica(maria) ); // => 1
+
+val velozmente = palabraConHiatos("velozmente") // => ['ve','loz','men','te']
+console.log( silabaTonica(velozmente) ); // => 1
+
+val percheron = palabraConHiatos("percherón") // => ['per','che','rón']
+console.log( silabaTonica(percheron) ); // => 2
+\end{lstlisting}
+
+
+\subsection{\label{vocal-tonica}Vocal tónica}
+\label{sec:org0000027}
+\lstset{language=typescript,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+const {
+    palabraConHiatos,
+    letraTonica
+} = require( "corpus-utils.js" );
+
+val maria = palabraConHiatos("maría") // => ['ma','rí', 'a']
+console.log( letraTonica(maria) ); // => 3
+
+val velozmente = palabraConHiatos("velozmente") // => ['ve','loz','men','te']
+console.log( letraTonica(velozmente) ); // => 3
+
+val percheron = palabraConHiatos("percherón") // => ['per','che','rón']
+console.log( letraTonica(percheron) ); // => 7
+\end{lstlisting}
+
+\subsection{Fachada para las funciones: clase \texttt{Palabra}}
+\label{sec:org000002a}
+Las funciones anteriores pueden utilizarse por separado, pero para facilitar su uso se ha desarrollado la clase \texttt{Palabra}.
+\begin{itemize}
+\item Se accede la la vocal tónica, sílabas, etc. por medio de propiedades, no de funciones o métodos
+\item Esas propiedades se calculan de forma perezosa (\emph{lazy})
+\item \texttt{Palabra.from} es una factoría que cachea las palabras ya creadas, para mejorar el uso de CPU a cambio de aumentar la memoria usada
+\end{itemize}
+
+
+\subsection{Rimas}
+\label{sec:org000002d}
+Para saber si dos palabras tienen rima consontante, basta con calcular la posición de la \hyperref[vocal-tonica]{vocal tónica} de cada una de ellas y comparar si los fonemas asociados a cada letra coinciden a partir de ahí.
+
+
+\lstset{language=typescript,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+const {
+    Palabra
+} = require( "palabra.js" );
+
+val maria = Palabra.from("maría");
+console.log( maria.sufijoRimaConsonante ) // => ia
+console.log( maria.sufijoRimaAsonante ) // => i.a
+
+val velozmente = Palabra.from("velozmente");
+console.log( velozmente.sufijoRimaConsonante ); // => ozmente
+console.log( velozmente.sufijoRimaAsonante ); // => o.e.e
+
+val percheron = Palabra.from("percherón") 
+console.log( percheron.sufijoRimaConsonante ); // => on
+console.log( percheron.sufijoRimaAsonante ); // => o
+\end{lstlisting}
+
+Para facilitar el uso, se han desarrollado las funciones \texttt{rimaAsonanteCon} y \texttt{rimaConsonanteCon}
+
+
+\lstset{language=typescript,label= ,caption= ,captionpos=b,numbers=none}
+\begin{lstlisting}
+const {
+    rimaConsonanteCon,
+    rimaAsonanteCon
+} = require( "rimas.js" );
+
+console.log( rimaConsonanteCon("maría", "arriba") ) // => false
+console.log( rimaAsonanteCon("maría", "arriba") ) // => true
+\end{lstlisting}
+
+\section{Por hacer}
+\label{sec:org0000033}
+\begin{itemize}
+\item Calcular las posibles divisiones de palabra al final de línea mediante un guion
+\item Convertir el código desarrollado en un paquete desplegable en node
+\end{itemize}
+
+\section{Enlaces de interés}
+\label{sec:org0000036}
+\begin{itemize}
+\item \url{https://www.cpimario.com/cm\_util.html}
+\item \url{http://archive.drublic.com/css3-auto-hyphenation-for-text-elements/}
+\item \url{http://tulengua.es/es/separar-en-silabas}
+\item \url{https://github.com/mnater/hyphenator}
+\item \url{https://github.com/mnater/Hyphenopoly}
+\item \url{https://github.com/mnater/hyphenator}
+\item \url{https://www.ushuaia.pl/hyphen/?ln=en}
+\item \url{https://dirae.es/palabras/\%C3\%A9xito}
+\end{itemize}
+\end{document}

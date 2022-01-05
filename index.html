@@ -1,100 +1,128 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
 
-        <script src="./dummy-modules.js"></script>
-        <script src="./palabras/corpus-utils.js"></script>
-        <script src="./palabras/palabra.js"></script>
-        <script src="./corpus/corpus-by-frequency.js"></script>
-        <script src="./palabras/rimas.js"></script>
-        <script src="./index.js"></script>
-        <style>
-         input, select, body{
-             font-family: sans;
-         }
+    <script src="./dummy-modules.js"></script>
+    <script src="./palabras/corpus-utils.js"></script>
+    <script src="./palabras/palabra.js"></script>
+    <script src="./corpus/corpus-by-frequency.js"></script>
+    <script src="./palabras/rimas.js"></script>
+    <script src="./index.js"></script>
+    <style>
+        input,
+        select,
+        body {
+            font-family: sans;
+        }
 
-         .debug{
-             background-color: pink;
-         }
-         
-         #pronunciacion{
-             font-size: 30px;
-         }
+        .debug {
+            background-color: pink;
+        }
 
-         #palabra-outter{
-             min-height: 40px;
-             max-height: 40px;
-             text-align: center;
-         }
+        #pronunciacion {
+            font-size: 30px;
+        }
 
-         #pronunciacion-outter{
-             min-height: 40px;
-             max-height: 40px;
-             text-align: center;
-         }
+        #palabra-outter {
+            min-height: 40px;
+            max-height: 40px;
+            text-align: center;
+        }
 
-         #palabra{
-             text-align: center;
-             font-size: 30px;
-             width: 100%;
-             height: 100%;
-             border: none;
-             border-bottom-style: solid;
-             border-bottom-width: 1px;
-             border-bottom-color: black;
-             background-color: white;
-             color: black;
-         }
+        #pronunciacion-outter {
+            min-height: 40px;
+            max-height: 40px;
+            text-align: center;
+        }
 
-         #palabra-flex-outter{
-             display: flex;
-         }
+        #palabra {
+            text-align: center;
+            font-size: 30px;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: black;
+            background-color: white;
+            color: black;
+        }
 
-         .flex-item{
-             flex: 1;
-             margin: 10px;
-         }
+        #palabra-flex-outter {
+            display: flex;
+        }
 
-         #rimas-outter{
-             font-size: 40px;
-         }
-         
-         #rimas{
-             font-size: initial;
-         }
-        </style>
+        .flex-item {
+            flex: 1;
+            margin: 10px;
+        }
 
-    </head>
-    <body>
+        #rimas-outter {
+            font-size: 40px;
+        }
 
-        <div id="palabra-flex-outter">
-            <div id="palabra-outter" class="flex-item">
-                <input type="text" id="palabra" placeholder="Palabra a rimar">
+        #rimas {
+            font-size: initial;
+        }
+
+        .toggle-outter{
+        }
+
+        .toggle-track{
+            width:3em;
+            height:1em;
+            background-color:#0000FF;
+            border-radius: 1em;
+        }
+
+        .toggle-handle{
+            transition: margin 0.4s; 
+            margin-left:2em; 
+            margin-right:0; 
+            width:0.8em;
+            height:0.8em;
+            border-radius: 1em; 
+            background-color: lightgrey; 
+            border-style: solid; 
+            border-width: 0.1em; 
+            border-color: gray;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="palabra-flex-outter">
+        <div id="palabra-outter" class="flex-item">
+            <input type="text" id="palabra" placeholder="Palabra a rimar">
+        </div>
+        <div id="pronunciacion-outter" class="flex-item">
+            <div id="pronunciacion">
+                &nbsp;
             </div>
-            <div id="pronunciacion-outter" class="flex-item">
-                <div id="pronunciacion">
-                    &nbsp;
-                </div>
-                <div id="explicacion">
-                    &nbsp;
-                </div>
+            <div id="explicacion">
+                &nbsp;
             </div>
         </div>
+    </div>
 
-        <div id="rimas-outter">
+  
+    <div id="rimas-outter">
 
-
-            
-            Rima consonante con 
-            <div id="rimas">
-            </div>
+  
+        Rima asonante<span id="toggle-test"></span>consonante con
+        <div id="rimas">
         </div>
+    </div>
 
-        
-    </body>
+    
+
+</body>
 
 </html>
 

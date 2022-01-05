@@ -107,6 +107,9 @@ function conTrazaDeError(fun){
 function setUpUI(){
     const palabraInput = palabraE();
     
+
+    createToggle( document.getElementById("toggle-test"), (r)=> console.log(`consonante:${r.on}`) );
+
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
         let palabra = palabraARimar();
         actualizaPronunciacion(palabra);
@@ -138,7 +141,7 @@ function iniciaBusquedaRimas(palabra){
         const actual = control === iniciaBusquedaRimas.controlActual;
         console.log(`value:${value} done:${done} actual:${actual}`);
         if( value && actual && !done ){
-            rimasE().innerHTML += " " + value;
+            rimasE().appendChild( htmlToElement(`<span> ${value} </span>`));
         }
     });
     console.log( "asincronizado" );
@@ -255,3 +258,47 @@ window.addEventListener("load", ()=>{
     setUpUI();
 });
 
+
+function createToggle(parentDiv,callback){
+    function toggle(t){
+        let left = t.style.marginLeft;
+        let rigth = t.style.marginRight;
+        t.style.marginLeft = rigth;
+        t.style.marginRight = left;
+        return false;
+    }
+
+    const html = `
+        <div class="toggle-outter">
+            <div class="toggle-track">
+                <div class="toggle-handle" style="margin-left:2em; margin-right:0px;">
+                </div>
+            </div>
+        </div>
+    `;
+    const t = htmlToElement(html);
+
+    const ret = {
+        element : t,
+        on : true,
+        callback: callback
+    }
+
+
+    let handle = t.querySelector(".toggle-handle");
+    let listener = (evt)=> {
+        toggle(handle);
+        evt.stopPropagation();
+        ret.on = handle.style.marginRight == "0px";
+        if( ret.callback ){
+            callback(ret);
+        }
+    };
+    handle.addEventListener("click",listener)
+    t.querySelector(".toggle-track").addEventListener("click",listener);
+    t.addEventListener("click",listener);
+    parentDiv.appendChild(t);
+
+
+    return ret;
+}

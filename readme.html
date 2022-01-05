@@ -1,0 +1,1048 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2022-01-05 mié 17:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="alvaro" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0000024">1. Presentación del problema</a>
+<ul>
+<li><a href="#org0000005">1.1. Diptongos e hiatos</a></li>
+<li><a href="#org0000010">1.2. División en sílabas de una palabra</a>
+<ul>
+<li><a href="#org0000008">1.2.1. División sin importar hiatos/diptongos</a></li>
+<li><a href="#org000000b">1.2.2. Hiatos</a></li>
+</ul>
+</li>
+<li><a href="#org0000015">1.3. Localización de la sílaba tónica</a></li>
+<li><a href="#org000001e">1.4. Rimas</a>
+<ul>
+<li><a href="#org0000018">1.4.1. Rima Consonante</a></li>
+<li><a href="#org000001b">1.4.2. Rima asonante</a></li>
+</ul>
+</li>
+<li><a href="#org0000021">1.5. División de palabra</a></li>
+</ul>
+</li>
+<li><a href="#org000003b">2. Implementación</a>
+<ul>
+<li><a href="#org000002a">2.1. División en sílabas de una palabra</a>
+<ul>
+<li><a href="#org0000027">2.1.1. Normas no contempladas</a></li>
+</ul>
+</li>
+<li><a href="#org000002d">2.2. Sílaba tónica</a></li>
+<li><a href="#org0000032">2.3. Vocal tónica</a></li>
+<li><a href="#org0000035">2.4. Fachada para las funciones: clase <code>Palabra</code></a></li>
+<li><a href="#org0000038">2.5. Rimas</a></li>
+</ul>
+</li>
+<li><a href="#org000003e">3. Por hacer</a></li>
+<li><a href="#org0000041">4. Enlaces de interés</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0000024" class="outline-2">
+<h2 id="org0000024"><span class="section-number-2">1.</span> Presentación del problema</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+El castellano es un idioma transparente, lo que significa que hay una gran relación entre cómo se escribe una palabra y cómo se pronuncia. Se pretenden resolver los siguientes problemas a partir de una <b>palabra escrita</b>:
+</p>
+<ul class="org-ul">
+<li>Dividir la palabra en sílabas</li>
+<li>Conocer la sílaba tónica de la palabra</li>
+<li>Saber si la palabra rima con otra palabra</li>
+</ul>
+
+<p>
+Si no te interesa el algoritmo, puedes saltar a <a href="#org0000000">cómo usar el códig</a>o, al <a href="https://github.com/alvarogonzalezsotillo/rimas">repositorio en Github</a> o a la <a href="https://alvarogonzalezsotillo.github.io/rimas/">página de ejemplo</a>. 
+</p>
+
+<p>
+Este es un problema que parece simple a primera vista, pero con una complejidad, interdependencia y cantidad casos particulares que no esperaba encontrarme. El siguiende diagrama muestra la relación entre cada parte del problema. Por ejemplo, El significado de la palabra afecta a cuál es su sílaba tónica.
+</p>
+
+
+<div id="org0000002" class="figure">
+<p><img src="./dependencias-entre-problemas.svg" alt="dependencias-entre-problemas.svg" class="org-svg" />
+</p>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-org0000005" class="outline-3">
+<h3 id="org0000005"><span class="section-number-3">1.1.</span> <a id="org0000003"></a> Diptongos e hiatos</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Varias vocales juntas forman un hiato, y pertenecen a sílabas distintas, si
+</p>
+<ul class="org-ul">
+<li>Son vocales abiertas, o fuertes: <b>a</b>, <b>e</b>, <b>o</b>. Por ejemplo, <i>es. car . <b>ce</b> . o</i></li>
+<li>El acento prosódico recae en una vocal cerrada (débil): <b>i</b>, <b>u</b>. Por ejemplo, <i>al . cal . <b>dí</b> . a</i></li>
+<li>En los demás casos (vocales cerradas y abiertas, o vocales cerradas), las vocales forman un diptongo.</li>
+</ul>
+
+<p>
+Estas normas se ven afectadas, por tanto, por las normas de acentuación.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org0000010" class="outline-3">
+<h3 id="org0000010"><span class="section-number-3">1.2.</span> <a id="org000000e"></a> <a href="http://tulengua.es/es/separar-en-silabas">División en sílabas</a> de una palabra</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Una palabra se compone de sílabas. En castellano, una sílaba tiene solo un grupo vocálico, que puede ser una sola vocal o varias vocales formando un diptongo (por tanto, los <a href="#org0000003">diptongos/hiatos</a> afectan a este problema).
+</p>
+
+<p>
+Al grupo vocálico pueden acompañar consonantes como sufijo o prefijo.
+</p>
+</div>
+
+<div id="outline-container-org0000008" class="outline-4">
+<h4 id="org0000008"><span class="section-number-4">1.2.1.</span> División sin importar hiatos/diptongos</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Las sílabas en castellano tienen la siguiente estructura general: Posiblemente algunas consonantes, algunas vocales y posiblemente algunas consontantes:
+</p>
+<ol class="org-ol">
+<li>No todas las consonantes pueden darse al principio de sílaba. Las que pueden darse son:
+<ul class="org-ul">
+<li>Dobles consonantes: <b>ch</b>, <b>rr</b>, <b>ll</b>, <b>dr</b>, <b>tr</b>, <b>ps</b>. No pueden darse otras como <b>dl</b> o <b>tl</b>.</li>
+<li>Cualquier consonante simple</li>
+</ul></li>
+<li>Pueden ir varias vocales juntas. Según la RAE, una letra <b>h</b> no rompe el grupo vocálico.</li>
+<li>No todas las consonantes pueden darse al final de la sílaba. las que pueden darse son <b>b</b> , <b>c</b> , <b>d</b> , <b>f</b> , <b>g</b> , <b>l</b> , <b>m</b> , <b>n</b> , <b>ns</b> , <b>p</b> , <b>r</b> , <b>rs</b> , <b>s</b> , <b>t</b> , <b>x</b> , <b>y</b> , <b>z</b></li>
+</ol>
+
+<p>
+Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra <b>apeninos</b> podría dividirse como <b>ap-en-in-os</b>, <b>a-pen-i-nos</b>&#x2026; La forma correcta se consigue aplicando algunas <i>prioridades</i> al extraer las sílabas:
+</p>
+<ol class="org-ol">
+<li>Una sílaba solo con vocales</li>
+<li>Una sílaba con consonantes y vocales</li>
+<li>Una sílaba con vocales y consonantes</li>
+<li>Una sílaba con consonantes, vocales y consonantes</li>
+</ol>
+
+<p>
+De esta forma, se utiliza un <i>backtraking</i> extrayendo la siguiente sílaba en el orden anterior, y se considera la primera forma de división encontrada. Por ejemplo:
+</p>
+<ul class="org-ul">
+<li><code>apeninos</code></li>
+<li><code>a peninos</code> (1)</li>
+<li><code>a-pe ninos</code> (1 no es aplicable, se aplica 2)</li>
+<li><code>a-pe-ni-no s</code> (1 no es aplicable, se aplica 2)</li>
+<li><code>a-pe-ni-no s</code> (no puede aplicarse ninguna regla, <i>backtrack</i>)</li>
+<li><code>a-pe-ni-nos</code> (1 y 2 no son aplicables, se aplica 3)</li>
+</ul>
+
+
+<p>
+Estas normas generales no funcionan en algunos casos, para los que se utilizan normas especiales:
+</p>
+<ul class="org-ul">
+<li>la sílaba <b>trans</b> es un prefijo, que no debe separarse: <b>trans-at-lán-ti-co</b></li>
+<li>Aunque una sílaba puede empezar por <b>ps</b>, solo debe ocurrir a principio de palabra. Si no, palabras como <b>ép-si-lon</b> o <b>sep-sis</b> se interpretarían como <b>é-psi-lon</b> o <b>se-psis</b></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org000000b" class="outline-4">
+<h4 id="org000000b"><span class="section-number-4">1.2.2.</span> Hiatos</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+Para localizar los hiatos de una sílaba se siguen las siguientes normas:
+</p>
+<ol class="org-ol">
+<li>Si solo hay una vocal, no hay hiatos</li>
+<li>Se comprueba si cada par de vocales (puede haber triptongos y vocales separadas por <b>h</b>) es un hiato, con las siguientes normas:
+<ul class="org-ul">
+<li>Una vocal cerrada acentuada al lado de otra vocal forma un hiato</li>
+<li>Dos vocales abiertas forman un hiato</li>
+</ul></li>
+</ol>
+
+<p>
+La siguiente tabla muestra todas las posibles combinaciones de un par de vocales:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">vocal 1 abierta</th>
+<th scope="col" class="org-left">vocal 1 acentuada</th>
+<th scope="col" class="org-left">vocal 2 abierta</th>
+<th scope="col" class="org-left">vocal 2 acentuada</th>
+<th scope="col" class="org-left">Ejemplo</th>
+<th scope="col" class="org-left">Forma hiato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left"><del>petréó</del></td>
+<td class="org-left"><b>Imposible</b></td>
+</tr>
+
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left"><del>petréo</del></td>
+<td class="org-left"><b>Imposible</b></td>
+</tr>
+
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left"><del>vendréís</del></td>
+<td class="org-left"><b>Imposible</b></td>
+</tr>
+
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">vendréis</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">panteón</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">pétreo</td>
+<td class="org-left">Si</td>
+</tr>
+
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">zalacaín</td>
+<td class="org-left">Sí</td>
+</tr>
+
+<tr>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">haití</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left"><del>camíón</del></td>
+<td class="org-left"><b>Imposible</b></td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">maría</td>
+<td class="org-left">Sí</td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left"><del>cíúdad</del></td>
+<td class="org-left"><b>Imposible</b></td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left"><del>rúiseñor</del></td>
+<td class="org-left"><b>Imposible</b></td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">Sí</td>
+<td class="org-left">camión</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">No</td>
+<td class="org-left">piar</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">Sí</td>
+<td class="org-left">veintiún</td>
+<td class="org-left">No</td>
+</tr>
+
+<tr>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">No</td>
+<td class="org-left">ciudad</td>
+<td class="org-left">No</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Como puede verse, hay combinaciones que no se dan en idioma castellano. 
+</p>
+
+<p>
+En el caso de tres vocales o más, se va probando cada par de vocales. Por ejemplo, en <b>constituía</b> se prueba primero <b>uí</b> y después <b>ía</b>.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0000015" class="outline-3">
+<h3 id="org0000015"><span class="section-number-3">1.3.</span> Localización de la <a id="org0000013"></a> sílaba tónica</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. Esa sílaba se denomina sílaba tónica.</li>
+<li>La tilde (o acento gráfico) es una indicación gráfica del acento prosódico</li>
+</ul>
+
+<p>
+Las normas generales de acentuación indican en qué sílaba tiene el acento una palabra escrita, y están diseñadas para minimizar el uso de las tildes. La tilde se coloca sobre la vocal de la sílaba con acento prosódico. Si es un diptongo, se colocará sobre la vocal abierta.
+</p>
+<ul class="org-ul">
+<li>Palabras monosílabas: no llevan tilde</li>
+<li>Palabras agudas (acento en última sílaba): tendrán tilde si acaban en vocal, <b>n</b> o <b>s</b>.</li>
+<li>Palabras llanas (acento en la penúltima sílaba): tendrán tilde si no acaban en vocal, <b>n</b> o <b>s</b>.</li>
+<li>Palabras esdrújulas y sobreesdrújulas (acento más alla de la penúltima sílaba): tienen tilde siempre</li>
+<li>Tilde diacrítica: se utiliza para distinguir palabras homófonas (que se  pronuncian igual), pero con distinto significado.</li>
+</ul>
+
+<p>
+Este problema se ve afectado por la <a href="#org000000e">división en sílabas</a>, y por tanto por los <a href="#org0000003">diptongos/hiatos</a>.
+</p>
+
+<p>
+Hay que tener en cuenta además otras normas:
+</p>
+<ul class="org-ul">
+<li>Advervios acabados en <b>mente</b>: conservan la tilde del adjetivo original (<i>tranquilamente</i>)</li>
+<li>Formas verbales con pronombres: conservan la tilde de la forma verbal sin pronombres (<i>haceroslo</i>)</li>
+</ul>
+
+<p>
+De estas dos últimas normas se deduce que no es posible localizar la sílaba tónica sin conocer el <b>significado</b> de la palabra.   
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org000001e" class="outline-3">
+<h3 id="org000001e"><span class="section-number-3">1.4.</span> Rimas</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Dos palabras riman si su <i>final</i> suena de forma <i>similar</i>. El final de la palabra incluye a partir de la vocal tónica. El sonido similar puede ser
+</p>
+<ul class="org-ul">
+<li>Consonante: todas los sonidos coinciden a partir de la vocal tónica</li>
+<li>Asonante: todas las vocales coinciden a partir de la vocal tónica</li>
+</ul>
+
+<p>
+Hay algunas <a href="https://lengualdia.blogspot.com/2012/02/excepciones-de-la-rima-los-diptongos-y.html?m=1">excepciones a esta norma</a>:
+</p>
+<ul class="org-ul">
+<li>La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que <i><b>cán</b> . ti . co</i> rimase con <i><b>zan</b>.co</i> .</li>
+<li>Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que <i>a. <b>cei</b> . te</i> rimase con <i><b>pe</b>.ces</i> .</li>
+</ul>
+</div>
+
+<div id="outline-container-org0000018" class="outline-4">
+<h4 id="org0000018"><span class="section-number-4">1.4.1.</span> Rima Consonante</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+Hay que tener en cuenta que la pronunciación varias consonantes distintas puede ser similar o no, como <i>K</i> y <i>C</i>, dependiendo de la vocal a la que se asocien. Para poder comparar las palabras, se realizan las siguientes sustituciones dentro de cada sílaba, en orden de preferencia:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Si aparece</th>
+<th scope="col" class="org-left">Se sustituye por</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">gue</td>
+<td class="org-left">ge</td>
+</tr>
+
+<tr>
+<td class="org-left">gué</td>
+<td class="org-left">gé</td>
+</tr>
+
+<tr>
+<td class="org-left">gui</td>
+<td class="org-left">gi</td>
+</tr>
+
+<tr>
+<td class="org-left">guí</td>
+<td class="org-left">gí</td>
+</tr>
+
+<tr>
+<td class="org-left">güe</td>
+<td class="org-left">gue</td>
+</tr>
+
+<tr>
+<td class="org-left">güé</td>
+<td class="org-left">gué</td>
+</tr>
+
+<tr>
+<td class="org-left">güi</td>
+<td class="org-left">gui</td>
+</tr>
+
+<tr>
+<td class="org-left">güí</td>
+<td class="org-left">guí</td>
+</tr>
+
+<tr>
+<td class="org-left">que</td>
+<td class="org-left">ke</td>
+</tr>
+
+<tr>
+<td class="org-left">qué</td>
+<td class="org-left">ké</td>
+</tr>
+
+<tr>
+<td class="org-left">qui</td>
+<td class="org-left">ki</td>
+</tr>
+
+<tr>
+<td class="org-left">quí</td>
+<td class="org-left">kí</td>
+</tr>
+
+<tr>
+<td class="org-left">ce</td>
+<td class="org-left">ze</td>
+</tr>
+
+<tr>
+<td class="org-left">cé</td>
+<td class="org-left">zé</td>
+</tr>
+
+<tr>
+<td class="org-left">ci</td>
+<td class="org-left">zi</td>
+</tr>
+
+<tr>
+<td class="org-left">cí</td>
+<td class="org-left">zí</td>
+</tr>
+
+<tr>
+<td class="org-left">ge</td>
+<td class="org-left">je</td>
+</tr>
+
+<tr>
+<td class="org-left">gé</td>
+<td class="org-left">jé</td>
+</tr>
+
+<tr>
+<td class="org-left">gi</td>
+<td class="org-left">ji</td>
+</tr>
+
+<tr>
+<td class="org-left">gí</td>
+<td class="org-left">jí</td>
+</tr>
+
+<tr>
+<td class="org-left">ch</td>
+<td class="org-left">ch</td>
+</tr>
+
+<tr>
+<td class="org-left">ll</td>
+<td class="org-left">y</td>
+</tr>
+
+<tr>
+<td class="org-left">ya</td>
+<td class="org-left">ya</td>
+</tr>
+
+<tr>
+<td class="org-left">ye</td>
+<td class="org-left">ye</td>
+</tr>
+
+<tr>
+<td class="org-left">yi</td>
+<td class="org-left">yi</td>
+</tr>
+
+<tr>
+<td class="org-left">yo</td>
+<td class="org-left">yo</td>
+</tr>
+
+<tr>
+<td class="org-left">yu</td>
+<td class="org-left">yu</td>
+</tr>
+
+<tr>
+<td class="org-left">yá</td>
+<td class="org-left">yá</td>
+</tr>
+
+<tr>
+<td class="org-left">yé</td>
+<td class="org-left">yé</td>
+</tr>
+
+<tr>
+<td class="org-left">yí</td>
+<td class="org-left">yí</td>
+</tr>
+
+<tr>
+<td class="org-left">yó</td>
+<td class="org-left">yó</td>
+</tr>
+
+<tr>
+<td class="org-left">yú</td>
+<td class="org-left">yú</td>
+</tr>
+
+<tr>
+<td class="org-left">y</td>
+<td class="org-left">i</td>
+</tr>
+
+<tr>
+<td class="org-left">h</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">v</td>
+<td class="org-left">b</td>
+</tr>
+
+<tr>
+<td class="org-left">c</td>
+<td class="org-left">k</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Posteriormente, se sustituyen las vocales acentuadas por vocales sin acentuar
+</p>
+</div>
+</div>
+
+<div id="outline-container-org000001b" class="outline-4">
+<h4 id="org000001b"><span class="section-number-4">1.4.2.</span> Rima asonante</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+Se parte del final de la palabra tenido en cuenta en la rima consonante, y se eliminan todas las consonantes. Para evitar que <i>ma . <b>rí</b> . a</i> rime asonantemente con <i>mar . <b>cial</b></i>, cada grupo consonántico se transforma en un mismo carácter. De esa forma:
+</p>
+<ul class="org-ul">
+<li><i>ma . <b>rí</b> . a</i> termina en <i>ría</i> ➡ <i>i.a</i></li>
+<li><i>mar . <b>cial</b></i> termina en <i>cial</i> ➡ <i>ia</i></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0000021" class="outline-3">
+<h3 id="org0000021"><span class="section-number-3">1.5.</span> División de palabra</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Al final del renglón, las palabras pueden dividirse con un guión. No todas las posiciones son posibles:
+</p>
+<ul class="org-ul">
+<li>El guión irá siempre entre sílabas</li>
+<li>El guión no separará vocales, aunque formen un hiato. Esto hace que no importe la acentuación ni la distinción diptongo/hiato en este problema.</li>
+<li>El guión no dejará una vocal aislada al final o al principio de la palabra</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org000003b" class="outline-2">
+<h2 id="org000003b"><span class="section-number-2">2.</span> <a id="org0000000"></a> Implementación</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org000002a" class="outline-3">
+<h3 id="org000002a"><span class="section-number-3">2.1.</span> División en sílabas de una palabra</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+El siguiente es un ejemplo de uso de la función <code>palabraSinHiatos</code>, que divide una palabra en sílabas sin tener en cuenta los hiatos:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+    palabraSinHiatos
+} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/corpus-utils.js"</span> );
+
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraSinHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"&#233;psilon"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['&#233;p','si','lon']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraSinHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ma','r&#237;a']</span>
+</pre>
+</div>
+
+
+
+<div class="org-src-container">
+<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+    palabraConHiatos,
+    palabraSinHiatos
+} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/corpus-utils.js"</span> );
+
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraSinHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ma','r&#237;a']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ma','r&#237;', 'a']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraSinHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"constitu&#237;a"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; [ 'cons', 'ti', 'tu&#237;a' ]</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"constitu&#237;a"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; [ 'cons', 'ti', 'tu&#237;', 'a' ]</span>
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org0000027" class="outline-4">
+<h4 id="org0000027"><span class="section-number-4">2.1.1.</span> Normas no contempladas</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+Hay algunas normas que no pueden aplicarse sin un corpus completo:
+</p>
+<ul class="org-ul">
+<li>Los prefijos forman sílabas aparte. Por ejemplo <b>interaliado</b> debe silabearse <b>in-ter-a-lia-do</b>, pero con las normas anteriores sería <b>in-te-ra-li-a-do</b></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org000002d" class="outline-3">
+<h3 id="org000002d"><span class="section-number-3">2.2.</span> Sílaba tónica</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Como <a href="#org0000013">ya se ha comentado</a>, no es posible encontrar la sílaba tónica sin conocer el significado de la palabra, ya que:
+</p>
+<ul class="org-ul">
+<li>El sufijo <b>mente</b> no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de <i>a . gra . <b>da</b> . ble</i> se obtiene <i>a . gra . <b>da</b> . ble . men . te</i>.</li>
+<li>Los pronombres enclíticos, al igual que el sufijo <b>mente</b>, no cambian la sílaba tónica del verbo del que forman parte. Por ejemplo <i><b>sú</b> . be . me . lo</i> es una palabra sobreesdrújula, ya que <i><b>su</b> . be</i> es llana.</li>
+</ul>
+
+
+<div class="org-src-container">
+<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+    palabraConHiatos,
+    silabaTonica
+} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/corpus-utils.js"</span> );
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">maria</span> = <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ma','r&#237;', 'a']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">silabaTonica</span>(maria) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 1</span>
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">velozmente</span> = <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"velozmente"</span>) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ve','loz','men','te']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">silabaTonica</span>(velozmente) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 1</span>
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">percheron</span> = <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"percher&#243;n"</span>) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['per','che','r&#243;n']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">silabaTonica</span>(percheron) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 2</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0000032" class="outline-3">
+<h3 id="org0000032"><span class="section-number-3">2.3.</span> <a id="org0000030"></a>Vocal tónica</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+    palabraConHiatos,
+    letraTonica
+} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/corpus-utils.js"</span> );
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">maria</span> = <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ma','r&#237;', 'a']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">letraTonica</span>(maria) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 3</span>
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">velozmente</span> = <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"velozmente"</span>) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ve','loz','men','te']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">letraTonica</span>(velozmente) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 3</span>
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">percheron</span> = <span style="color: #edd400; font-weight: bold;">palabraConHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"percher&#243;n"</span>) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['per','che','r&#243;n']</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">letraTonica</span>(percheron) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 7</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0000035" class="outline-3">
+<h3 id="org0000035"><span class="section-number-3">2.4.</span> Fachada para las funciones: clase <code>Palabra</code></h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Las funciones anteriores pueden utilizarse por separado, pero para facilitar su uso se ha desarrollado la clase <code>Palabra</code>.
+</p>
+<ul class="org-ul">
+<li>Se accede la la vocal tónica, sílabas, etc. por medio de propiedades, no de funciones o métodos</li>
+<li>Esas propiedades se calculan de forma perezosa (<i>lazy</i>)</li>
+<li><code>Palabra.from</code> es una factoría que cachea las palabras ya creadas, para mejorar el uso de CPU a cambio de aumentar la memoria usada</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org0000038" class="outline-3">
+<h3 id="org0000038"><span class="section-number-3">2.5.</span> Rimas</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Para saber si dos palabras tienen rima consontante, basta con calcular la posición de la <a href="#org0000030">vocal tónica</a> de cada una de ellas y comparar si los fonemas asociados a cada letra coinciden a partir de ahí.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+    Palabra
+} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/palabra.js"</span> );
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">maria</span> = Palabra.<span style="color: #729fcf; font-weight: bold;">from</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>);
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( maria.sufijoRimaConsonante ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ia</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( maria.sufijoRimaAsonante ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; i.a</span>
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">velozmente</span> = Palabra.<span style="color: #729fcf; font-weight: bold;">from</span>(<span style="color: #ad7fa8; font-style: italic;">"velozmente"</span>);
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( velozmente.sufijoRimaConsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ozmente</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( velozmente.sufijoRimaAsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; o.e.e</span>
+
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">percheron</span> = Palabra.<span style="color: #729fcf; font-weight: bold;">from</span>(<span style="color: #ad7fa8; font-style: italic;">"percher&#243;n"</span>) 
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( percheron.sufijoRimaConsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; on</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( percheron.sufijoRimaAsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; o</span>
+</pre>
+</div>
+
+<p>
+Para facilitar el uso, se han desarrollado las funciones <code>rimaAsonanteCon</code> y <code>rimaConsonanteCon</code>
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+    rimaConsonanteCon,
+    rimaAsonanteCon
+} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/rimas.js"</span> );
+
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">rimaConsonanteCon</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>, <span style="color: #ad7fa8; font-style: italic;">"arriba"</span>) ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; false</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">rimaAsonanteCon</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>, <span style="color: #ad7fa8; font-style: italic;">"arriba"</span>) ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; true</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org000003e" class="outline-2">
+<h2 id="org000003e"><span class="section-number-2">3.</span> Por hacer</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Calcular las posibles divisiones de palabra al final de línea mediante un guion</li>
+<li>Convertir el código desarrollado en un paquete desplegable en node</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0000041" class="outline-2">
+<h2 id="org0000041"><span class="section-number-2">4.</span> Enlaces de interés</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><a href="https://www.cpimario.com/cm_util.html">https://www.cpimario.com/cm_util.html</a></li>
+<li><a href="http://archive.drublic.com/css3-auto-hyphenation-for-text-elements/">http://archive.drublic.com/css3-auto-hyphenation-for-text-elements/</a></li>
+<li><a href="http://tulengua.es/es/separar-en-silabas">http://tulengua.es/es/separar-en-silabas</a></li>
+<li><a href="https://github.com/mnater/hyphenator">https://github.com/mnater/hyphenator</a></li>
+<li><a href="https://github.com/mnater/Hyphenopoly">https://github.com/mnater/Hyphenopoly</a></li>
+<li><a href="https://github.com/mnater/hyphenator">https://github.com/mnater/hyphenator</a></li>
+<li><a href="https://www.ushuaia.pl/hyphen/?ln=en">https://www.ushuaia.pl/hyphen/?ln=en</a></li>
+<li><a href="https://dirae.es/palabras/%C3%A9xito">https://dirae.es/palabras/%C3%A9xito</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: alvaro</p>
+<p class="date">Created: 2022-01-05 mié 17:35</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
