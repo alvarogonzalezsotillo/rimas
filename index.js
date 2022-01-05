@@ -3,16 +3,16 @@
 
 var {
     Palabra
-} = require( "./palabra.js" );
+} = require( "./palabras/palabra.js" );
 
 var {
     rimaConsonanteCon,
     rimaAsonanteCon
-} = require( "./rimas.js" );
+} = require( "./palabras/rimas.js" );
 
 var {
     corpusByFrequency
-} = require( "./corpus-by-frequency.js" );
+} = require( "./corpus/corpus-by-frequency.js" );
 
 
 var log = function(module,s){
@@ -163,7 +163,7 @@ function* rimaCon( palabra, candidatas, asonante, maxStep = 100 ){
     }
 
     let step = 0;
-    for( candidata of candidatas ){
+    for( let candidata of candidatas ){
         step += 1;
         if( step >= maxStep ){
             step = 0;
