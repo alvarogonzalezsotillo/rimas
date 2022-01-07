@@ -110,11 +110,9 @@ function setUpUI(){
     
 
     createToggle( d.getElementById("toggle-test"), (r)=>{
-         console.log(`consonante:${r.on}`);
          asonante = !r.on;
-         r.label = r.on ? "consonante" : "asonante";
          let palabra = palabraARimar();
-         iniciaBusquedaRimas(palabra,asonante);
+         //iniciaBusquedaRimas(palabra,asonante);
         });
 
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
@@ -267,18 +265,40 @@ window.addEventListener("load", ()=>{
 
 
 function createToggle(parentDiv,callback){
-    function toggle(t){
-        let left = t.style.left;
-        let right = t.style.right;
-        t.style.left = right;
-        t.style.right = left;
+    function toggle(on,handle,labelOn,labelOff){
+        // handle
+        if( on ){
+            handle.style.left = "calc(100% - 1em)";
+            handle.style.right = "0%";
+        }
+        else{
+            handle.style.right = "calc(100% - 1em)";
+            handle.style.left = "0%";
+
+        }
+        // label on
+        if( on ){
+            labelOn.style.right = "1em";
+        }
+        else{
+            labelOn.style.right = "100%";
+        }
+
+        // label off
+        if( on ){
+            labelOff.style.left = "100%";
+        }
+        else{
+            labelOff.style.left = "1em";
+        }
+
+
         return false;
     }
 
     const html = `
         <div class="toggle-outter">
             <div class="toggle-track">
-                <div class="toggle-label"></div>
                 <div class="toggle-handle" style="right:0%; left:calc(100% - 1em)"></div>
             </div>
         </div>
@@ -293,21 +313,28 @@ function createToggle(parentDiv,callback){
 
 
     let handle = t.querySelector(".toggle-handle");
-    let label = t.querySelector(".toggle-label");
+    let labelOn = parentDiv.querySelector(".toggle-label-on");
+    let labelOff = parentDiv.querySelector(".toggle-label-off");
+    let toggleTrack = t.querySelector(".toggle-track");
+
+    toggleTrack.appendChild(labelOn);
+    toggleTrack.appendChild(labelOff);
+
     let listener = (evt)=> {
-        toggle(handle);
+        let on = handle.style.right == "0%";
+        console.log("HANDLE.R:" + handle.style.right + "  ON:" + on) ;
+        toggle(!on, handle,labelOn,labelOff);
         if( evt ){
             evt.stopPropagation();
         }
-        console.log("margin:" + handle.style.right);
-        ret.on = handle.style.right == "0%";
+        ret.on = !on;
+        console.log(ret);
         if( ret.callback ){
             callback(ret);
-            label.innerHTML = ret.label;
         }
     };
     handle.addEventListener("click",listener)
-    t.querySelector(".toggle-track").addEventListener("click",listener);
+    toggleTrack.addEventListener("click",listener);
     t.addEventListener("click",listener);
     parentDiv.appendChild(t);
 

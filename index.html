@@ -79,6 +79,7 @@
             height:1em;
             background-color:#0000FF;
             border-radius: 1em;
+            overflow:hidden;
         }
 
         .toggle-handle{
@@ -92,7 +93,13 @@
             border-style: solid; 
             border-width: 0.1em; 
             border-color: gray;
+        }
 
+        .toggle-label-on, 
+        .toggle-label-off{
+            position:absolute;
+            top:0px;
+            transition: all 0.4s; 
         }
 
         .toggle-label{
@@ -128,7 +135,11 @@
     <div id="rimas-outter">
 
   
-        Rima <span id="toggle-test"></span>
+        Rima 
+        <span id="toggle-test">
+            <span class="toggle-label-off">asonante</span>
+            <span class="toggle-label-on">consonante</span>
+        </span>
         <div id="rimas">
         </div>
     </div>
