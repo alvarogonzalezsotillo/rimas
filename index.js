@@ -106,20 +106,27 @@ function conTrazaDeError(fun){
 
 function setUpUI(){
     const palabraInput = palabraE();
+    let asonante = false;
     
 
-    createToggle( document.getElementById("toggle-test"), (r)=> console.log(`consonante:${r.on}`) );
+    createToggle( d.getElementById("toggle-test"), (r)=>{
+         console.log(`consonante:${r.on}`);
+         asonante = !r.on;
+         r.label = r.on ? "consonante" : "asonante";
+         let palabra = palabraARimar();
+         iniciaBusquedaRimas(palabra,asonante);
+        });
 
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
         let palabra = palabraARimar();
         actualizaPronunciacion(palabra);
-        iniciaBusquedaRimas(palabra);
+        iniciaBusquedaRimas(palabra,asonante);
     }));
 
 }
 
 
-function iniciaBusquedaRimas(palabra){
+function iniciaBusquedaRimas(palabra,asonante){
 
     rimasE().innerHTML = "";
 
@@ -137,7 +144,7 @@ function iniciaBusquedaRimas(palabra){
 
     console.log("********* INICIO **********" + palabra);
 
-    const control = asincronizaUnGenerador( rimaCon( palabra, corpusByFrequency, false) , (value,done,control) => {
+    const control = asincronizaUnGenerador( rimaCon( palabra, corpusByFrequency, asonante) , (value,done,control) => {
         const actual = control === iniciaBusquedaRimas.controlActual;
         console.log(`value:${value} done:${done} actual:${actual}`);
         if( value && actual && !done ){
@@ -261,18 +268,18 @@ window.addEventListener("load", ()=>{
 
 function createToggle(parentDiv,callback){
     function toggle(t){
-        let left = t.style.marginLeft;
-        let rigth = t.style.marginRight;
-        t.style.marginLeft = rigth;
-        t.style.marginRight = left;
+        let left = t.style.left;
+        let right = t.style.right;
+        t.style.left = right;
+        t.style.right = left;
         return false;
     }
 
     const html = `
         <div class="toggle-outter">
             <div class="toggle-track">
-                <div class="toggle-handle" style="margin-left:2em; margin-right:0px;">
-                </div>
+                <div class="toggle-label"></div>
+                <div class="toggle-handle" style="right:0%; left:calc(100% - 1em)"></div>
             </div>
         </div>
     `;
@@ -286,12 +293,17 @@ function createToggle(parentDiv,callback){
 
 
     let handle = t.querySelector(".toggle-handle");
+    let label = t.querySelector(".toggle-label");
     let listener = (evt)=> {
         toggle(handle);
-        evt.stopPropagation();
-        ret.on = handle.style.marginRight == "0px";
+        if( evt ){
+            evt.stopPropagation();
+        }
+        console.log("margin:" + handle.style.right);
+        ret.on = handle.style.right == "0%";
         if( ret.callback ){
             callback(ret);
+            label.innerHTML = ret.label;
         }
     };
     handle.addEventListener("click",listener)
@@ -299,6 +311,8 @@ function createToggle(parentDiv,callback){
     t.addEventListener("click",listener);
     parentDiv.appendChild(t);
 
+    listener();
+    listener();
 
     return ret;
 }

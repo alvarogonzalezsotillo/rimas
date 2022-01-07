@@ -69,19 +69,22 @@
         }
 
         .toggle-outter{
+            display: inline-block;
         }
 
         .toggle-track{
-            width:3em;
+            transition: all 0.4s; 
+            position: relative;
+            min-width:3em;
             height:1em;
             background-color:#0000FF;
             border-radius: 1em;
         }
 
         .toggle-handle{
-            transition: margin 0.4s; 
-            margin-left:2em; 
-            margin-right:0; 
+            position:absolute;
+            top:0px;
+            transition: all 0.4s; 
             width:0.8em;
             height:0.8em;
             border-radius: 1em; 
@@ -91,6 +94,16 @@
             border-color: gray;
 
         }
+
+        .toggle-label{
+            position:static;
+            transition: all 0.4s; 
+            top:0px;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+
+
     </style>
 
 </head>
@@ -115,7 +128,7 @@
     <div id="rimas-outter">
 
   
-        Rima asonante<span id="toggle-test"></span>consonante con
+        Rima <span id="toggle-test"></span>
         <div id="rimas">
         </div>
     </div>
