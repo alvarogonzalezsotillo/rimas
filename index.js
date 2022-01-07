@@ -158,31 +158,28 @@ function iniciaBusquedaRimas(palabra,asonante){
     window.setTimeout( ()=> {
         control.pauseAssap();
         console.log("********* TIMEOUT **********" + palabra);
-    }, 50000);
+    }, 60000);
 
     console.log( "Fin iniciaBusquedaRimas" );
 }
 
 
-function* rimaCon( palabra, candidatas, asonante, maxStep = 100 ){
+function* rimaCon( palabra, candidatas, asonante, maxDelay = 9 ){
     const silabas =  Palabra.from(palabra).silabas;
     if( !silabas || silabas.length == 0 ){
         return;
     }
 
-    let step = 0;
+    let ini = new Date().getMilliseconds();
     for( let candidata of candidatas ){
-        step += 1;
-        if( step >= maxStep ){
-            step = 0;
+        let now = new Date().getMilliseconds();
+        if( now > ini + maxDelay ){
             yield null;
         }
         if( asonante && rimaAsonanteCon(palabra, candidata) ){
-            step = 0;
             yield candidata;
         }
         if( !asonante && rimaConsonanteCon(palabra, candidata) ){
-            step = 0;
             yield candidata;
         }
     }

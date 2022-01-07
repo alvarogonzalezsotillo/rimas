@@ -30,12 +30,14 @@
             min-height: 40px;
             max-height: 40px;
             text-align: center;
+            grid-area: palabra
         }
 
         #pronunciacion-outter {
             min-height: 40px;
             max-height: 40px;
             text-align: center;
+            grid-area: pronunciacion
         }
 
         #palabra {
@@ -52,11 +54,15 @@
         }
 
         #palabra-flex-outter {
-            display: flex;
+            display: grid;
+            grid-template-areas: 
+            "palabra pronunciacion" 
+            "toggle vacio";
+            grid-template-rows: 3em 3em;
+            grid-template-columns: 50% 50%;
         }
 
         .flex-item {
-            flex: 1;
             margin: 10px;
         }
 
@@ -66,6 +72,12 @@
 
         #rimas {
             font-size: initial;
+        }
+
+        #toggle-test{
+            grid-area: toggle;
+            text-align: center;
+            width: 100%
         }
 
         .toggle-outter{
@@ -134,14 +146,16 @@
                 &nbsp;
             </div>
         </div>
+
+        <span id="toggle-test" class="flex-item">
+            <span class="toggle-label-off">asonante</span>
+            <span class="toggle-label-on">consonante</span>
+        </span>
+
     </div>
 
   
     <div id="rimas-outter">
-        <span id="toggle-test">
-            <span class="toggle-label-off">asonante</span>
-            <span class="toggle-label-on">consonante</span>
-        </span>
         <div id="rimas">
         </div>
     </div>
