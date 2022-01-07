@@ -112,7 +112,7 @@ function setUpUI(){
     createToggle( d.getElementById("toggle-test"), (r)=>{
          asonante = !r.on;
          let palabra = palabraARimar();
-         //iniciaBusquedaRimas(palabra,asonante);
+         iniciaBusquedaRimas(palabra,asonante);
         });
 
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
@@ -312,17 +312,22 @@ function createToggle(parentDiv,callback){
     }
 
 
-    let handle = t.querySelector(".toggle-handle");
-    let labelOn = parentDiv.querySelector(".toggle-label-on");
-    let labelOff = parentDiv.querySelector(".toggle-label-off");
-    let toggleTrack = t.querySelector(".toggle-track");
+    const handle = t.querySelector(".toggle-handle");
+    const labelOn = parentDiv.querySelector(".toggle-label-on");
+    const labelOff = parentDiv.querySelector(".toggle-label-off");
+    const toggleTrack = t.querySelector(".toggle-track");
 
     toggleTrack.appendChild(labelOn);
     toggleTrack.appendChild(labelOff);
 
-    let listener = (evt)=> {
+    window.setTimeout( ()=> {
+        const width = Math.max(labelOn.clientWidth,labelOff.clientWidth);
+        console.log("WIDTH:" + width);
+        t.style.width = `calc(${width}px + 1.5em)`;
+    },100);
+
+    const listener = (evt)=> {
         let on = handle.style.right == "0%";
-        console.log("HANDLE.R:" + handle.style.right + "  ON:" + on) ;
         toggle(!on, handle,labelOn,labelOff);
         if( evt ){
             evt.stopPropagation();
