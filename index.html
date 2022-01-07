@@ -51,6 +51,11 @@
             border-bottom-color: black;
             background-color: white;
             color: black;
+            
+        }
+
+        #palabra:invalid{
+            font-size: 15px;
         }
 
         #palabra-flex-outter {
@@ -58,12 +63,13 @@
             grid-template-areas: 
             "palabra pronunciacion" 
             "toggle vacio";
-            grid-template-rows: 3em 3em;
+            grid-template-rows: 4em 4em;
             grid-template-columns: 50% 50%;
         }
 
         .flex-item {
-            margin: 10px;
+            margin: 1em;
+            margin-top: 2em; 
         }
 
         #rimas-outter {
@@ -136,7 +142,7 @@
 
     <div id="palabra-flex-outter">
         <div id="palabra-outter" class="flex-item">
-            <input type="text" id="palabra" placeholder="Palabra a rimar">
+            <input type="text" id="palabra" required placeholder="Palabra a rimar">
         </div>
         <div id="pronunciacion-outter" class="flex-item">
             <div id="pronunciacion">
