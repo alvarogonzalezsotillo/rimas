@@ -157,7 +157,8 @@ function iniciaBusquedaRimas(palabra,asonante){
         const actual = control === iniciaBusquedaRimas.controlActual;
         log(`value:${value} done:${done} actual:${actual}`);
         if( value && actual && !done ){
-            rimasE().appendChild( htmlToElement(`<span> ${value} </span>`));
+            const child = htmlToElement(`<span class="candidata"> ${value} </span>`);
+            rimasE().appendChild( child );
         }
     });
     log( "asincronizado" );
