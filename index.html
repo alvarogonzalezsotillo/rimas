@@ -63,7 +63,7 @@
             grid-template-areas: 
             "palabra pronunciacion" 
             "toggle vacio";
-            grid-template-rows: 4em 4em;
+            grid-template-rows: 2em 2em;
             grid-template-columns: 50% 50%;
         }
 
@@ -74,6 +74,8 @@
 
         #rimas-outter {
             font-size: 40px;
+            position: relative;
+            top: 2em;
         }
 
         #rimas {
@@ -83,11 +85,14 @@
         #toggle-test{
             grid-area: toggle;
             text-align: center;
-            width: 100%
+            font-size: 30px;
+            width: 100%;
         }
 
         .toggle-outter{
             display: inline-block;
+            left: -1em;
+            position: relative;
         }
 
         .toggle-track{
@@ -117,12 +122,14 @@
             position:absolute;
             top:0px;
             transition: all 0.4s; 
+            font-size: 0.8em;
         }
 
         .toggle-label-off{
             position:absolute;
             top:0px;
             transition: all 0.4s; 
+            font-size: 0.8em;
         }
 
         .toggle-label{

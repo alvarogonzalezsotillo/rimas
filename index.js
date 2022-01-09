@@ -126,7 +126,15 @@ function setUpUI(){
 
 function iniciaBusquedaRimas(palabra,asonante){
 
+    const log = ()=> {};
+
+    if( palabra == iniciaBusquedaRimas.palabraActual &&
+        asonante == iniciaBusquedaRimas.asonanteActual ){
+        return;
+    }   
+
     rimasE().innerHTML = "";
+    log("NO ES LO MISMO");
 
     if( iniciaBusquedaRimas.controlActual ){
         iniciaBusquedaRimas.controlActual.pauseAssap();
@@ -140,27 +148,30 @@ function iniciaBusquedaRimas(palabra,asonante){
         Palabra.cacheActivo = false;
     }
 
-    console.log("********* INICIO **********" + palabra);
+    iniciaBusquedaRimas.palabraActual = palabra;
+    iniciaBusquedaRimas.asonanteActual = asonante;
+
+    log("********* INICIO **********" + palabra);
 
     const control = asincronizaUnGenerador( rimaCon( palabra, corpusByFrequency, asonante) , (value,done,control) => {
         const actual = control === iniciaBusquedaRimas.controlActual;
-        console.log(`value:${value} done:${done} actual:${actual}`);
+        log(`value:${value} done:${done} actual:${actual}`);
         if( value && actual && !done ){
             rimasE().appendChild( htmlToElement(`<span> ${value} </span>`));
         }
     });
-    console.log( "asincronizado" );
+    log( "asincronizado" );
     
     
     iniciaBusquedaRimas.controlActual = control;
-    console.log( "controlado" );
+    log( "controlado" );
     
     window.setTimeout( ()=> {
         control.pauseAssap();
-        console.log("********* TIMEOUT **********" + palabra);
+        log("********* TIMEOUT **********" + palabra);
     }, 60000);
 
-    console.log( "Fin iniciaBusquedaRimas" );
+    log( "Fin iniciaBusquedaRimas" );
 }
 
 
@@ -275,7 +286,7 @@ function createToggle(parentDiv,callback){
         }
         // label on
         if( on ){
-            labelOn.style.right = "1em";
+            labelOn.style.right = "1.5em";
         }
         else{
             labelOn.style.right = "100%";
@@ -286,7 +297,7 @@ function createToggle(parentDiv,callback){
             labelOff.style.left = "100%";
         }
         else{
-            labelOff.style.left = "1em";
+            labelOff.style.left = "1.5em";
         }
 
 
@@ -319,7 +330,6 @@ function createToggle(parentDiv,callback){
 
     window.setTimeout( ()=> {
         const width = Math.max(labelOn.clientWidth,labelOff.clientWidth);
-        console.log("WIDTH:" + width);
         t.style.width = `calc(${width}px + 1.5em)`;
     },100);
 
@@ -330,7 +340,6 @@ function createToggle(parentDiv,callback){
             evt.stopPropagation();
         }
         ret.on = !on;
-        console.log(ret);
         if( ret.callback ){
             callback(ret);
         }
