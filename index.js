@@ -53,7 +53,7 @@ function domIdAccessFunctions(ids, suffix="E",object=window){
     });
 }
 
-domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas"] );
+domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas", "progreso"] );
 
 function pronunciacionHTML(palabra){
     const w = new Palabra(palabra);
@@ -155,9 +155,15 @@ function iniciaBusquedaRimas(palabra,asonante){
 
     const control = asincronizaUnGenerador( rimaCon( palabra, corpusByFrequency, asonante) , (value,done,control) => {
         const actual = control === iniciaBusquedaRimas.controlActual;
-        log(`value:${value} done:${done} actual:${actual}`);
-        if( value && actual && !done ){
-            const child = htmlToElement(`<span class="candidata"> ${value} </span>`);
+        log(`value:${JSON.stringify(value)} done:${done} actual:${actual}`);
+        if( value ){
+            const p = progresoE();
+            p.max=value.total;
+            p.value=value.current;
+        }
+        
+        if( value && value.value && actual && !done ){
+            const child = htmlToElement(`<span class="candidata"> ${value.value}</span>`);
             rimasE().appendChild( child );
         }
     });
@@ -170,7 +176,7 @@ function iniciaBusquedaRimas(palabra,asonante){
     window.setTimeout( ()=> {
         control.pauseAssap();
         log("********* TIMEOUT **********" + palabra);
-    }, 60000);
+    }, 600000);
 
     log( "Fin iniciaBusquedaRimas" );
 }
@@ -182,17 +188,27 @@ function* rimaCon( palabra, candidatas, asonante, maxDelay = 9 ){
         return;
     }
 
-    let ini = new Date().getMilliseconds();
-    for( let candidata of candidatas ){
-        let now = new Date().getMilliseconds();
+    function ret(current,total,value){
+        return {
+            "current": current,
+            "total": total,
+            "value": value
+        };
+    }
+
+    const ini = new Date().getMilliseconds();
+    const total = candidatas.length;
+    for( let index = 0 ; index < total ; index += 1 ){
+        const candidata = candidatas[index];
+        const now = new Date().getMilliseconds();
         if( now > ini + maxDelay ){
-            yield null;
+            yield ret(index,total,null);
         }
         if( asonante && rimaAsonanteCon(palabra, candidata) ){
-            yield candidata;
+            yield ret(index,total,candidata);
         }
         if( !asonante && rimaConsonanteCon(palabra, candidata) ){
-            yield candidata;
+            yield ret(index,total,candidata);
         }
     }
 }
@@ -318,7 +334,7 @@ function createToggle(parentDiv,callback){
         element : t,
         on : true,
         callback: callback
-    }
+    };
 
 
     const handle = t.querySelector(".toggle-handle");
@@ -345,7 +361,7 @@ function createToggle(parentDiv,callback){
             callback(ret);
         }
     };
-    handle.addEventListener("click",listener)
+    handle.addEventListener("click",listener);
     toggleTrack.addEventListener("click",listener);
     t.addEventListener("click",listener);
     parentDiv.appendChild(t);
