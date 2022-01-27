@@ -14,6 +14,9 @@ var {
     corpusByFrequency
 } = require( "./corpus/corpus-by-frequency.js" );
 
+var {
+    corpusBySyllable
+} = require( "./corpus/corpus-by-syllable.js" );
 
 var log = function(module,s){
     if( !(["conTrazaDeError"].includes(module)) ){
@@ -53,7 +56,7 @@ function domIdAccessFunctions(ids, suffix="E",object=window){
     });
 }
 
-domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas", "progreso"] );
+domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas", "progreso","numeroSilabas"] );
 
 function pronunciacionHTML(palabra){
     const w = new Palabra(palabra);
@@ -106,30 +109,36 @@ function conTrazaDeError(fun){
 
 function setUpUI(){
     const palabraInput = palabraE();
+    const numeroRange = numeroSilabasE();
     let asonante = false;
     
 
     createToggle( d.getElementById("toggle-test"), (r)=>{
-         asonante = !r.on;
-         let palabra = palabraARimar();
-         iniciaBusquedaRimas(palabra,asonante);
-        });
+        asonante = !r.on;
+        let palabra = palabraARimar();
+        iniciaBusquedaRimas(palabra,asonante,numeroRange.value);
+    });
 
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
         let palabra = palabraARimar();
         actualizaPronunciacion(palabra);
-        iniciaBusquedaRimas(palabra,asonante);
+        iniciaBusquedaRimas(palabra,asonante,numeroRange.value);
     }));
 
+    numeroRange.addEventListener("change", conTrazaDeError( ()=>{
+        let palabra = palabraARimar();
+        iniciaBusquedaRimas(palabra,asonante,numeroRange.value);
+    }));
 }
 
 
-function iniciaBusquedaRimas(palabra,asonante){
+function iniciaBusquedaRimas(palabra,asonante,numeroSilabas){
 
     const log = ()=> {};
 
     if( palabra == iniciaBusquedaRimas.palabraActual &&
-        asonante == iniciaBusquedaRimas.asonanteActual ){
+        asonante == iniciaBusquedaRimas.asonanteActual &&
+        numeroSilabas == iniciaBusquedaRimas.numeroSilabasActual ){
         return;
     }   
 
@@ -150,16 +159,23 @@ function iniciaBusquedaRimas(palabra,asonante){
 
     iniciaBusquedaRimas.palabraActual = palabra;
     iniciaBusquedaRimas.asonanteActual = asonante;
+    iniciaBusquedaRimas.numeroSilabasActual = numeroSilabas;
 
-    log("********* INICIO **********" + palabra);
+    const corpus = seleccionaCorpus(numeroSilabas);
+    
+    log("********* INICIO **********" + palabra );
 
-    const control = asincronizaUnGenerador( rimaCon( palabra, corpusByFrequency, asonante) , (value,done,control) => {
+    const control = asincronizaUnGenerador( rimaCon( palabra, corpus, asonante) , (value,done,control) => {
         const actual = control === iniciaBusquedaRimas.controlActual;
         log(`value:${JSON.stringify(value)} done:${done} actual:${actual}`);
+        const p = progresoE();
         if( value ){
-            const p = progresoE();
             p.max=value.total;
             p.value=value.current;
+        }
+
+        if( done ){
+            p.value=p.max;
         }
         
         if( value && value.value && actual && !done ){
@@ -181,6 +197,12 @@ function iniciaBusquedaRimas(palabra,asonante){
     log( "Fin iniciaBusquedaRimas" );
 }
 
+function seleccionaCorpus(numeroSilabas){
+    if( numeroSilabas > 0 && numeroSilabas < corpusBySyllable.length ){
+        return corpusBySyllable[numeroSilabas-1];
+    }
+    return corpusByFrequency;
+}
 
 function* rimaCon( palabra, candidatas, asonante, maxDelay = 9 ){
     const silabas =  Palabra.from(palabra).silabas;

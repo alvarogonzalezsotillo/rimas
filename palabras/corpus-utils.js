@@ -506,6 +506,16 @@ function normalizaPronunciacion(silabas,silabaTonica,AFI=false){
     }
     const ret = silabas.map(s => normalizaPronunciacionDeSilaba(s,AFI));
     ret[silabaTonica] = ret[silabaTonica].toUpperCase();
+
+    // CASO ESPECIAL: PRIMERA SILABA CON R
+    if(ret[0].startsWith('r')){
+        ret[0] = "rr" + ret[0].substring(1);
+    }
+    if(ret[0].startsWith('ɾ')){
+        ret[0] = "r" + ret[0].substring(1);
+    }
+
+
     return ret;
 }
 
