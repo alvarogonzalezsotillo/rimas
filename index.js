@@ -56,7 +56,7 @@ function domIdAccessFunctions(ids, suffix="E",object=window){
     });
 }
 
-domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas", "progreso","numeroSilabas"] );
+domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas", "progreso","numeroSilabas", "numeroSilabasText"] );
 
 function pronunciacionHTML(palabra){
     const w = new Palabra(palabra);
@@ -110,6 +110,7 @@ function conTrazaDeError(fun){
 function setUpUI(){
     const palabraInput = palabraE();
     const numeroRange = numeroSilabasE();
+    const numeroSilabasText = numeroSilabasTextE();
     let asonante = false;
     
 
@@ -127,8 +128,17 @@ function setUpUI(){
 
     numeroRange.addEventListener("change", conTrazaDeError( ()=>{
         let palabra = palabraARimar();
-        iniciaBusquedaRimas(palabra,asonante,numeroRange.value);
+        const numeroSilabas = numeroRange.value;
+        iniciaBusquedaRimas(palabra,asonante,numeroSilabas);
+
+        if( numeroSilabas == 0 ){
+            numeroSilabasText.innerHTML = "Cualquier número de sílabas";
+        }
+        else{
+            numeroSilabasText.innerHTML = numeroSilabas + " sílabas";
+        }
     }));
+    numeroRange.dispatchEvent( new CustomEvent("change") );
 }
 
 
