@@ -216,7 +216,7 @@ function* rimaCon( palabra, candidatas, asonante, maxDelay = 9 ){
             "total": total,
             "value": value
         };
-    }
+    };
 
     const ini = new Date().getMilliseconds();
     const total = candidatas.length;
@@ -259,7 +259,7 @@ function asincronizaUnGenerador( generator, callback ){
                 return false;
             }
             this._pauseAssap = false;
-            this.timeout();
+            this.tick();
             return true;
         }
 
@@ -280,15 +280,15 @@ function asincronizaUnGenerador( generator, callback ){
                 this._running = false;
             }
             else{
-                this.timeout();
+                this.tick();
             }
         }
 
         get steps(){ return this._steps; }
         get done(){ return this._done; }
 
-        timeout(){
-            log( "timeout" );
+        tick(){
+            log( "tick" );
             log( this );
             
             if( this._done ){
@@ -301,7 +301,7 @@ function asincronizaUnGenerador( generator, callback ){
     }
 
     const control = new Control(generator,callback);
-    control.timeout();
+    control.tick();
     return control;
     
 }
