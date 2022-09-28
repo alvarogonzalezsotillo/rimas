@@ -139,6 +139,8 @@ function setUpUI(){
         }
     }));
     numeroRange.dispatchEvent( new CustomEvent("change") );
+
+    palabraInput.focus();
 }
 
 
