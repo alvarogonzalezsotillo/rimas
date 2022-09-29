@@ -4,7 +4,7 @@ function log(s){
     
 }
 
-const {Palabra} = require( "./palabra.js" );
+const {Palabra} = require( "../palabras/palabra.js" );
 const {corpusByFrequency} = require( "./corpus-by-frequency.js" );
 const fs = require( "fs" );
 

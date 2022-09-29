@@ -97,7 +97,7 @@ function body(){
             return texto;
         }
         
-        if( Palabra.cache[texto] ){
+        if( Palabra.cacheActivo && Palabra.cache[texto] ){
             return Palabra.cache[texto];
         }
         
