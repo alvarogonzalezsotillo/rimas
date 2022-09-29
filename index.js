@@ -56,7 +56,7 @@ function domIdAccessFunctions(ids, suffix="E",object=window){
     });
 }
 
-domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas", "progreso","numeroSilabas", "numeroSilabasText"] );
+domIdAccessFunctions( ["pronunciacion", "palabra", "explicacion", "rimas", "progreso","numeroSilabas", "numeroSilabasText", "asonanteConsonante", "asonanteConsonanteText"] );
 
 function pronunciacionHTML(palabra){
     const w = new Palabra(palabra);
@@ -111,11 +111,13 @@ function setUpUI(){
     const palabraInput = palabraE();
     const numeroRange = numeroSilabasE();
     const numeroSilabasText = numeroSilabasTextE();
-    let asonante = false;
-    
+    const asonanteConsonanteRange = asonanteConsonanteE();
+    const asonanteConsonanteText = asonanteConsonanteTextE();
 
-    createToggle( d.getElementById("toggle-test"), (r)=>{
-        asonante = !r.on;
+    
+    asonanteConsonanteRange.addEventListener("change", (e) =>{
+        asonante = asonanteConsonanteRange.value == 0;
+        asonanteConsonanteText.innerHTML = asonante ? "Asonante" : "Consonante";
         let palabra = palabraARimar();
         iniciaBusquedaRimas(palabra,asonante,numeroRange.value);
     });
@@ -323,85 +325,3 @@ window.addEventListener("load", ()=>{
 });
 
 
-function createToggle(parentDiv,callback){
-    function toggle(on,handle,labelOn,labelOff){
-        // handle
-        if( on ){
-            handle.style.left = "calc(100% - 1em)";
-            handle.style.right = "0%";
-        }
-        else{
-            handle.style.right = "calc(100% - 1em)";
-            handle.style.left = "0%";
-
-        }
-        // label on
-        if( on ){
-            labelOn.style.right = "1.5em";
-        }
-        else{
-            labelOn.style.right = "100%";
-        }
-
-        // label off
-        if( on ){
-            labelOff.style.left = "100%";
-        }
-        else{
-            labelOff.style.left = "1.5em";
-        }
-
-
-        return false;
-    }
-
-    const html = `
-        <div class="toggle-outter">
-            <div class="toggle-track">
-                <div class="toggle-handle" style="right:0%; left:calc(100% - 1em)"></div>
-            </div>
-        </div>
-    `;
-    const t = htmlToElement(html);
-
-    const ret = {
-        element : t,
-        on : true,
-        callback: callback
-    };
-
-
-    const handle = t.querySelector(".toggle-handle");
-    const labelOn = parentDiv.querySelector(".toggle-label-on");
-    const labelOff = parentDiv.querySelector(".toggle-label-off");
-    const toggleTrack = t.querySelector(".toggle-track");
-
-    toggleTrack.appendChild(labelOn);
-    toggleTrack.appendChild(labelOff);
-
-    window.setTimeout( ()=> {
-        const width = Math.max(labelOn.clientWidth,labelOff.clientWidth);
-        t.style.width = `calc(${width}px + 1.5em)`;
-    },100);
-
-    const listener = (evt)=> {
-        let on = handle.style.right == "0%";
-        toggle(!on, handle,labelOn,labelOff);
-        if( evt ){
-            evt.stopPropagation();
-        }
-        ret.on = !on;
-        if( ret.callback ){
-            callback(ret);
-        }
-    };
-    handle.addEventListener("click",listener);
-    toggleTrack.addEventListener("click",listener);
-    t.addEventListener("click",listener);
-    parentDiv.appendChild(t);
-
-    listener();
-    listener();
-
-    return ret;
-}
