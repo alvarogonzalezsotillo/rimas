@@ -85,8 +85,6 @@ function palabraARimar(){
     return palabraInput.value.toLowerCase().replaceAll(" ","");
 }
 
-const JS = o => JSON.stringify(o);
-
 function actualizaPronunciacion(palabra){
     pronunciacionE().innerHTML = pronunciacionHTML(palabra);
     explicacionE().innerHTML = explicacionHTML(palabra);
@@ -113,35 +111,40 @@ function setUpUI(){
     const numeroSilabasText = numeroSilabasTextE();
     const asonanteConsonanteRange = asonanteConsonanteE();
     const asonanteConsonanteText = asonanteConsonanteTextE();
+    
 
+    function algunCambio(){
+        const asonante = asonanteConsonanteRange.value == 0;
+        const palabra = palabraARimar();
+        const numeroSilabas = numeroRange.value;
+        iniciaBusquedaRimas(palabra,asonante,numeroSilabas);
+    }
     
     asonanteConsonanteRange.addEventListener("change", (e) =>{
-        asonante = asonanteConsonanteRange.value == 0;
+        const asonante = asonanteConsonanteRange.value == 0;
         asonanteConsonanteText.innerHTML = asonante ? "Asonante" : "Consonante";
-        let palabra = palabraARimar();
-        iniciaBusquedaRimas(palabra,asonante,numeroRange.value);
+        algunCambio();
     });
 
     palabraInput.addEventListener("keyup", conTrazaDeError( ()=>{
-        let palabra = palabraARimar();
+        const palabra = palabraARimar();
         actualizaPronunciacion(palabra);
-        iniciaBusquedaRimas(palabra,asonante,numeroRange.value);
+        algunCambio();
     }));
 
     numeroRange.addEventListener("change", conTrazaDeError( ()=>{
-        let palabra = palabraARimar();
         const numeroSilabas = numeroRange.value;
-        iniciaBusquedaRimas(palabra,asonante,numeroSilabas);
-
         if( numeroSilabas == 0 ){
             numeroSilabasText.innerHTML = "Cualquier número de sílabas";
         }
         else{
             numeroSilabasText.innerHTML = numeroSilabas + " sílabas";
         }
+        algunCambio();
     }));
+    
     numeroRange.dispatchEvent( new CustomEvent("change") );
-
+    asonanteConsonanteRange.dispatchEvent( new CustomEvent("change") );
     palabraInput.focus();
 }
 
@@ -157,7 +160,6 @@ function iniciaBusquedaRimas(palabra,asonante,numeroSilabas){
     }   
 
     rimasE().innerHTML = "";
-    log("NO ES LO MISMO");
 
     if( iniciaBusquedaRimas.controlActual ){
         iniciaBusquedaRimas.controlActual.pauseAssap();
