@@ -1,201 +1,130 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
 
-    <script src="./dummy-modules.js"></script>
-    <script src="./palabras/corpus-utils.js"></script>
-    <script src="./palabras/palabra.js"></script>
-    <script src="./corpus/corpus-by-frequency.js"></script>
-    <script src="./corpus/corpus-by-syllable.js"></script>
-    <script src="./palabras/rimas.js"></script>
-    <script src="./index.js"></script>
-    <style>
-        input,
-        select,
-        body {
-            font-family: sans;
-        }
+        <script src="./dummy-modules.js"></script>
+        <script src="./palabras/corpus-utils.js"></script>
+        <script src="./palabras/palabra.js"></script>
+        <script src="./corpus/corpus-by-frequency.js"></script>
+        <script src="./corpus/corpus-by-syllable.js"></script>
+        <script src="./palabras/rimas.js"></script>
+        <script src="./index.js"></script>
+        <style>
+         input,
+         select,
+         body {
+             font-family: sans;
+         }
 
-        .debug {
-            background-color: pink;
-        }
+         .debug {
+             background-color: pink;
+         }
 
-        #pronunciacion {
-            font-size: 30px;
-        }
+         #pronunciacion {
+             font-size: 30px;
+         }
 
-        #palabra-outter {
-            min-height: 40px;
-            max-height: 40px;
-            text-align: center;
-            grid-area: palabra
-        }
+         #palabra-outter {
+             min-height: 40px;
+             max-height: 40px;
+             text-align: center;
+         }
 
-        #pronunciacion-outter {
-            min-height: 40px;
-            max-height: 40px;
-            text-align: center;
-            grid-area: pronunciacion
-        }
+         #pronunciacion-outter {
+             min-height: 40px;
+             max-height: 40px;
+             text-align: center;
+         }
 
-        #palabra {
-            text-align: center;
-            font-size: 30px;
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-bottom-style: solid;
-            border-bottom-width: 1px;
-            border-bottom-color: black;
-            background-color: white;
-            color: black;
-            
-        }
+         #palabra {
+             text-align: center;
+             font-size: 30px;
+             width: 100%;
+             height: 100%;
+             border: none;
+             border-bottom-style: solid;
+             border-bottom-width: 1px;
+             border-bottom-color: black;
+             background-color: white;
+             color: black;
+             min-height: 40px;
+             max-height: 40px;
+         }
 
-        #palabra:invalid{
-            font-size: 15px;
-        }
-
-        #palabra-flex-outter {
-            display: grid;
-            grid-template-areas: 
-            "palabra pronunciacion" 
-                "toggle vacio"
-                "vacio2 vacio3";
-            grid-template-rows: 2em 2em 1em;
-            grid-template-columns: 50% 50%;
-        }
-
-        .flex-item {
-            margin: 1em;
-            margin-top: 2em; 
-        }
-
-        #rimas-outter {
-            font-size: 40px;
-            position: relative;
-            top: 2em;
-        }
-
-        #rimas {
-            font-size: initial;
-        }
-
-        #toggle-test{
-            grid-area: toggle;
-            text-align: center;
-            font-size: 30px;
-            width: 100%;
-        }
-
-        .toggle-outter{
-            display: inline-block;
-            left: -1em;
-            position: relative;
-        }
-
-        .toggle-track{
-            transition: all 0.4s; 
-            position: relative;
-            min-width:3em;
-            height:1em;
-            background-color: lightskyblue;
-            border-radius: 1em;
-            overflow:hidden;
-        }
-
-        .toggle-handle{
-            position:absolute;
-            top:0px;
-            transition: all 0.4s; 
-            width:0.8em;
-            height:0.8em;
-            border-radius: 1em; 
-            background-color: lightgrey; 
-            border-style: solid; 
-            border-width: 0.1em; 
-            border-color: gray;
-        }
-
-        .toggle-label-on{
-            position:absolute;
-            top:0px;
-            transition: all 0.4s; 
-            font-size: 0.8em;
-        }
-
-        .toggle-label-off{
-            position:absolute;
-            top:0px;
-            transition: all 0.4s; 
-            font-size: 0.8em;
-        }
-
-        .toggle-label{
-            position:static;
-            transition: all 0.4s; 
-            top:0px;
-            margin-left: 1em;
-            margin-right: 1em;
-        }
-
-        .candidata{
-            border-style: solid;
-            border-radius: 4px;
-            border-width:  1px;
-            background-color: limegreen;
-            margin-left: 1em;
-            margin-top: 1em;
-            inset: 1em;
-            display: inline-block;
-            padding: 0.5em;
-        }
+         #palabra:invalid{
+             font-size: 15px;
+         }
 
 
-    </style>
+         #rimas-outter {
+             font-size: 40px;
+             position: relative;
+         }
 
-</head>
+         #rimas {
+             font-size: initial;
+         }
 
-<body>
+         .candidata{
+             border-style: solid;
+             border-radius: 4px;
+             border-width:  1px;
+             background-color: limegreen;
+             margin-left: 1em;
+             margin-top: 1em;
+             inset: 1em;
+             display: inline-block;
+             padding: 0.5em;
+         }
 
-    <div id="palabra-flex-outter">
-        <div id="palabra-outter" class="flex-item">
-            <input type="text" id="palabra" required placeholder="Palabra a rimar">
-        </div>
-        <div id="pronunciacion-outter" class="flex-item">
-            <div id="pronunciacion">
-                &nbsp;
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div id="palabra-flex-outter">
+            <div id="palabra-outter">
+                <input type="text" id="palabra" required placeholder="Palabra a rimar">
             </div>
-            <div id="explicacion">
-                &nbsp;
+            <div id="pronunciacion-outter">
+                <div id="pronunciacion">
+                    &nbsp;
+                </div>
+                <div id="explicacion">
+                    &nbsp;
+                </div>
+            </div>
+
+
+            <div id="progreso-outter">
+                <progress id="progreso" value="0" max="0"></progress>
+            </div>
+
+        </div>
+
+        <div id="asonanteConsonante-outter">
+            <input type="range" min="0" max="1" id="asonanteConsonante" value="0">
+            <div id="asonanteConsonanteText">Asonante</div>
+        </div>
+        
+        <div id="numeroSilabas-outter">
+            <input type="range" min="0" max="10" id="numeroSilabas" value="0">
+            <div id="numeroSilabasText">Cualquiera</div>
+        </div>
+        
+        <div id="rimas-outter">
+            <div id="rimas">
             </div>
         </div>
 
+        
 
-        <div id="progreso-outter" style="grid-column: span 1 / 2; grid-row: 3;">
-            <progress id="progreso" value="0" max="0" style="width:100%"></progress>
-        </div>
-
-    </div>
-
-    <input type="range" min="0" max="1" id="asonanteConsonante" value="0">
-    <div id="asonanteConsonanteText">Asonante</div>
-    
-
-    <input type="range" min="0" max="10" id="numeroSilabas" value="0">
-    <div id="numeroSilabasText">Cualquiera</div>
-  
-    <div id="rimas-outter">
-        <div id="rimas">
-        </div>
-    </div>
-
-    
-
-</body>
+    </body>
 
 </html>
 
