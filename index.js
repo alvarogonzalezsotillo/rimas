@@ -151,8 +151,11 @@ function iniciaBusquedaRimas(palabra,asonante,numeroSilabas,numeroSilabasMax){
             rimasE().appendChild( child );
         }
     }, ()=>{
-        const child = htmlToElement(`<span class="candidata">No se encuentran más palabras</span>`);
-        rimasE().appendChild( child );
+        if( palabraARimar() != "" ){
+            console.log("palabraARimar:" + palabraARimar);
+            const child = htmlToElement(`<span class="candidata">No se encuentran más palabras</span>`);
+            rimasE().appendChild( child );
+        }
     });
 }
 
