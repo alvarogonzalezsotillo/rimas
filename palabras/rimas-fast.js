@@ -2,18 +2,10 @@ var {corpusPorRimaAsonante} = require("./corpus-por-rima-asonante.js");
 var {corpusPorRimaConsonante} = require("./corpus-por-rima-consonante.js");
 var {Palabra} = require("./palabra.js");
 
-console.log(">>cargando rimaFast");
-console.log(corpusPorRimaAsonante["e.e"]);
-console.log(corpusPorRimaConsonante["epe"]);
-console.log("<<cargando rimaFast");
 
-
-function rimaFast(palabra,asonante,numeroSilabas){
+function rimaFast(palabra,asonante){
 
     const log = ()=>null;
-
-    console.log(corpusPorRimaAsonante["e.e"]);
-    console.log(corpusPorRimaConsonante["epe"]);
 
     
     const p = Palabra.from(palabra);
@@ -31,13 +23,6 @@ function rimaFast(palabra,asonante,numeroSilabas){
 
     log(candidatas);
     
-    if( numeroSilabas ){
-        return candidatas.filter( (pa,index)=> {
-            const pal = Palabra.from(pa);
-            return pal.silabas.length = numeroSilabas;
-        });
-    }
-
     return candidatas;
 }
 

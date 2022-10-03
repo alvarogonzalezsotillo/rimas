@@ -85,10 +85,12 @@ function setUpUI(){
     
 
     function algunCambio(){
+        console.log("algunCambio");
         const asonante = asonanteConsonanteRange.value == 0;
         const palabra = palabraARimar();
         const numeroSilabas = numeroRange.value;
-        iniciaBusquedaRimas(palabra,asonante,numeroSilabas);
+        const numeroSilabasMax = numeroRange.max;
+        iniciaBusquedaRimas(palabra,asonante,numeroSilabas,numeroSilabasMax);
     }
     
     asonanteConsonanteRange.addEventListener("change", (e) =>{
@@ -108,6 +110,9 @@ function setUpUI(){
         if( numeroSilabas == 0 ){
             numeroSilabasText.innerHTML = "Cualquier número de sílabas";
         }
+        else if( numeroSilabas == numeroRange.max ){
+            numeroSilabasText.innerHTML = numeroSilabas + " sílabas o más";
+        }
         else{
             numeroSilabasText.innerHTML = numeroSilabas + " sílabas";
         }
@@ -119,23 +124,66 @@ function setUpUI(){
     palabraInput.focus();
 }
 
+let ultimaBusqueda = null;
 
-function iniciaBusquedaRimas(palabra,asonante,numeroSilabas){
+function iniciaBusquedaRimas(palabra,asonante,numeroSilabas,numeroSilabasMax){
 
-    console.log(`inicia: ${palabra}: ${asonante} ${numeroSilabas}`);
     
     const log = ()=> {};
 
+    log(`inicia: ${palabra}: ${asonante} ${numeroSilabas}`);
+    
+
+    if( ultimaBusqueda ){
+        ultimaBusqueda.endASSAP();
+        ultimaBusqueda = null;
+    }
+    
     rimasE().innerHTML = "";
 
-    const rimas = rimaFast(palabra,asonante,numeroSilabas);
-    console.log(`inicia: encontradas ${rimas.lenght}`);
+    const rimas = rimaFast(palabra,asonante);
+    log(`inicia: encontradas ${rimas.length}`);
 
-    
-    for( r of rimas ){
-        const child = htmlToElement(`<span class="candidata"> ${r}</span>`);
+    ultimaBusqueda = procesaUnArrayConPaciencia(rimas, (r)=>{
+        const p = Palabra.from(r); 
+        if( !numeroSilabas || numeroSilabas == 0 ||p.silabas.length == numeroSilabas || (numeroSilabas == numeroSilabasMax && p.silabas.length >= numeroSilabasMax ) ){
+            const child = htmlToElement(`<span class="candidata"> ${r}</span>`);
+            rimasE().appendChild( child );
+        }
+    }, ()=>{
+        const child = htmlToElement(`<span class="candidata">No se encuentran más palabras</span>`);
         rimasE().appendChild( child );
+    });
+}
+
+function procesaUnArrayConPaciencia(array,fn,endFn,step=10,ms=1){
+
+    if( !array ){
+        return {
+            endASSAP: ()=>null
+        };
     }
+    
+    let index = 0;
+    const id = window.setInterval( ()=>{
+        for( let i = 0 ; i < step ; i++ ){
+            if( index >= array.length ){
+                endFn();
+                endASSAP();
+                return;
+            }
+            fn(array[index]);
+            index += 1;
+        }
+    },ms);
+    
+    function endASSAP(){
+        window.clearInterval(id);
+    }
+
+    return {
+        endASSAP: endASSAP
+    };
 }
 
 window.addEventListener("load", ()=>{
