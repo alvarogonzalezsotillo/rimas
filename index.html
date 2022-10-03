@@ -32,12 +32,16 @@
              min-height: 40px;
              max-height: 40px;
              text-align: center;
+             display: inline-block;
+             width: 45%;
          }
 
          #pronunciacion-outter {
              min-height: 40px;
              max-height: 40px;
              text-align: center;
+             display: inline-block;
+             width: 45%;
          }
 
          #palabra {
@@ -83,10 +87,44 @@
 
          #asonanteConsonante-outter{
              display: inline-block;
+             width: 45%;
+             text-align: center;
          }
 
          #numeroSilabas-outter{
              display: inline-block;
+             width: 45%;
+             text-align: center;
+         }
+
+
+         #palabra-flex-outter{
+             width:100%;
+         }
+
+         #parametros{
+             margin-top: 1em;
+             width: 50%;
+         }
+
+         @media (max-width: 600px) {
+             /* MOVILES AQUI */
+             
+             body{
+                 background-color: pink;
+             }
+
+             #parametros{
+                 width: 100%;
+             }
+         }
+
+         #asonanteConsonante{
+             max-width: 8em;
+         }
+
+         #numeroSilabas{
+             max-width: 8em;
          }
 
         </style>
@@ -96,9 +134,11 @@
     <body>
 
         <div id="palabra-flex-outter">
+            
             <div id="palabra-outter">
                 <input type="text" id="palabra" required placeholder="Palabra a rimar">
             </div>
+            
             <div id="pronunciacion-outter">
                 <div id="pronunciacion">
                     &nbsp;
@@ -107,6 +147,7 @@
                     &nbsp;
                 </div>
             </div>
+            
         </div>
 
         <div id="parametros">

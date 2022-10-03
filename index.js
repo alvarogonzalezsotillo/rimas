@@ -108,7 +108,7 @@ function setUpUI(){
     numeroRange.addEventListener("change",()=>{
         const numeroSilabas = numeroRange.value;
         if( numeroSilabas == 0 ){
-            numeroSilabasText.innerHTML = "Cualquier número de sílabas";
+            numeroSilabasText.innerHTML = "Sílabas cualesquiera";
         }
         else if( numeroSilabas == numeroRange.max ){
             numeroSilabasText.innerHTML = numeroSilabas + " sílabas o más";
