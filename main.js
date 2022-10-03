@@ -21,15 +21,15 @@ function examples(){
 }
 
 
-    function createFileContents(variableName, json){
-        
-        return `// -*- mode: fundamental;coding:utf-8 -*-\n
+function createFileContents(variableName, json){
+    
+    return `// -*- mode: fundamental;coding:utf-8 -*-\n
                 const  ${variableName} = 
                 ${json};
                 module.exports = {
                 ${variableName} : ${variableName}
                 };`;
-    }
+}
 
 
 function indiceConsonantePorSufijo(){

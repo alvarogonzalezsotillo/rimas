@@ -218,6 +218,9 @@ function acentuaSilabas(silabas){
 
 
 function vocalTonicaDeSilaba(silaba){
+    if( ! silaba ){
+        return null;
+    }
     const ls = silaba.split("");
     const acento = ls.findIndex( l=> acentuadas.includes(l) );
 
