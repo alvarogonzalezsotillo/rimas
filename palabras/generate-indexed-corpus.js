@@ -1,4 +1,4 @@
-const {corpusByFrequency} = require("./corpus-by-frequency");
+const {corpusByFrequency} = require("../corpus/corpus-by-frequency");
 const {Palabra} = require("./palabra");
     
 
@@ -17,7 +17,7 @@ function calculaIndices(){
         }
         const p = Palabra.from(candidata);
         const sA = p.sufijoRimaAsonante;
-        const sC = p.sufijoRimaAsonante;
+        const sC = p.sufijoRimaConsonante;
 
         if( sA ){
             if( sufixesA[sA] ){
@@ -54,11 +54,11 @@ function escribeIndices({sufixesA,sufixesC}){
                 };`;
     }
 
-    const indent = null;
+    const indent = 2;
 
     fs.writeFile(
         "corpus-por-rima-asonante.js",
-        createFileContents( "./corpusPorRimaAsonante", JSON.stringify(sufixesA, null, indent) ),
+        createFileContents( "corpusPorRimaAsonante", JSON.stringify(sufixesA, null, indent) ),
         (error)=>{
             if(error){
                 console.log(`ERROR: ${error}`);
@@ -69,7 +69,7 @@ function escribeIndices({sufixesA,sufixesC}){
 
     fs.writeFile(
         "corpus-por-rima-consonante.js",
-        createFileContents( "./corpusPorRimaConsonante", JSON.stringify(sufixesA, null, indent) ),
+        createFileContents( "corpusPorRimaConsonante", JSON.stringify(sufixesC, null, indent) ),
         (error)=>{
             if(error){
                 console.log(`ERROR: ${error}`);

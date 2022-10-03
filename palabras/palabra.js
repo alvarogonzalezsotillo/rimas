@@ -83,9 +83,6 @@ function body(){
 
     }
 
-    Palabra.cacheActivo = true;
-
-    Palabra.cache = {};
 
 
     Palabra.from = function(texto,sufijoConsonante,sufijoAsonante){
@@ -96,12 +93,7 @@ function body(){
         if( texto.constructor.name == "Palabra" ){
             return texto;
         }
-
-        // UN PROBLEMA CON LA PALABRA constructor, QUE ES UN ATRIBUTO DE Object
-        if( texto != "constructor" && Palabra.cacheActivo && Palabra.cache[texto] ){
-            return Palabra.cache[texto];
-        }
-        
+       
         const ret = new Palabra(texto);
         if( sufijoConsonante ){
             sideloadLazyProp(ret,"sufijoRimaConsonante",sufijoConsonante);
@@ -109,11 +101,7 @@ function body(){
         if( sufijoAsonante ){
             sideloadLazyProp(ret,"sufijoRimaAsonante",sufijoAsonante);
         }
-
-        if( texto != "constructor" && Palabra.cacheActivo ){
-            Palabra.cache[texto] = ret;
-        }
-        
+       
         return ret;
     };
 
