@@ -76,23 +76,40 @@ function actualizaPronunciacion(palabra){
     explicacionE().innerHTML = explicacionHTML(palabra);
 }
 
+
+
 function setUpUI(){
     const palabraInput = palabraE();
     const numeroRange = numeroSilabasE();
     const numeroSilabasText = numeroSilabasTextE();
     const asonanteConsonanteRange = asonanteConsonanteE();
     const asonanteConsonanteText = asonanteConsonanteTextE();
-    
 
     function algunCambio(){
-        console.log("algunCambio");
         const asonante = asonanteConsonanteRange.value == 0;
         const palabra = palabraARimar();
         const numeroSilabas = numeroRange.value;
         const numeroSilabasMax = numeroRange.max;
+
+        const params =  new URLSearchParams("");
+        params.set("palabra",palabra);
+        if(asonante){
+            params.set("asonante","");
+        }
+        else{
+            params.set("consonante","");
+        }
+        params.set("silabas",numeroSilabas);
+
+        // https://stackoverflow.com/a/41542008/4469160
+        const newRelativePathQuery = window.location.pathname + '?' + params.toString();
+        history.pushState(null, '', newRelativePathQuery);
+        
         iniciaBusquedaRimas(palabra,asonante,numeroSilabas,numeroSilabasMax);
+
+        actualizaPronunciacion(palabra);
     }
-    
+
     asonanteConsonanteRange.addEventListener("change", (e) =>{
         const asonante = asonanteConsonanteRange.value == 0;
         asonanteConsonanteText.innerHTML = asonante ? "Asonante" : "Consonante";
@@ -101,7 +118,6 @@ function setUpUI(){
 
     palabraInput.addEventListener("keyup", ()=>{
         const palabra = palabraARimar();
-        actualizaPronunciacion(palabra);
         algunCambio();
     });
 
@@ -119,9 +135,35 @@ function setUpUI(){
         algunCambio();
     });
     
+    palabraInput.focus();
+
+    procesaQueryParams();
+
     numeroRange.dispatchEvent( new CustomEvent("change") );
     asonanteConsonanteRange.dispatchEvent( new CustomEvent("change") );
-    palabraInput.focus();
+}
+
+function procesaQueryParams(){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    if( urlParams.get("palabra") ){
+        palabraE().value = urlParams.get("palabra");
+    }
+
+    if( urlParams.has("asonante") ){
+        asonanteConsonanteE().value = 0;
+    }
+    
+    if( urlParams.has("consonante") ){
+        console.log("consonante");
+        asonanteConsonanteE().value = 1;
+    }
+
+    if( urlParams.get("silabas") ){
+        numeroSilabasE().value = urlParams.get("silabas");
+    }
+
 }
 
 let ultimaBusqueda = null;
@@ -152,7 +194,6 @@ function iniciaBusquedaRimas(palabra,asonante,numeroSilabas,numeroSilabasMax){
         }
     }, ()=>{
         if( palabraARimar() != "" ){
-            console.log("palabraARimar:" + palabraARimar);
             const child = htmlToElement(`<span class="candidata">No se encuentran más palabras</span>`);
             rimasE().appendChild( child );
         }

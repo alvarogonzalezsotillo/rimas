@@ -26,6 +26,7 @@
 
          #pronunciacion {
              font-size: 30px;
+             z-index: 1;
          }
 
          #palabra-outter {
@@ -98,7 +99,7 @@
          }
 
 
-         #palabra-flex-outter{
+         #palabra-y-pronunciacion-outter{
              width:100%;
          }
 
@@ -107,17 +108,6 @@
              width: 50%;
          }
 
-         @media (max-width: 600px) {
-             /* MOVILES AQUI */
-             
-             body{
-                 background-color: pink;
-             }
-
-             #parametros{
-                 width: 100%;
-             }
-         }
 
          #asonanteConsonante{
              max-width: 8em;
@@ -127,13 +117,44 @@
              max-width: 8em;
          }
 
+         #enlace-blog-outter{
+             position: fixed;
+             right: -9em;
+             transform: rotate(45deg);
+             padding-top: 12em;
+             background-color: blueviolet;
+             padding-left: 5em;
+             padding-right: 5em;
+             top: -7em;
+             padding-bottom: 1em;
+             z-index: 0;
+         }
+
+         #enlace-blog-outter a{
+             color: white;
+         }
+
+         @media (max-width: 600px) {
+             /* MOVILES AQUI */
+             
+             #parametros{
+                 width: 100%;
+             }
+
+             #enlace-blog-outter{
+                 font-size: 50%;
+             }
+         }
+         
+
         </style>
 
     </head>
 
     <body>
 
-        <div id="palabra-flex-outter">
+        
+        <div id="palabra-y-pronunciacion-outter">
             
             <div id="palabra-outter">
                 <input type="text" id="palabra" required placeholder="Palabra a rimar">
@@ -168,6 +189,9 @@
         </div>
 
         
+        <div id="enlace-blog-outter">
+            <a href="https://alvarogonzalezsotillo.github.io/">¿Cómo funciona?</a>
+        </div>
 
     </body>
 
