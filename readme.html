@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-01-05 mié 17:35 -->
+<!-- 2022-10-31 lun 19:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -200,45 +200,47 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0000024">1. Presentación del problema</a>
+<li><a href="#org0000028">1. Presentación del problema</a>
 <ul>
-<li><a href="#org0000005">1.1. Diptongos e hiatos</a></li>
-<li><a href="#org0000010">1.2. División en sílabas de una palabra</a>
+<li><a href="#org0000009">1.1. Diptongos e hiatos</a></li>
+<li><a href="#org0000014">1.2. División en sílabas de una palabra</a>
 <ul>
-<li><a href="#org0000008">1.2.1. División sin importar hiatos/diptongos</a></li>
-<li><a href="#org000000b">1.2.2. Hiatos</a></li>
+<li><a href="#org000000c">1.2.1. División sin importar hiatos/diptongos</a></li>
+<li><a href="#org000000f">1.2.2. Hiatos</a></li>
 </ul>
 </li>
-<li><a href="#org0000015">1.3. Localización de la sílaba tónica</a></li>
-<li><a href="#org000001e">1.4. Rimas</a>
+<li><a href="#org0000019">1.3. Localización de la sílaba tónica</a></li>
+<li><a href="#org0000022">1.4. Rimas</a>
 <ul>
-<li><a href="#org0000018">1.4.1. Rima Consonante</a></li>
-<li><a href="#org000001b">1.4.2. Rima asonante</a></li>
+<li><a href="#org000001c">1.4.1. Rima Consonante</a></li>
+<li><a href="#org000001f">1.4.2. Rima asonante</a></li>
 </ul>
 </li>
-<li><a href="#org0000021">1.5. División de palabra</a></li>
+<li><a href="#org0000025">1.5. División de palabra</a></li>
 </ul>
 </li>
-<li><a href="#org000003b">2. Implementación</a>
+<li><a href="#org000003f">2. Implementación</a>
 <ul>
-<li><a href="#org000002a">2.1. División en sílabas de una palabra</a>
+<li><a href="#org000002e">2.1. División en sílabas de una palabra</a>
 <ul>
-<li><a href="#org0000027">2.1.1. Normas no contempladas</a></li>
+<li><a href="#org000002b">2.1.1. Normas no contempladas</a></li>
 </ul>
 </li>
-<li><a href="#org000002d">2.2. Sílaba tónica</a></li>
-<li><a href="#org0000032">2.3. Vocal tónica</a></li>
-<li><a href="#org0000035">2.4. Fachada para las funciones: clase <code>Palabra</code></a></li>
-<li><a href="#org0000038">2.5. Rimas</a></li>
+<li><a href="#org0000031">2.2. Sílaba tónica</a></li>
+<li><a href="#org0000036">2.3. Vocal tónica</a></li>
+<li><a href="#org0000039">2.4. Fachada para las funciones: clase <code>Palabra</code></a></li>
+<li><a href="#org000003c">2.5. Rimas</a></li>
 </ul>
 </li>
-<li><a href="#org000003e">3. Por hacer</a></li>
-<li><a href="#org0000041">4. Enlaces de interés</a></li>
+<li><a href="#org0000042">3. Por hacer</a></li>
+<li><a href="#org0000045">4. Enlaces de interés</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org0000024" class="outline-2">
-<h2 id="org0000024"><span class="section-number-2">1.</span> Presentación del problema</h2>
+
+
+<div id="outline-container-org0000028" class="outline-2">
+<h2 id="org0000028"><span class="section-number-2">1.</span> Presentación del problema</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 El castellano es un idioma transparente, lo que significa que hay una gran relación entre cómo se escribe una palabra y cómo se pronuncia. Se pretenden resolver los siguientes problemas a partir de una <b>palabra escrita</b>:
@@ -254,11 +256,11 @@ Si no te interesa el algoritmo, puedes saltar a <a href="#org0000000">cómo usar
 </p>
 
 <p>
-Este es un problema que parece simple a primera vista, pero con una complejidad, interdependencia y cantidad casos particulares que no esperaba encontrarme. El siguiende diagrama muestra la relación entre cada parte del problema. Por ejemplo, El significado de la palabra afecta a cuál es su sílaba tónica.
+Este es un problema que parece simple a primera vista, pero con una complejidad, interdependencia y cantidad casos particulares que no esperaba encontrarme. El siguiende diagrama muestra la relación entre cada parte del problema. Por ejemplo, <a href="#org0000002">el significado de la palabra afecta a cuál es su sílaba tónica</a>.
 </p>
 
 
-<div id="org0000002" class="figure">
+<div id="org0000004" class="figure">
 <p><img src="./dependencias-entre-problemas.svg" alt="dependencias-entre-problemas.svg" class="org-svg" />
 </p>
 </div>
@@ -267,15 +269,15 @@ Este es un problema que parece simple a primera vista, pero con una complejidad,
 
 
 
-<div id="outline-container-org0000005" class="outline-3">
-<h3 id="org0000005"><span class="section-number-3">1.1.</span> <a id="org0000003"></a> Diptongos e hiatos</h3>
+<div id="outline-container-org0000009" class="outline-3">
+<h3 id="org0000009"><span class="section-number-3">1.1.</span> <a id="org0000007"></a> Diptongos e hiatos</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
-Varias vocales juntas forman un hiato, y pertenecen a sílabas distintas, si
+Varias vocales juntas forman un hiato, y pertenecen a sílabas distintas, si:
 </p>
 <ul class="org-ul">
-<li>Son vocales abiertas, o fuertes: <b>a</b>, <b>e</b>, <b>o</b>. Por ejemplo, <i>es. car . <b>ce</b> . o</i></li>
-<li>El acento prosódico recae en una vocal cerrada (débil): <b>i</b>, <b>u</b>. Por ejemplo, <i>al . cal . <b>dí</b> . a</i></li>
+<li>Son vocales abiertas, o fuertes: <b>a</b>, <b>e</b>, <b>o</b>. Por ejemplo, <span class="silabeo"> <i>es. car . <b>ce</b> . o</i> </span></li>
+<li>El <a href="#org0000005">acento prosódico</a> recae en una vocal cerrada (débil): <b>i</b>, <b>u</b>. Por ejemplo, <span class="silabeo"> <i>al . cal . <b>dí</b> . a</i> </span></li>
 <li>En los demás casos (vocales cerradas y abiertas, o vocales cerradas), las vocales forman un diptongo.</li>
 </ul>
 
@@ -286,11 +288,11 @@ Estas normas se ven afectadas, por tanto, por las normas de acentuación.
 </div>
 
 
-<div id="outline-container-org0000010" class="outline-3">
-<h3 id="org0000010"><span class="section-number-3">1.2.</span> <a id="org000000e"></a> <a href="http://tulengua.es/es/separar-en-silabas">División en sílabas</a> de una palabra</h3>
+<div id="outline-container-org0000014" class="outline-3">
+<h3 id="org0000014"><span class="section-number-3">1.2.</span> <a id="org0000012"></a> <a href="http://tulengua.es/es/separar-en-silabas">División en sílabas</a> de una palabra</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-Una palabra se compone de sílabas. En castellano, una sílaba tiene solo un grupo vocálico, que puede ser una sola vocal o varias vocales formando un diptongo (por tanto, los <a href="#org0000003">diptongos/hiatos</a> afectan a este problema).
+Una palabra se compone de sílabas. En castellano, una sílaba tiene solo un grupo vocálico, que puede ser una sola vocal o varias vocales formando un diptongo (por tanto, los <a href="#org0000007">diptongos/hiatos</a> afectan a este problema).
 </p>
 
 <p>
@@ -298,8 +300,8 @@ Al grupo vocálico pueden acompañar consonantes como sufijo o prefijo.
 </p>
 </div>
 
-<div id="outline-container-org0000008" class="outline-4">
-<h4 id="org0000008"><span class="section-number-4">1.2.1.</span> División sin importar hiatos/diptongos</h4>
+<div id="outline-container-org000000c" class="outline-4">
+<h4 id="org000000c"><span class="section-number-4">1.2.1.</span> División sin importar hiatos/diptongos</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 Las sílabas en castellano tienen la siguiente estructura general: Posiblemente algunas consonantes, algunas vocales y posiblemente algunas consontantes:
@@ -315,7 +317,7 @@ Las sílabas en castellano tienen la siguiente estructura general: Posiblemente 
 </ol>
 
 <p>
-Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra <b>apeninos</b> podría dividirse como <b>ap-en-in-os</b>, <b>a-pen-i-nos</b>&#x2026; La forma correcta se consigue aplicando algunas <i>prioridades</i> al extraer las sílabas:
+Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra <b>apeninos</b> podría dividirse como <i>ap . en . in . os</i> o como <i>a . pen . i . nos</i> . La forma correcta se consigue aplicando algunas prioridades al extraer las sílabas:
 </p>
 <ol class="org-ol">
 <li>Una sílaba solo con vocales</li>
@@ -337,18 +339,19 @@ De esta forma, se utiliza un <i>backtraking</i> extrayendo la siguiente sílaba 
 </ul>
 
 
+
 <p>
 Estas normas generales no funcionan en algunos casos, para los que se utilizan normas especiales:
 </p>
 <ul class="org-ul">
-<li>la sílaba <b>trans</b> es un prefijo, que no debe separarse: <b>trans-at-lán-ti-co</b></li>
-<li>Aunque una sílaba puede empezar por <b>ps</b>, solo debe ocurrir a principio de palabra. Si no, palabras como <b>ép-si-lon</b> o <b>sep-sis</b> se interpretarían como <b>é-psi-lon</b> o <b>se-psis</b></li>
+<li>la sílaba <b>trans</b> es un prefijo, que no debe separarse: <span class="silabeo"> <i>trans . at . <b>lán</b> . ti . co</i> </span></li>
+<li>Aunque una sílaba puede empezar por <b>ps</b>, solo debe ocurrir a principio de palabra. Si no, palabras como <b>épsilon</b> o <b>sepsis</b> se interpretarían como <i><b>e</b> . psi . lon</i> o <i><b>se</b> . psis</i></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org000000b" class="outline-4">
-<h4 id="org000000b"><span class="section-number-4">1.2.2.</span> Hiatos</h4>
+<div id="outline-container-org000000f" class="outline-4">
+<h4 id="org000000f"><span class="section-number-4">1.2.2.</span> Hiatos</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 Para localizar los hiatos de una sílaba se siguen las siguientes normas:
@@ -550,11 +553,11 @@ En el caso de tres vocales o más, se va probando cada par de vocales. Por ejemp
 </div>
 
 
-<div id="outline-container-org0000015" class="outline-3">
-<h3 id="org0000015"><span class="section-number-3">1.3.</span> Localización de la <a id="org0000013"></a> sílaba tónica</h3>
+<div id="outline-container-org0000019" class="outline-3">
+<h3 id="org0000019"><span class="section-number-3">1.3.</span> Localización de la <a id="org0000017"></a> sílaba tónica</h3>
 <div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
-<li>El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. Esa sílaba se denomina sílaba tónica.</li>
+<li><a id="org0000005"></a>El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. Esa sílaba se denomina sílaba tónica.</li>
 <li>La tilde (o acento gráfico) es una indicación gráfica del acento prosódico</li>
 </ul>
 
@@ -570,11 +573,11 @@ Las normas generales de acentuación indican en qué sílaba tiene el acento una
 </ul>
 
 <p>
-Este problema se ve afectado por la <a href="#org000000e">división en sílabas</a>, y por tanto por los <a href="#org0000003">diptongos/hiatos</a>.
+Este problema se ve afectado por la <a href="#org0000012">división en sílabas</a>, y por tanto por los <a href="#org0000007">diptongos/hiatos</a>.
 </p>
 
 <p>
-Hay que tener en cuenta además otras normas:
+<a id="org0000002"></a>Hay que tener en cuenta además otras normas que se derivan del significado de la palabra:
 </p>
 <ul class="org-ul">
 <li>Advervios acabados en <b>mente</b>: conservan la tilde del adjetivo original (<i>tranquilamente</i>)</li>
@@ -588,8 +591,8 @@ De estas dos últimas normas se deduce que no es posible localizar la sílaba t�
 </div>
 
 
-<div id="outline-container-org000001e" class="outline-3">
-<h3 id="org000001e"><span class="section-number-3">1.4.</span> Rimas</h3>
+<div id="outline-container-org0000022" class="outline-3">
+<h3 id="org0000022"><span class="section-number-3">1.4.</span> Rimas</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 Dos palabras riman si su <i>final</i> suena de forma <i>similar</i>. El final de la palabra incluye a partir de la vocal tónica. El sonido similar puede ser
@@ -608,8 +611,8 @@ Hay algunas <a href="https://lengualdia.blogspot.com/2012/02/excepciones-de-la-r
 </ul>
 </div>
 
-<div id="outline-container-org0000018" class="outline-4">
-<h4 id="org0000018"><span class="section-number-4">1.4.1.</span> Rima Consonante</h4>
+<div id="outline-container-org000001c" class="outline-4">
+<h4 id="org000001c"><span class="section-number-4">1.4.1.</span> Rima Consonante</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <p>
 Hay que tener en cuenta que la pronunciación varias consonantes distintas puede ser similar o no, como <i>K</i> y <i>C</i>, dependiendo de la vocal a la que se asocien. Para poder comparar las palabras, se realizan las siguientes sustituciones dentro de cada sílaba, en orden de preferencia:
@@ -817,8 +820,8 @@ Posteriormente, se sustituyen las vocales acentuadas por vocales sin acentuar
 </div>
 </div>
 
-<div id="outline-container-org000001b" class="outline-4">
-<h4 id="org000001b"><span class="section-number-4">1.4.2.</span> Rima asonante</h4>
+<div id="outline-container-org000001f" class="outline-4">
+<h4 id="org000001f"><span class="section-number-4">1.4.2.</span> Rima asonante</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <p>
 Se parte del final de la palabra tenido en cuenta en la rima consonante, y se eliminan todas las consonantes. Para evitar que <i>ma . <b>rí</b> . a</i> rime asonantemente con <i>mar . <b>cial</b></i>, cada grupo consonántico se transforma en un mismo carácter. De esa forma:
@@ -831,8 +834,8 @@ Se parte del final de la palabra tenido en cuenta en la rima consonante, y se el
 </div>
 </div>
 
-<div id="outline-container-org0000021" class="outline-3">
-<h3 id="org0000021"><span class="section-number-3">1.5.</span> División de palabra</h3>
+<div id="outline-container-org0000025" class="outline-3">
+<h3 id="org0000025"><span class="section-number-3">1.5.</span> División de palabra</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 Al final del renglón, las palabras pueden dividirse con un guión. No todas las posiciones son posibles:
@@ -846,12 +849,12 @@ Al final del renglón, las palabras pueden dividirse con un guión. No todas las
 </div>
 </div>
 
-<div id="outline-container-org000003b" class="outline-2">
-<h2 id="org000003b"><span class="section-number-2">2.</span> <a id="org0000000"></a> Implementación</h2>
+<div id="outline-container-org000003f" class="outline-2">
+<h2 id="org000003f"><span class="section-number-2">2.</span> <a id="org0000000"></a> Implementación</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org000002a" class="outline-3">
-<h3 id="org000002a"><span class="section-number-3">2.1.</span> División en sílabas de una palabra</h3>
+<div id="outline-container-org000002e" class="outline-3">
+<h3 id="org000002e"><span class="section-number-3">2.1.</span> División en sílabas de una palabra</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 El siguiente es un ejemplo de uso de la función <code>palabraSinHiatos</code>, que divide una palabra en sílabas sin tener en cuenta los hiatos:
@@ -884,25 +887,25 @@ El siguiente es un ejemplo de uso de la función <code>palabraSinHiatos</code>, 
 </div>
 
 
-<div id="outline-container-org0000027" class="outline-4">
-<h4 id="org0000027"><span class="section-number-4">2.1.1.</span> Normas no contempladas</h4>
+<div id="outline-container-org000002b" class="outline-4">
+<h4 id="org000002b"><span class="section-number-4">2.1.1.</span> Normas no contempladas</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 Hay algunas normas que no pueden aplicarse sin un corpus completo:
 </p>
 <ul class="org-ul">
-<li>Los prefijos forman sílabas aparte. Por ejemplo <b>interaliado</b> debe silabearse <b>in-ter-a-lia-do</b>, pero con las normas anteriores sería <b>in-te-ra-li-a-do</b></li>
+<li>Los prefijos forman sílabas aparte. Por ejemplo <b>interaliado</b> debe silabearse <i>in . ter . a . lia . do</i>, pero con las normas anteriores sería <i>in . te . ra . li . a . do</i></li>
 </ul>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org000002d" class="outline-3">
-<h3 id="org000002d"><span class="section-number-3">2.2.</span> Sílaba tónica</h3>
+<div id="outline-container-org0000031" class="outline-3">
+<h3 id="org0000031"><span class="section-number-3">2.2.</span> Sílaba tónica</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-Como <a href="#org0000013">ya se ha comentado</a>, no es posible encontrar la sílaba tónica sin conocer el significado de la palabra, ya que:
+Como <a href="#org0000017">ya se ha comentado</a>, no es posible encontrar la sílaba tónica sin conocer el significado de la palabra, ya que:
 </p>
 <ul class="org-ul">
 <li>El sufijo <b>mente</b> no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de <i>a . gra . <b>da</b> . ble</i> se obtiene <i>a . gra . <b>da</b> . ble . men . te</i>.</li>
@@ -930,8 +933,8 @@ Como <a href="#org0000013">ya se ha comentado</a>, no es posible encontrar la s�
 </div>
 
 
-<div id="outline-container-org0000032" class="outline-3">
-<h3 id="org0000032"><span class="section-number-3">2.3.</span> <a id="org0000030"></a>Vocal tónica</h3>
+<div id="outline-container-org0000036" class="outline-3">
+<h3 id="org0000036"><span class="section-number-3">2.3.</span> <a id="org0000034"></a>Vocal tónica</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
 <pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
@@ -952,8 +955,8 @@ Como <a href="#org0000013">ya se ha comentado</a>, no es posible encontrar la s�
 </div>
 </div>
 
-<div id="outline-container-org0000035" class="outline-3">
-<h3 id="org0000035"><span class="section-number-3">2.4.</span> Fachada para las funciones: clase <code>Palabra</code></h3>
+<div id="outline-container-org0000039" class="outline-3">
+<h3 id="org0000039"><span class="section-number-3">2.4.</span> Fachada para las funciones: clase <code>Palabra</code></h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 Las funciones anteriores pueden utilizarse por separado, pero para facilitar su uso se ha desarrollado la clase <code>Palabra</code>.
@@ -961,36 +964,35 @@ Las funciones anteriores pueden utilizarse por separado, pero para facilitar su 
 <ul class="org-ul">
 <li>Se accede la la vocal tónica, sílabas, etc. por medio de propiedades, no de funciones o métodos</li>
 <li>Esas propiedades se calculan de forma perezosa (<i>lazy</i>)</li>
-<li><code>Palabra.from</code> es una factoría que cachea las palabras ya creadas, para mejorar el uso de CPU a cambio de aumentar la memoria usada</li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org0000038" class="outline-3">
-<h3 id="org0000038"><span class="section-number-3">2.5.</span> Rimas</h3>
+<div id="outline-container-org000003c" class="outline-3">
+<h3 id="org000003c"><span class="section-number-3">2.5.</span> Rimas</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
-Para saber si dos palabras tienen rima consontante, basta con calcular la posición de la <a href="#org0000030">vocal tónica</a> de cada una de ellas y comparar si los fonemas asociados a cada letra coinciden a partir de ahí.
+Para saber si dos palabras tienen rima consontante, basta con calcular la posición de la <a href="#org0000034">vocal tónica</a> de cada una de ellas y comparar si los fonemas asociados a cada letra coinciden a partir de ahí.
 </p>
 
 
 <div class="org-src-container">
-<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+<pre class="src src-js">console.error(process.cwd());
+console.error(process.argv);
+<span style="color: #729fcf; font-weight: bold;">const</span> {
     Palabra
-} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/palabra.js"</span> );
+} = require( <span style="color: #ad7fa8; font-style: italic;">"palabras/palabra.js"</span> );
 
-<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">maria</span> = Palabra.<span style="color: #729fcf; font-weight: bold;">from</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>);
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( maria.sufijoRimaConsonante ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ia</span>
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( maria.sufijoRimaAsonante ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; i.a</span>
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">maria</span> = Palabra.from(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>);
+console.log( maria.sufijoRimaConsonante ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ia</span>
+console.log( maria.sufijoRimaAsonante ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; i.a</span>
 
-<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">velozmente</span> = Palabra.<span style="color: #729fcf; font-weight: bold;">from</span>(<span style="color: #ad7fa8; font-style: italic;">"velozmente"</span>);
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( velozmente.sufijoRimaConsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ozmente</span>
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( velozmente.sufijoRimaAsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; o.e.e</span>
+<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">velozmente</span> = Palabra.from(<span style="color: #ad7fa8; font-style: italic;">"velozmente"</span>);
+console.log( velozmente.silabas ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ve','loz','men','te']</span>
+console.log( velozmente.letraTonica ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 3</span>
+console.log( velozmente.silabaTonica ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; 3</span>
 
-<span style="color: #729fcf; font-weight: bold;">const</span> <span style="color: #ff6347;">percheron</span> = Palabra.<span style="color: #729fcf; font-weight: bold;">from</span>(<span style="color: #ad7fa8; font-style: italic;">"percher&#243;n"</span>) 
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( percheron.sufijoRimaConsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; on</span>
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( percheron.sufijoRimaAsonante ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; o</span>
 </pre>
 </div>
 
@@ -1005,16 +1007,17 @@ Para facilitar el uso, se han desarrollado las funciones <code>rimaAsonanteCon</
     rimaAsonanteCon
 } = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/rimas.js"</span> );
 
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">rimaConsonanteCon</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>, <span style="color: #ad7fa8; font-style: italic;">"arriba"</span>) ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; false</span>
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">rimaAsonanteCon</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>, <span style="color: #ad7fa8; font-style: italic;">"arriba"</span>) ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; true</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">rimaConsonanteCon</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>, <span style="color: #ad7fa8; font-style: italic;">"arriba"</span>) ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; </span><span style="color: #ff6347;">false</span>
+<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">rimaAsonanteCon</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>, <span style="color: #ad7fa8; font-style: italic;">"arriba"</span>) ) <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; </span><span style="color: #ff6347;">true</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org000003e" class="outline-2">
-<h2 id="org000003e"><span class="section-number-2">3.</span> Por hacer</h2>
+
+<div id="outline-container-org0000042" class="outline-2">
+<h2 id="org0000042"><span class="section-number-2">3.</span> Por hacer</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li>Calcular las posibles divisiones de palabra al final de línea mediante un guion</li>
@@ -1023,8 +1026,8 @@ Para facilitar el uso, se han desarrollado las funciones <code>rimaAsonanteCon</
 </div>
 </div>
 
-<div id="outline-container-org0000041" class="outline-2">
-<h2 id="org0000041"><span class="section-number-2">4.</span> Enlaces de interés</h2>
+<div id="outline-container-org0000045" class="outline-2">
+<h2 id="org0000045"><span class="section-number-2">4.</span> Enlaces de interés</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="https://www.cpimario.com/cm_util.html">https://www.cpimario.com/cm_util.html</a></li>
@@ -1041,7 +1044,7 @@ Para facilitar el uso, se han desarrollado las funciones <code>rimaAsonanteCon</
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: alvaro</p>
-<p class="date">Created: 2022-01-05 mié 17:35</p>
+<p class="date">Created: 2022-10-31 lun 19:42</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

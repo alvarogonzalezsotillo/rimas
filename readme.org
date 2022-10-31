@@ -200,29 +200,18 @@ Al final del renglón, las palabras pueden dividirse con un guión. No todas las
 * <<implementacion>> Implementación
 ** División en sílabas de una palabra
 
-#+begin_src emacs-lisp :exports none
-(setenv "NODE_PATH" default-directory)
-#+end_src
-
-#+RESULTS:
-: /home/alvaro/repos/rimas/
 
 
 El siguiente es un ejemplo de uso de la función =palabraSinHiatos=, que divide una palabra en sílabas sin tener en cuenta los hiatos:
 
-#+begin_src typescript :export code
+#+begin_src js :export code
 const {
     palabraSinHiatos
-} = require( "palabras/corpus-utils.js" );
+} = require( "./palabras/corpus-utils.js" );
 
 console.log( palabraSinHiatos("épsilon") ); // => ['ép','si','lon']
 console.log( palabraSinHiatos("maría") ); // => ['ma','ría']
 #+end_src
-
-#+RESULTS:
-: ../../../../tmp/babel-0SRCVn/ts-src-xH2Xyl.ts(3,5): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
-: [ 'ép', 'si', 'lon' ]
-: [ 'ma', 'ría' ]
 
 
 
@@ -248,7 +237,7 @@ console.log( palabraConHiatos("constituía") ); // => [ 'cons', 'ti', 'tuí', 'a
 
 *** Normas no contempladas
 Hay algunas normas que no pueden aplicarse sin un corpus completo:
-- Los prefijos forman sílabas aparte. Por ejemplo *interaliado* debe silabearse *in-ter-a-lia-do*, pero con las normas anteriores sería *in-te-ra-li-a-do*
+- Los prefijos forman sílabas aparte. Por ejemplo *interaliado* debe silabearse /in . ter . a . lia . do/, pero con las normas anteriores sería /in . te . ra . li . a . do/
 
 
 ** Sílaba tónica
@@ -348,12 +337,6 @@ console.log( rimaAsonanteCon("maría", "arriba") ) // => true
 
 #+RESULTS:
 
-#+begin_src bash
-echo $PATH
-#+end_src
-
-#+RESULTS:
-: /opt/scala/bin:/home/alvaro/.cargo/bin:/home/alvaro/.emacs.d/bin:/home/alvaro/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 * Por hacer
 - Calcular las posibles divisiones de palabra al final de línea mediante un guion
@@ -371,6 +354,4 @@ echo $PATH
 
 
 
-Álvaro González Sotillo(Organizador, yo)
-Álvaro González Sotillo se ha unido a la reuniónJoin
 
