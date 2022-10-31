@@ -352,9 +352,13 @@ console.log( rimaAsonanteCon("maría", "arriba") ) // => true
 #+end_src
 
 #+RESULTS:
-: ../../../../tmp/babel-0SRCVn/ts-src-kLYnj2.ts(4,5): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
-: false
-: true
+
+#+begin_src bash
+echo $PATH
+#+end_src
+
+#+RESULTS:
+: /opt/scala/bin:/home/alvaro/.cargo/bin:/home/alvaro/.emacs.d/bin:/home/alvaro/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 * Por hacer
 - Calcular las posibles divisiones de palabra al final de línea mediante un guion
@@ -369,3 +373,9 @@ console.log( rimaAsonanteCon("maría", "arriba") ) // => true
 - https://github.com/mnater/hyphenator
 - https://www.ushuaia.pl/hyphen/?ln=en
 - https://dirae.es/palabras/%C3%A9xito
+
+
+
+Álvaro González Sotillo(Organizador, yo)
+Álvaro González Sotillo se ha unido a la reuniónJoin
+
