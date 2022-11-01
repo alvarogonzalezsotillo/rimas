@@ -1,12 +1,13 @@
 #+macro: INI @@html:<span class="silabeo">@@
-#+macro: FIN @@html:</span>@@
+#+macro: FIN @@html:</span>&nbsp;@@
 
 #+begin_export html
 <style>
    .silabeo{
      border-radius: 3px;
      border: 1px black solid;
-     padding: 2px;
+     padding-left: 1px;
+     padding-right: 1px;
      background-color: #f0f000;
    }
 </style>
@@ -26,11 +27,19 @@ Si no te interesa el algoritmo, puedes saltar a [[implementacion][cómo usar el 
 
 Este es un problema que parece simple a primera vista, pero con una complejidad, interdependencia y cantidad casos particulares que no esperaba encontrarme. El siguiende diagrama muestra la relación entre cada parte del problema. Por ejemplo, [[significado-palabra-problemas][el significado de la palabra afecta a cuál es su sílaba tónica]].
 
-#+BEGIN_SRC dot :file ./dependencias-entre-problemas.svg :exports results :cmd dot :cmdline -Tsvg 
+#+BEGIN_SRC dot :file ./dependencias-entre-problemas.svg :exports none :cmd dot :cmdline -Tsvg 
 digraph {
                 compound=true
                 label=""
                 node [shape="ellipse",margin=0]
+
+                "Sílabas"[label=<   <U>Sílabas</U>> URL="javascript:go('division-en-silabas-id')"]
+                "Diptongo/hiato"[label=<   <U>Diptongo/hiato</U>> URL="javascript:go('diptongos-hiatos-id')"]
+                "Sílaba tónica"[label=<   <U>Sílaba tónica</U>> URL="javascript:go('silaba-tonica-id')"]
+                "Sílabas (ignorando tildes e hiatos)"[label=<   <U>Sílabas (ignorando tildes e hiatos)</U>> URL="javascript:go('division-en-silabas-sin-hiatos-id')"]
+                "Significado de la palabra"[label=<   <U>Significado de la palabra</U>> URL="javascript:go('significado-palabra-id)'"]
+                "Hiatos"[label=<  <U>Hiatos</U>> URL="javascript:go('hiatos-id')"]
+                "Rimas"[label=<  <U>Rimas</U>> URL="javascript:go('rimas-id')"] 
 
                 "Palabra escrita" -> "Sílabas (ignorando tildes e hiatos)"
                 "Normas de formación de sílabas" -> "Sílabas (ignorando tildes e hiatos)"
@@ -40,7 +49,9 @@ digraph {
                 "Normas de acentuación" -> "Sílaba tónica"
                 "Normas de acentuación" -> "Sílabas"
                 "Normas de acentuación" -> "Diptongo/hiato"
-                "Diptongo/hiato" -> "Normas de acentuación" 
+                "Diptongo/hiato" -> "Normas de acentuación"
+                "Diptongo/hiato" -> "Hiatos"
+                "Hiatos" -> "Sílabas" 
                 "Sílaba tónica" -> "Vocal tónica"
                 "Vocal tónica" -> Rimas
                 
@@ -50,10 +61,25 @@ digraph {
 #+RESULTS:
 [[file:./dependencias-entre-problemas.svg]]
 
+#+begin_export html
+<object id="elsvg" data="./dependencias-entre-problemas.svg"></object>
 
+<script>
+const elsvg = document.getElementById("elsvg");
 
+function go(anchor){
+    window.parent.location.hash = anchor;
+}
+
+window.addEventListener("load", ()=> elsvg.contentWindow.window.go = go );
+
+</script>    
+#+end_export
 
 ** <<diptongos-hiatos>> Diptongos e hiatos
+:PROPERTIES:
+:CUSTOM_ID: diptongos-hiatos-id
+:END:
 Varias vocales juntas forman un hiato, y pertenecen a sílabas distintas, si:
 - Son vocales abiertas, o fuertes: *a*, *e*, *o*. Por ejemplo, {{{INI}}} /es. car . *ce* . o/ {{{FIN}}}
 - El [[acento-prosodico][acento prosódico]] recae en una vocal cerrada (débil): *i*, *u*. Por ejemplo, {{{INI}}} /al . cal . *dí* . a/ {{{FIN}}}
@@ -62,12 +88,20 @@ Varias vocales juntas forman un hiato, y pertenecen a sílabas distintas, si:
 Estas normas se ven afectadas, por tanto, por las normas de acentuación.
 
 
-** <<separar-silabas>> [[http://tulengua.es/es/separar-en-silabas][División en sílabas]] de una palabra
+** <<separar-silabas>> División en sílabas de una palabra
+:PROPERTIES:
+:CUSTOM_ID: division-en-silabas-id
+:END:
+
 Una palabra se compone de sílabas. En castellano, una sílaba tiene solo un grupo vocálico, que puede ser una sola vocal o varias vocales formando un diptongo (por tanto, los [[diptongos-hiatos][diptongos/hiatos]] afectan a este problema).
 
 Al grupo vocálico pueden acompañar consonantes como sufijo o prefijo.
 
 *** División sin importar hiatos/diptongos
+:PROPERTIES:
+:CUSTOM_ID: division-en-silabas-sin-hiatos-id
+:END:
+
 Las sílabas en castellano tienen la siguiente estructura general: Posiblemente algunas consonantes, algunas vocales y posiblemente algunas consontantes:
 1. No todas las consonantes pueden darse al principio de sílaba. Las que pueden darse son:
    - Dobles consonantes: *ch*, *rr*, *ll*, *dr*, *tr*, *ps*. No pueden darse otras como *dl* o *tl*.
@@ -93,9 +127,12 @@ De esta forma, se utiliza un /backtraking/ extrayendo la siguiente sílaba en el
 
 Estas normas generales no funcionan en algunos casos, para los que se utilizan normas especiales:
 - la sílaba *trans* es un prefijo, que no debe separarse: {{{INI}}} /trans . at . *lán* . ti . co/ {{{FIN}}}
-- Aunque una sílaba puede empezar por *ps*, solo debe ocurrir a principio de palabra. Si no, palabras como *épsilon* o *sepsis* se interpretarían como {{{INI}}} /*e* . psi . lon/  {{{FIN}}} o {{{INI}}} /*se* . psis/ {{{FIN}}}
+- Aunque una sílaba puede empezar por *ps*, solo debe ocurrir a principio de palabra. Si no, palabras como *épsilon* o *sepsis* se interpretarían como {{{INI}}} /*e* . psi . lon/ {{{FIN}}}  o {{{INI}}} /*se* . psis/ {{{FIN}}}
 
 *** Hiatos
+:PROPERTIES:
+:CUSTOM_ID: hiatos-id
+:END:
 Para localizar los hiatos de una sílaba se siguen las siguientes normas:
 1. Si solo hay una vocal, no hay hiatos
 2. Se comprueba si cada par de vocales (puede haber triptongos y vocales separadas por *h*) es un hiato, con las siguientes normas:
@@ -128,6 +165,10 @@ En el caso de tres vocales o más, se va probando cada par de vocales. Por ejemp
 
 
 ** Localización de la <<silaba-tonica>> sílaba tónica
+:PROPERTIES:
+:CUSTOM_ID: silaba-tonica-id
+:END:
+
 - <<acento-prosodico>>El acento (o acento prosódico) es la mayor intensidad que se da a una sílaba dentro de una palabra. Suele ser un aumento de volumen, duración o ambas cosas. Esa sílaba se denomina sílaba tónica.
 - La tilde (o acento gráfico) es una indicación gráfica del acento prosódico
 
@@ -140,7 +181,12 @@ Las normas generales de acentuación indican en qué sílaba tiene el acento una
 
 Este problema se ve afectado por la [[separar-silabas][división en sílabas]], y por tanto por los [[diptongos-hiatos][diptongos/hiatos]].
 
-<<significado-palabra-problemas>>Hay que tener en cuenta además otras normas que se derivan del significado de la palabra:
+** <<significado-palabra-problemas>>Excepciones debidas al significado de la palabra
+:PROPERTIES:
+:CUSTOM_ID: significado-palabra-id
+:END:
+
+Hay que tener en cuenta además otras normas que se derivan del significado de la palabra:
 - Advervios acabados en *mente*: conservan la tilde del adjetivo original (/tranquilamente/)
 - Formas verbales con pronombres: conservan la tilde de la forma verbal sin pronombres (/haceroslo/)
 
@@ -148,13 +194,16 @@ De estas dos últimas normas se deduce que no es posible localizar la sílaba t�
 
 
 ** Rimas
+:PROPERTIES:
+:CUSTOM_ID: rimas-id
+:END:
 Dos palabras riman si su /final/ suena de forma /similar/. El final de la palabra incluye a partir de la vocal tónica. El sonido similar puede ser
 - Consonante: todas los sonidos coinciden a partir de la vocal tónica
 - Asonante: todas las vocales coinciden a partir de la vocal tónica
 
 Hay algunas [[https://lengualdia.blogspot.com/2012/02/excepciones-de-la-rima-los-diptongos-y.html?m=1][excepciones a esta norma]]:
 - La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que {{{INI}}} /*cán* . ti . co/  {{{FIN}}} rimase con {{{INI}}} /*zan*.co/ {{{FIN}}} . 
-- Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que {{{INI}}} /a. *cei* . te/ rimase con {{{INI}}} /*pe*.ces/  {{{FIN}}}.
+- Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que {{{INI}}} /a. *cei* . te/ {{{FIN}}} rimase con {{{INI}}} /*pe*.ces/  {{{FIN}}}.
 
 *** Rima Consonante
 Hay que tener en cuenta que la pronunciación varias consonantes distintas puede ser similar o no, como /K/ y /C/, dependiendo de la vocal a la que se asocien. Para poder comparar las palabras, se realizan las siguientes sustituciones dentro de cada sílaba, en orden de preferencia:
@@ -209,7 +258,7 @@ Al final del renglón, las palabras pueden dividirse con un guión. No todas las
 - El guión irá siempre entre sílabas
 - El guión no separará vocales, aunque formen un hiato. Esto hace que no importe la acentuación ni la distinción diptongo/hiato en este problema.
 - El guión no dejará una vocal aislada al final o al principio de la palabra
-
+  
 * <<implementacion>> Implementación
 ** División en sílabas de una palabra
 
