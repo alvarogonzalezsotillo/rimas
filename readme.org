@@ -1,6 +1,19 @@
 #+macro: INI @@html:<span class="silabeo">@@
 #+macro: FIN @@html:</span>@@
 
+#+begin_export html
+<style>
+   .silabeo{
+     border-radius: 3px;
+     border: 1px black solid;
+     padding: 2px;
+     background-color: #f0f000;
+   }
+</style>
+#+end_export
+
+
+
 
 * Presentación del problema
 
@@ -62,7 +75,7 @@ Las sílabas en castellano tienen la siguiente estructura general: Posiblemente 
 2. Pueden ir varias vocales juntas. Según la RAE, una letra *h* no rompe el grupo vocálico.
 3. No todas las consonantes pueden darse al final de la sílaba. las que pueden darse son *b* , *c* , *d* , *f* , *g* , *l* , *m* , *n* , *ns* , *p* , *r* , *rs* , *s* , *t* , *x* , *y* , *z*
 
-Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra *apeninos* podría dividirse como /ap . en . in . os/ o como /a . pen . i . nos/ . La forma correcta se consigue aplicando algunas prioridades al extraer las sílabas:
+Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra *apeninos* podría dividirse como {{{INI}}} /ap . en . in . os/ {{{FIN}}} o como {{{INI}}} /a . pen . i . nos/ {{{FIN}}} . La forma correcta se consigue aplicando algunas prioridades al extraer las sílabas:
 1. Una sílaba solo con vocales
 2. Una sílaba con consonantes y vocales
 3. Una sílaba con vocales y consonantes
@@ -80,7 +93,7 @@ De esta forma, se utiliza un /backtraking/ extrayendo la siguiente sílaba en el
 
 Estas normas generales no funcionan en algunos casos, para los que se utilizan normas especiales:
 - la sílaba *trans* es un prefijo, que no debe separarse: {{{INI}}} /trans . at . *lán* . ti . co/ {{{FIN}}}
-- Aunque una sílaba puede empezar por *ps*, solo debe ocurrir a principio de palabra. Si no, palabras como *épsilon* o *sepsis* se interpretarían como /*e* . psi . lon/ o /*se* . psis/
+- Aunque una sílaba puede empezar por *ps*, solo debe ocurrir a principio de palabra. Si no, palabras como *épsilon* o *sepsis* se interpretarían como {{{INI}}} /*e* . psi . lon/  {{{FIN}}} o {{{INI}}} /*se* . psis/ {{{FIN}}}
 
 *** Hiatos
 Para localizar los hiatos de una sílaba se siguen las siguientes normas:
@@ -140,8 +153,8 @@ Dos palabras riman si su /final/ suena de forma /similar/. El final de la palabr
 - Asonante: todas las vocales coinciden a partir de la vocal tónica
 
 Hay algunas [[https://lengualdia.blogspot.com/2012/02/excepciones-de-la-rima-los-diptongos-y.html?m=1][excepciones a esta norma]]:
-- La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que /*cán* . ti . co/ rimase con /*zan*.co/ . 
-- Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que /a. *cei* . te/ rimase con /*pe*.ces/ .
+- La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que {{{INI}}} /*cán* . ti . co/  {{{FIN}}} rimase con {{{INI}}} /*zan*.co/ {{{FIN}}} . 
+- Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que {{{INI}}} /a. *cei* . te/ rimase con {{{INI}}} /*pe*.ces/  {{{FIN}}}.
 
 *** Rima Consonante
 Hay que tener en cuenta que la pronunciación varias consonantes distintas puede ser similar o no, como /K/ y /C/, dependiendo de la vocal a la que se asocien. Para poder comparar las palabras, se realizan las siguientes sustituciones dentro de cada sílaba, en orden de preferencia:
@@ -187,9 +200,9 @@ Hay que tener en cuenta que la pronunciación varias consonantes distintas puede
 Posteriormente, se sustituyen las vocales acentuadas por vocales sin acentuar
 
 *** Rima asonante
-Se parte del final de la palabra tenido en cuenta en la rima consonante, y se eliminan todas las consonantes. Para evitar que /ma . *rí* . a/ rime asonantemente con /mar . *cial*/, cada grupo consonántico se transforma en un mismo carácter. De esa forma:
-- /ma . *rí* . a/ termina en /ría/ ➡ /i.a/
-- /mar . *cial*/ termina en /cial/ ➡ /ia/  
+Se parte del final de la palabra tenido en cuenta en la rima consonante, y se eliminan todas las consonantes. Para evitar que {{{INI}}} /ma . *rí* . a/ {{{FIN}}} rime asonantemente con  {{{INI}}} /mar . *cial*/ {{{FIN}}}, cada grupo consonántico se transforma en un mismo carácter. De esa forma:
+- {{{INI}}} /ma . *rí* . a/ {{{FIN}}} termina en /ría/ ➡ {{{INI}}} /i.a/ {{{FIN}}}
+- {{{INI}}} /mar . *cial*/ {{{FIN}}} termina en /cial/ ➡ {{{INI}}} /ia/ {{{FIN}}}  
 
 ** División de palabra
 Al final del renglón, las palabras pueden dividirse con un guión. No todas las posiciones son posibles:
@@ -227,23 +240,16 @@ console.log( palabraSinHiatos("constituía") ); // => [ 'cons', 'ti', 'tuía' ]
 console.log( palabraConHiatos("constituía") ); // => [ 'cons', 'ti', 'tuí', 'a' ]
 #+end_src
 
-#+RESULTS:
-: ../../../../tmp/babel-kneEnN/ts-src-i6KwZq.ts(4,5): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
-: [ 'ma', 'ría' ]
-: [ 'ma', 'rí', 'a' ]
-: [ 'cons', 'ti', 'tuía' ]
-: [ 'cons', 'ti', 'tuí', 'a' ]
-
 
 *** Normas no contempladas
 Hay algunas normas que no pueden aplicarse sin un corpus completo:
-- Los prefijos forman sílabas aparte. Por ejemplo *interaliado* debe silabearse /in . ter . a . lia . do/, pero con las normas anteriores sería /in . te . ra . li . a . do/
+- Los prefijos forman sílabas aparte. Por ejemplo *interaliado* debe silabearse {{{INI}}} /in . ter . a . lia . do/ {{{FIN}}}, pero con las normas anteriores sería {{{INI}}}  /in . te . ra . li . a . do/ {{{FIN}}}
 
 
 ** Sílaba tónica
 Como [[silaba-tonica][ya se ha comentado]], no es posible encontrar la sílaba tónica sin conocer el significado de la palabra, ya que:
-- El sufijo *mente* no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de /a . gra . *da* . ble/ se obtiene /a . gra . *da* . ble . men . te/.
-- Los pronombres enclíticos, al igual que el sufijo *mente*, no cambian la sílaba tónica del verbo del que forman parte. Por ejemplo /*sú* . be . me . lo/ es una palabra sobreesdrújula, ya que /*su* . be/ es llana.
+- El sufijo *mente* no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de {{{INI}}} /a . gra . *da* . ble/ {{{FIN}}} se obtiene {{{INI}}} /a . gra . *da* . ble . men . te/ {{{FIN}}}.
+- Los pronombres enclíticos, al igual que el sufijo *mente*, no cambian la sílaba tónica del verbo del que forman parte. Por ejemplo {{{INI}}} /*sú* . be . me . lo/  {{{FIN}}}es una palabra sobreesdrújula, ya que {{{INI}}} /*su* . be/ {{{FIN}}} es llana.
 
   
 #+begin_src typescript :export code
@@ -262,11 +268,6 @@ const percheron = palabraConHiatos("percherón") // => ['per','che','rón']
 console.log( silabaTonica(percheron) ); // => 2
 #+end_src
 
-#+RESULTS:
-: ../../../../tmp/babel-0SRCVn/ts-src-JLOz31.ts(4,5): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
-: 1
-: 1
-: 2
 
 
 ** <<vocal-tonica>>Vocal tónica
@@ -286,11 +287,6 @@ const percheron = palabraConHiatos("percherón") // => ['per','che','rón']
 console.log( letraTonica(percheron) ); // => 7
 #+end_src
 
-#+RESULTS:
-: ../../../../tmp/babel-0SRCVn/ts-src-BnO4OL.ts(4,5): error TS2580: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
-: 3
-: 3
-: 7
 
 ** Fachada para las funciones: clase =Palabra=
 Las funciones anteriores pueden utilizarse por separado, pero para facilitar su uso se ha desarrollado la clase =Palabra=.

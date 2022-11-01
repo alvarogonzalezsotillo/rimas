@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-10-31 lun 19:42 -->
+<!-- 2022-11-01 mar 10:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -237,6 +237,16 @@
 </ul>
 </div>
 </div>
+<style>
+   .silabeo{
+     border-radius: 3px;
+     border: 1px black solid;
+     padding: 2px;
+     background-color: #f0f000;
+   }
+</style>
+
+
 
 
 <div id="outline-container-org0000028" class="outline-2">
@@ -317,7 +327,7 @@ Las sílabas en castellano tienen la siguiente estructura general: Posiblemente 
 </ol>
 
 <p>
-Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra <b>apeninos</b> podría dividirse como <i>ap . en . in . os</i> o como <i>a . pen . i . nos</i> . La forma correcta se consigue aplicando algunas prioridades al extraer las sílabas:
+Dada una palabra escrita, estas normas permiten dividirla de varias formas. Por ejemplo, la palabra <b>apeninos</b> podría dividirse como <span class="silabeo"> <i>ap . en . in . os</i> </span> o como <span class="silabeo"> <i>a . pen . i . nos</i> </span> . La forma correcta se consigue aplicando algunas prioridades al extraer las sílabas:
 </p>
 <ol class="org-ol">
 <li>Una sílaba solo con vocales</li>
@@ -345,7 +355,7 @@ Estas normas generales no funcionan en algunos casos, para los que se utilizan n
 </p>
 <ul class="org-ul">
 <li>la sílaba <b>trans</b> es un prefijo, que no debe separarse: <span class="silabeo"> <i>trans . at . <b>lán</b> . ti . co</i> </span></li>
-<li>Aunque una sílaba puede empezar por <b>ps</b>, solo debe ocurrir a principio de palabra. Si no, palabras como <b>épsilon</b> o <b>sepsis</b> se interpretarían como <i><b>e</b> . psi . lon</i> o <i><b>se</b> . psis</i></li>
+<li>Aunque una sílaba puede empezar por <b>ps</b>, solo debe ocurrir a principio de palabra. Si no, palabras como <b>épsilon</b> o <b>sepsis</b> se interpretarían como <span class="silabeo"> <i><b>e</b> . psi . lon</i>  </span> o <span class="silabeo"> <i><b>se</b> . psis</i> </span></li>
 </ul>
 </div>
 </div>
@@ -606,8 +616,8 @@ Dos palabras riman si su <i>final</i> suena de forma <i>similar</i>. El final de
 Hay algunas <a href="https://lengualdia.blogspot.com/2012/02/excepciones-de-la-rima-los-diptongos-y.html?m=1">excepciones a esta norma</a>:
 </p>
 <ul class="org-ul">
-<li>La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que <i><b>cán</b> . ti . co</i> rimase con <i><b>zan</b>.co</i> .</li>
-<li>Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que <i>a. <b>cei</b> . te</i> rimase con <i><b>pe</b>.ces</i> .</li>
+<li>La sílaba siguiente a la tónica en una esdrújula puede ignorarse. Esto haría que <span class="silabeo"> <i><b>cán</b> . ti . co</i>  </span> rimase con <span class="silabeo"> <i><b>zan</b>.co</i> </span> .</li>
+<li>Las vocales no acentuadas de un diptongo (débiles) pueden ignorarse. Esto haría que <span class="silabeo"> <i>a. <b>cei</b> . te</i> rimase con <span class="silabeo"> <i><b>pe</b>.ces</i>  </span>.</li>
 </ul>
 </div>
 
@@ -824,11 +834,11 @@ Posteriormente, se sustituyen las vocales acentuadas por vocales sin acentuar
 <h4 id="org000001f"><span class="section-number-4">1.4.2.</span> Rima asonante</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <p>
-Se parte del final de la palabra tenido en cuenta en la rima consonante, y se eliminan todas las consonantes. Para evitar que <i>ma . <b>rí</b> . a</i> rime asonantemente con <i>mar . <b>cial</b></i>, cada grupo consonántico se transforma en un mismo carácter. De esa forma:
+Se parte del final de la palabra tenido en cuenta en la rima consonante, y se eliminan todas las consonantes. Para evitar que <span class="silabeo"> <i>ma . <b>rí</b> . a</i> </span> rime asonantemente con  <span class="silabeo"> <i>mar . <b>cial</b></i> </span>, cada grupo consonántico se transforma en un mismo carácter. De esa forma:
 </p>
 <ul class="org-ul">
-<li><i>ma . <b>rí</b> . a</i> termina en <i>ría</i> ➡ <i>i.a</i></li>
-<li><i>mar . <b>cial</b></i> termina en <i>cial</i> ➡ <i>ia</i></li>
+<li><span class="silabeo"> <i>ma . <b>rí</b> . a</i> </span> termina en <i>ría</i> ➡ <span class="silabeo"> <i>i.a</i> </span></li>
+<li><span class="silabeo"> <i>mar . <b>cial</b></i> </span> termina en <i>cial</i> ➡ <span class="silabeo"> <i>ia</i> </span></li>
 </ul>
 </div>
 </div>
@@ -861,12 +871,12 @@ El siguiente es un ejemplo de uso de la función <code>palabraSinHiatos</code>, 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-typescript"><span style="color: #729fcf; font-weight: bold;">const</span> {
+<pre class="src src-js"><span style="color: #729fcf; font-weight: bold;">const</span> {
     palabraSinHiatos
-} = <span style="color: #edd400; font-weight: bold;">require</span>( <span style="color: #ad7fa8; font-style: italic;">"palabras/corpus-utils.js"</span> );
+} = require( <span style="color: #ad7fa8; font-style: italic;">"./palabras/corpus-utils.js"</span> );
 
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraSinHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"&#233;psilon"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['&#233;p','si','lon']</span>
-<span style="color: #8ae234; font-weight: bold;">console</span>.<span style="color: #edd400; font-weight: bold;">log</span>( <span style="color: #edd400; font-weight: bold;">palabraSinHiatos</span>(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ma','r&#237;a']</span>
+console.log( palabraSinHiatos(<span style="color: #ad7fa8; font-style: italic;">"&#233;psilon"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['&#233;p','si','lon']</span>
+console.log( palabraSinHiatos(<span style="color: #ad7fa8; font-style: italic;">"mar&#237;a"</span>) ); <span style="color: #888a85;">// </span><span style="color: #888a85;">=&gt; ['ma','r&#237;a']</span>
 </pre>
 </div>
 
@@ -894,7 +904,7 @@ El siguiente es un ejemplo de uso de la función <code>palabraSinHiatos</code>, 
 Hay algunas normas que no pueden aplicarse sin un corpus completo:
 </p>
 <ul class="org-ul">
-<li>Los prefijos forman sílabas aparte. Por ejemplo <b>interaliado</b> debe silabearse <i>in . ter . a . lia . do</i>, pero con las normas anteriores sería <i>in . te . ra . li . a . do</i></li>
+<li>Los prefijos forman sílabas aparte. Por ejemplo <b>interaliado</b> debe silabearse <span class="silabeo"> <i>in . ter . a . lia . do</i> </span>, pero con las normas anteriores sería <span class="silabeo">  <i>in . te . ra . li . a . do</i> </span></li>
 </ul>
 </div>
 </div>
@@ -908,8 +918,8 @@ Hay algunas normas que no pueden aplicarse sin un corpus completo:
 Como <a href="#org0000017">ya se ha comentado</a>, no es posible encontrar la sílaba tónica sin conocer el significado de la palabra, ya que:
 </p>
 <ul class="org-ul">
-<li>El sufijo <b>mente</b> no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de <i>a . gra . <b>da</b> . ble</i> se obtiene <i>a . gra . <b>da</b> . ble . men . te</i>.</li>
-<li>Los pronombres enclíticos, al igual que el sufijo <b>mente</b>, no cambian la sílaba tónica del verbo del que forman parte. Por ejemplo <i><b>sú</b> . be . me . lo</i> es una palabra sobreesdrújula, ya que <i><b>su</b> . be</i> es llana.</li>
+<li>El sufijo <b>mente</b> no cambia la sílaba tónica del adjetivo que modifica. Además, se mantiene el acento ortográfico del adjetivo original (aunque el adverbio sea una palabra esdrújula). Por ejemplo, de <span class="silabeo"> <i>a . gra . <b>da</b> . ble</i> </span> se obtiene <span class="silabeo"> <i>a . gra . <b>da</b> . ble . men . te</i> </span>.</li>
+<li>Los pronombres enclíticos, al igual que el sufijo <b>mente</b>, no cambian la sílaba tónica del verbo del que forman parte. Por ejemplo <span class="silabeo"> <i><b>sú</b> . be . me . lo</i>  </span>es una palabra sobreesdrújula, ya que <span class="silabeo"> <i><b>su</b> . be</i> </span> es llana.</li>
 </ul>
 
 
@@ -933,6 +943,7 @@ Como <a href="#org0000017">ya se ha comentado</a>, no es posible encontrar la s�
 </div>
 
 
+
 <div id="outline-container-org0000036" class="outline-3">
 <h3 id="org0000036"><span class="section-number-3">2.3.</span> <a id="org0000034"></a>Vocal tónica</h3>
 <div class="outline-text-3" id="text-2-3">
@@ -954,6 +965,7 @@ Como <a href="#org0000017">ya se ha comentado</a>, no es posible encontrar la s�
 </div>
 </div>
 </div>
+
 
 <div id="outline-container-org0000039" class="outline-3">
 <h3 id="org0000039"><span class="section-number-3">2.4.</span> Fachada para las funciones: clase <code>Palabra</code></h3>
@@ -1044,7 +1056,7 @@ Para facilitar el uso, se han desarrollado las funciones <code>rimaAsonanteCon</
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: alvaro</p>
-<p class="date">Created: 2022-10-31 lun 19:42</p>
+<p class="date">Created: 2022-11-01 mar 10:57</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
