@@ -203,6 +203,7 @@ function testNormalizaPronunciacion(){
     f("cigé", "ziJÉ" );
     f("chigi", "CHIji" );
     f("quio" , "KIO" );
+    f("reloj", "rreLOJ");
 
 }
 
