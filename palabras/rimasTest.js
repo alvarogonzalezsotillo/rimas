@@ -155,6 +155,7 @@ function testConsonante(){
         ["peste","peste"],
         ["hola","caracola"],
         ["vivo","recibo"],
+        ["reloj","reloj"]
     ];
     const JS = JSON.stringify;
     for( t of tests ){
@@ -169,6 +170,8 @@ function testConsonante(){
 function testAsonante(){
     const tests = [
         ["dios","adiós"],
+        ["reloj","avión"],
+        ["perdió","reloj"]
     ];
     const JS = JSON.stringify;
     for( t of tests ){

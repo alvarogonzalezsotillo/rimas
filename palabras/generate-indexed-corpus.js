@@ -54,7 +54,7 @@ function escribeIndices({sufixesA,sufixesC}){
                 };`;
     }
 
-    const indent = 2;
+    const indent = null; //2;
 
     fs.writeFile(
         "corpus-por-rima-asonante.js",
